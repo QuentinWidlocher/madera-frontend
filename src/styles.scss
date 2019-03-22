@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@import './app/theme.scss';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'material-design-icons/iconfont/material-icons.css';
+
+/* Rules for sizing the icon. */
+mat-icon.md-18 {
+  font-size: 18px;
+}
+
+mat-icon.md-24 {
+  font-size: 24px;
+}
+
+mat-icon.md-36 {
+  font-size: 36px;
+}
+
+mat-icon.md-48 {
+  font-size: 48px;
+}
+
+body {
+  margin: 0 !important;
+  height: 100%;
+}
+
+button:focus {
+  outline: 0;
+}
