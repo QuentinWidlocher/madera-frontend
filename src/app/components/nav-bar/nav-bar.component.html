@@ -1,0 +1,14 @@
+<mat-toolbar [color]="'primary'">
+  <div class="row justify-content-center">
+
+    <div class="col-auto d-flex justify-content-center" *ngFor="let button of buttons">
+      <button (click)="navigate(button.route)" mat-button [attr.active]="button.active ? '' : null">
+        <div class="content">
+          <mat-icon>{{button.icon}}</mat-icon>
+          <span class="text-capitalize">{{button.title}}</span>
+        </div>
+      </button>
+    </div>
+
+  </div>
+</mat-toolbar>

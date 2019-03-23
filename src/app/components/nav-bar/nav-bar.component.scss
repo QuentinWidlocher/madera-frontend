@@ -1,0 +1,42 @@
+@import '../../theme.scss';
+@include mat-core();
+
+mat-toolbar {
+    bottom: 0;
+    position: fixed;
+    margin-top: 2rem;
+}
+
+.row {
+    width: -webkit-fill-available;
+}
+
+button {
+    height: auto;
+    padding: 0;
+
+    .content {
+        min-width: 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        mat-icon {
+            width: 100%;
+            font-size: 30px;
+        }
+
+        span {
+            line-height: 25px;
+            font-size: smaller;
+        }
+    }
+
+    &:not([active]) {
+      color: mat-color($primary, 800);
+    }
+
+    &[active] {
+        color: mat-color($mat-grey, 50);
+    }
+}
