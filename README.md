@@ -22,46 +22,48 @@ Réalisé en web à l'aide d'Angular 7, prévue pour être portée sur Android �
 ## Scripts NPM custom
 
 - npm run-script **build**
-	*Build juste le site avec Webpack et le met dans cordova/www*
+	- *Build juste le site avec Webpack et le met dans cordova/www*
 	
 - npm run-script **build-android**
-	*1 - Build le site avec Webpack et le met dans cordova/www*
-	*2 - Build l'apk avec Cordova*
+    - 1 - *Build le site avec Webpack et le met dans cordova/www*
+	- 2 - *Build l'apk avec Cordova*
 
 - npm run-script **run-android**
-	*1 - Build le site avec Webpack et le met dans cordova/www*
-	*2 - Build l'apk avec Cordova*
-	*3 - Lance l'appli sur le portable branché ou sur un émulateur*
+	- 1 - *Build le site avec Webpack et le met dans cordova/www*
+	- 2 - *Build l'apk avec Cordova*
+	- 3 - *Lance l'appli sur le portable branché ou sur un émulateur*
 
 	
 - npm run-script **cordova-build-android**
-	*Build juste l'apk avec Cordova*
+	- *Build juste l'apk avec Cordova*
 
 - npm run-script **cordova-run-android**
-	*1 - Build l'apk avec Cordova*
-	*2 - Lance l'appli sur le portable branché ou sur un émulateur*
+	- 1 - *Build l'apk avec Cordova*
+	- 2 - *Lance l'appli sur le portable branché ou sur un émulateur*
 
 
 ## Architecture de l'application
 
 Exemple d'architecture des fichiers pour une appli de trois pages.
+
 Chaque page est un composant tout à fait standard construit avec d'autres composants.
+
 Les services sont organisés selon leurs types
 
 ```
-    src
-    └───app
-        ├───classes
-        ├───components
-        │   ├───nav-bar 				// Composant global à l'appli
-        │   └───pages 					// Différentes pages navigables
-        │       ├───contacts			// Page 1
-        │       │   ├───contact-detail
-        │       │   └───contact-list
-        │       ├───home				// Page 2
-        │       └───settings			// Page 3
-        │           └───log
-        └───services
-            ├───api
-            └───service workers
+src
+└───app
+    ├───classes
+    ├───components
+    │   ├───nav-bar 				// Composant global à l'appli
+    │   └───pages 				// Différentes pages navigables
+    │       ├───contacts			// Page 1
+    │       │   ├───contact-detail
+    │       │   └───contact-list
+    │       ├───home				// Page 2
+    │       └───settings			// Page 3
+    │           └───log
+    └───services
+        ├───api
+        └───service workers
 ```
