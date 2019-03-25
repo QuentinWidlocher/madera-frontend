@@ -10,11 +10,13 @@ export class DossierTechnique {
     public _projet: Projet;
     public _devis: Devis[];
 
-    constructor(id: number, numero: number, creationDate: Date, editionDate: Date) {
+    constructor(id: number, numero: number, creationDate: Date, editionDate: Date, projet: Projet, devis: Devis[]) {
         this.id = id;
         this.numero = numero;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
+        this.projet = projet;
+        this.devis = devis;
     }
 
     //#region getters and setters

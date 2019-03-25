@@ -1,5 +1,6 @@
 import { DossierTechnique } from './dossier-technique';
 import { Projet } from './projet';
+import { Ligne } from './ligne';
 
 export class Devis {
 
@@ -9,12 +10,23 @@ export class Devis {
     public _editionDate: Date;
     public _dossiersTechniques: DossierTechnique[];
     public _projet: Projet;
+    public _lignes: Ligne[];
+    public get lignes(): Ligne[] {
+        return this._lignes;
+    }
+    public set lignes(lignes: Ligne[]) {
+        this._lignes = lignes;
+    }
 
-    constructor(id: number, numero: number, creationDate: Date, editionDate: Date) {
+    constructor(id: number, numero: number, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
+                projet: Projet, lignes: Ligne[]) {
         this.id = id;
         this.numero = numero;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
+        this.dossiersTechniques = dossiersTechniques;
+        this.projet = projet;
+        this.lignes = lignes;
     }
 
     //#region getters and setters

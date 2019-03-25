@@ -10,7 +10,7 @@ export class Client {
   private _phone: string;
   private _mobile: string;
   private _creationDate: Date;
-  public _projets: Projet[];
+  private _projets: Projet[];
 
   constructor(id: number, code: string, firstName: string, lastName: string, email: string,
               phone: string, mobile: string, creationDate: Date, projets: Projet[]) {
