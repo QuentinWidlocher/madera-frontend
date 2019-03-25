@@ -1,3 +1,5 @@
+import { Projet } from './projet';
+
 export class Client {
 
   private _id: number;
@@ -8,9 +10,10 @@ export class Client {
   private _phone: string;
   private _mobile: string;
   private _creationDate: Date;
+  public _projets: Projet[];
 
   constructor(id: number, code: string, firstName: string, lastName: string, email: string,
-              phone: string, mobile: string, creationDate: Date) {
+              phone: string, mobile: string, creationDate: Date, projets: Projet[]) {
     this.id = id;
     this.code = code;
     this.firstName = firstName;
@@ -19,6 +22,7 @@ export class Client {
     this.phone = phone;
     this.mobile = mobile;
     this.creationDate = creationDate;
+    this.projets = projets;
   }
 
   //#region getter and setter
@@ -84,6 +88,13 @@ export class Client {
 
   public set creationDate(value: Date) {
     this._creationDate = value;
+  }
+
+  public get projets(): Projet[] {
+    return this._projets;
+  }
+  public set projets(projets: Projet[]) {
+    this._projets = projets;
   }
   //#endregion
 
