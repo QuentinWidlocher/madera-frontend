@@ -4,19 +4,13 @@ import { Ligne } from './ligne';
 
 export class Devis {
 
-    public _id: number;
-    public _numero: number;
-    public _creationDate: Date;
-    public _editionDate: Date;
-    public _dossiersTechniques: DossierTechnique[];
-    public _projet: Projet;
-    public _lignes: Ligne[];
-    public get lignes(): Ligne[] {
-        return this._lignes;
-    }
-    public set lignes(lignes: Ligne[]) {
-        this._lignes = lignes;
-    }
+    private _id: number;
+    private _numero: number;
+    private _creationDate: Date;
+    private _editionDate: Date;
+    private _dossiersTechniques: DossierTechnique[];
+    private _projet: Projet;
+    private _lignes: Ligne[];
 
     constructor(id: number, numero: number, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
                 projet: Projet, lignes: Ligne[]) {
@@ -30,6 +24,13 @@ export class Devis {
     }
 
     //#region getters and setters
+    public get lignes(): Ligne[] {
+        return this._lignes;
+    }
+    public set lignes(lignes: Ligne[]) {
+        this._lignes = lignes;
+    }
+
     public get projet(): Projet {
         return this._projet;
     }

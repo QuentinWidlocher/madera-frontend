@@ -2,11 +2,11 @@ import { Devis } from './devis';
 
 export class Ligne {
 
-    public _id: number;
-    public _quantite: number;
-    public _remise: number;
-    public _remarques: string;
-    public _devis: Devis;
+    private _id: number;
+    private _quantite: number;
+    private _remise: number;
+    private _remarques: string;
+    private _devis: Devis;
 
     constructor(id: number, quantite: number, remise: number, remarques: string, devis: Devis) {
         this.id = id;

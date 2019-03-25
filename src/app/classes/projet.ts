@@ -6,22 +6,25 @@ import { Devis } from './devis';
 
 export class Projet {
 
-    public _id: number;
-    public _title: string;
-    public _creationDate: Date;
-    public _editionDate: Date;
-    public _version: string;
-    public _client: Client;
-    public _dossiersTechniques: DossierTechnique[];
-    public _devis: Devis;
+    private _id: number;
+    private _title: string;
+    private _creationDate: Date;
+    private _editionDate: Date;
+    private _version: string;
+    private _client: Client;
+    private _dossiersTechniques: DossierTechnique[];
+    private _devis: Devis;
 
-    constructor(id: number, title: string, creationDate: Date, editionDate: Date, version: string, client: Client) {
+    constructor(id: number, title: string, creationDate: Date, editionDate: Date, version: string, client: Client,
+                dossiersTechniques: DossierTechnique[], devis: Devis) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
         this.version = version;
         this.client = client;
+        this.dossiersTechniques = dossiersTechniques;
+        this.devis = devis;
     }
 
     //#region getters and setters

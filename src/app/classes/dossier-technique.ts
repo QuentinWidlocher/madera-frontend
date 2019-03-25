@@ -3,12 +3,12 @@ import { Devis } from './devis';
 
 export class DossierTechnique {
 
-    public _id: number;
-    public _numero: number;
-    public _creationDate: Date;
-    public _editionDate: Date;
-    public _projet: Projet;
-    public _devis: Devis[];
+    private _id: number;
+    private _numero: number;
+    private _creationDate: Date;
+    private _editionDate: Date;
+    private _projet: Projet;
+    private _devis: Devis[];
 
     constructor(id: number, numero: number, creationDate: Date, editionDate: Date, projet: Projet, devis: Devis[]) {
         this.id = id;
