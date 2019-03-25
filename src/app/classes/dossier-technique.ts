@@ -1,9 +1,12 @@
+import { Projet } from './projet';
+
 export class DossierTechnique {
 
     public _id: number;
     public _numero: number;
     public _creationDate: Date;
     public _editionDate: Date;
+    public _projet: Projet;
 
     constructor(id: number, numero: number, creationDate: Date, editionDate: Date) {
         this.id = id;
@@ -13,6 +16,13 @@ export class DossierTechnique {
     }
 
     //#region getters and setters
+    public get projet(): Projet {
+        return this._projet;
+    }
+    public set projet(projet: Projet) {
+        this._projet = projet;
+    }
+
     public get editionDate(): Date {
         return this._editionDate;
     }
