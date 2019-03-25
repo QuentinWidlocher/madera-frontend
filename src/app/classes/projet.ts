@@ -2,6 +2,7 @@ import { Client } from './client';
 
 import { Data } from '@angular/router';
 import { DossierTechnique } from './dossier-technique';
+import { Devis } from './devis';
 
 export class Projet {
 
@@ -12,6 +13,7 @@ export class Projet {
     public _version: string;
     public _client: Client;
     public _dossiersTechniques: DossierTechnique[];
+    public _devis: Devis;
 
     constructor(id: number, title: string, creationDate: Date, editionDate: Date, version: string, client: Client) {
         this.id = id;
@@ -23,6 +25,13 @@ export class Projet {
     }
 
     //#region getters and setters
+    public get devis(): Devis {
+        return this._devis;
+    }
+    public set devis(devis: Devis) {
+        this._devis = devis;
+    }
+
     public get dossiersTechniques(): DossierTechnique[] {
         return this._dossiersTechniques;
     }
