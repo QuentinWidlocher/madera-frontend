@@ -1,5 +1,6 @@
 import { DossierTechnique } from './dossier-technique';
 import { Utilisateur } from './utilisateur';
+import { Produit } from './produit';
 
 export class Modele {
     private _id: number;
@@ -7,19 +8,27 @@ export class Modele {
     private _creationDate: Date;
     private _editionDate: Date;
     private _dossiersTechniques: DossierTechnique[];
+    private _produits: Produit[];
     private _utilisateur: Utilisateur;
 
     constructor(id: number, description: string, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
-                utilisateur: Utilisateur) {
+                produits: Produit[], utilisateur: Utilisateur) {
         this.id = id;
         this.description = description;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
         this.dossiersTechniques = dossiersTechniques;
+        this.produits = produits;
         this.utilisateur = utilisateur;
     }
 
     //#region getters and setters
+    public get produits(): Produit[] {
+        return this._produits;
+    }
+    public set produits(produits: Produit[]) {
+        this._produits = produits;
+    }
     public get utilisateur(): Utilisateur {
         return this._utilisateur;
     }
