@@ -2,11 +2,13 @@ import { Caracteristique } from './caracteristique';
 
 export class Unite {
 
+    private _id: number;
     private _code: string;
     private _name: string;
     private _caracteristiques: Caracteristique[];
 
-    constructor(code: string, name: string, caracteristiques: Caracteristique[]) {
+    constructor(id: number, code: string, name: string, caracteristiques: Caracteristique[]) {
+        this.id = id;
         this.code = code;
         this.name = name;
         this.caracteristiques = caracteristiques;
@@ -32,6 +34,13 @@ export class Unite {
     }
     public set code(code: string) {
         this._code = code;
+    }
+
+    public get id(): number {
+        return this._id;
+    }
+    public set id(id: number) {
+        this._id = id;
     }
     //#endregion
 }
