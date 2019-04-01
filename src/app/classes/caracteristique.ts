@@ -1,4 +1,5 @@
 import { Module } from './module';
+import { Unite } from './unite';
 
 export class Caracteristique {
 
@@ -6,12 +7,22 @@ export class Caracteristique {
     private _description: string;
     private _value: number;
     private _module: Module;
+    private _unite: Unite;
 
-    constructor(id: number, description: string, value: number, module: Module) {
+    constructor(id: number, description: string, value: number, module: Module, unite: Unite) {
         this.id = id;
         this.description = description;
         this.value = value;
         this.module = module;
+        this.unite = unite;
+    }
+
+    //#region getters and setters
+    public get unite(): Unite {
+        return this._unite;
+    }
+    public set unite(unite: Unite) {
+        this._unite = unite;
     }
 
     public get module(): Module {
@@ -41,5 +52,6 @@ export class Caracteristique {
     public set id(id: number) {
         this._id = id;
     }
+    //#endregion
 
 }
