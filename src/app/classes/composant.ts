@@ -1,4 +1,5 @@
 import { CoupeDePrincipe } from './coupe-de-principe';
+import { FamilleComposant } from './famille-composant';
 
 export class Composant {
 
@@ -7,16 +8,26 @@ export class Composant {
     private _unitPriceNoTax: number;
     private _unitPriceTax: number;
     private _coupesDePrincipe: CoupeDePrincipe[];
+    private _familleComposant: FamilleComposant;
 
-    constructor(id: number, name: string, unitPriceNoTax: number, unitPriceTax: number, coupesDePrincipe: CoupeDePrincipe[]) {
+    constructor(id: number, name: string, unitPriceNoTax: number, unitPriceTax: number,
+                coupesDePrincipe: CoupeDePrincipe[], familleComposant: FamilleComposant) {
         this.id = id;
         this.name = name;
         this.unitPriceNoTax = unitPriceNoTax;
         this.unitPriceTax = unitPriceTax;
         this.coupesDePrincipe = coupesDePrincipe;
+        this.familleComposant = familleComposant;
     }
 
     //#region getters and setters
+    public get familleComposant(): FamilleComposant {
+        return this._familleComposant;
+    }
+    public set familleComposant(familleComposant: FamilleComposant) {
+        this._familleComposant = familleComposant;
+    }
+
     public get coupesDePrincipe(): CoupeDePrincipe[] {
         return this._coupesDePrincipe;
     }
