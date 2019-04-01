@@ -1,4 +1,5 @@
 import { Module } from './module';
+import { Composant } from './composant';
 
 export class CoupeDePrincipe {
 
@@ -8,17 +9,27 @@ export class CoupeDePrincipe {
     private _description: string;
     private _thickness: number;
     private _modules: Module[];
+    private _composants: Composant[];
 
-    constructor(id: number, code: string, name: string, description: string, thickness: number, modules: Module[]) {
+    constructor(id: number, code: string, name: string, description: string, thickness: number,
+                modules: Module[], composants: Composant[]) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.description = description;
         this.thickness = thickness;
         this.modules = modules;
+        this.composants = composants;
     }
 
     //#region getters and setters
+    public get composants(): Composant[] {
+        return this._composants;
+    }
+    public set composants(composants: Composant[]) {
+        this._composants = composants;
+    }
+
     public get modules(): Module[] {
         return this._modules;
     }
