@@ -1,47 +1,26 @@
-import { Modele } from './modele';
-import { CCTP } from './CCTP';
-import { Module } from './module';
+import { Produit } from './produit';
 
-export class Produit {
+export class Module {
     private _id: number;
     private _description: string;
     private _creationDate: Date;
     private _editionDate: Date;
-    private _modeles: Modele[];
-    private _cctp: CCTP[];
-    private _modules: Module[];
+    private _produits: Produit[];
 
-    constructor(id: number, description: string, creationDate: Date, editionDate: Date, modeles: Modele[],
-                cctp: CCTP[], modules: Module[]) {
+    constructor(id: number, description: string, creationDate: Date, editionDate: Date, produits: Produit[]) {
         this.id = id;
         this.description = description;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
-        this.modeles = modeles;
-        this.cctp = cctp;
-        this.modules = modules;
+        this.produits = produits;
     }
 
     //#region getters and setters
-    public get modules(): Module[] {
-        return this._modules;
+    public get produits(): Produit[] {
+        return this._produits;
     }
-    public set modules(modules: Module[]) {
-        this._modules = modules;
-    }
-
-    public get cctp(): CCTP[] {
-        return this._cctp;
-    }
-    public set cctp(cctp: CCTP[]) {
-        this._cctp = cctp;
-    }
-
-    public get modeles(): Modele[] {
-        return this._modeles;
-    }
-    public set modeles(modeles: Modele[]) {
-        this._modeles = modeles;
+    public set produits(produits: Produit[]) {
+        this._produits = produits;
     }
 
     public get editionDate(): Date {
