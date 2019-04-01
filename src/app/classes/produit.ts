@@ -1,5 +1,5 @@
 import { Modele } from './modele';
-import { CCTP } from './CCTP';
+import { CCTP } from './cctp';
 import { Module } from './module';
 
 export class Produit {

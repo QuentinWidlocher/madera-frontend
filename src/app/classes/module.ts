@@ -1,4 +1,5 @@
 import { Produit } from './produit';
+import { Caracteristique } from './caracteristique';
 
 export class Module {
     private _id: number;
@@ -6,16 +7,26 @@ export class Module {
     private _creationDate: Date;
     private _editionDate: Date;
     private _produits: Produit[];
+    private _caracteristiques: Caracteristique[];
 
-    constructor(id: number, description: string, creationDate: Date, editionDate: Date, produits: Produit[]) {
+    constructor(id: number, description: string, creationDate: Date, editionDate: Date, produits: Produit[],
+                caracteristiques: Caracteristique[]) {
         this.id = id;
         this.description = description;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
         this.produits = produits;
+        this.caracteristiques = caracteristiques;
     }
 
     //#region getters and setters
+    public get caracteristiques(): Caracteristique[] {
+        return this._caracteristiques;
+    }
+    public set caracteristiques(caracteristiques: Caracteristique[]) {
+        this._caracteristiques = caracteristiques;
+    }
+
     public get produits(): Produit[] {
         return this._produits;
     }
