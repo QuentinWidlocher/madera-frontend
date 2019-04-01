@@ -1,5 +1,6 @@
 import { Produit } from './produit';
 import { Caracteristique } from './caracteristique';
+import { CoupeDePrincipe } from './coupe-de-principe';
 
 export class Module {
     private _id: number;
@@ -8,18 +9,27 @@ export class Module {
     private _editionDate: Date;
     private _produits: Produit[];
     private _caracteristiques: Caracteristique[];
+    private _coupeDePrincipe: CoupeDePrincipe;
 
     constructor(id: number, description: string, creationDate: Date, editionDate: Date, produits: Produit[],
-                caracteristiques: Caracteristique[]) {
+                caracteristiques: Caracteristique[], coupeDePrincipe: CoupeDePrincipe) {
         this.id = id;
         this.description = description;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
         this.produits = produits;
         this.caracteristiques = caracteristiques;
+        this.coupeDePrincipe = coupeDePrincipe;
     }
 
     //#region getters and setters
+    public get coupeDePrincipe(): CoupeDePrincipe {
+        return this._coupeDePrincipe;
+    }
+    public set coupeDePrincipe(coupeDePrincipe: CoupeDePrincipe) {
+        this._coupeDePrincipe = coupeDePrincipe;
+    }
+
     public get caracteristiques(): Caracteristique[] {
         return this._caracteristiques;
     }
