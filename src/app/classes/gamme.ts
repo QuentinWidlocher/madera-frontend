@@ -1,4 +1,5 @@
 import { Produit } from './produit';
+import { FamilleGamme } from './famille-gamme';
 
 export class Gamme {
 
@@ -10,9 +11,10 @@ export class Gamme {
     private _finishes: string;
     private _cover: string;
     private _produits: Produit[];
+    private _familleGamme: FamilleGamme;
 
     constructor(id: number, code: string, description: string, insulating: string, frame: string, finishes: string, cover: string,
-                produits: Produit[]) {
+                produits: Produit[], familleGame: FamilleGamme) {
         this.id = id;
         this.code = code;
         this.description = description;
@@ -21,9 +23,17 @@ export class Gamme {
         this.finishes = finishes;
         this.cover = cover;
         this.produits = produits;
+        this.familleGamme = familleGame;
     }
 
     //#region getters and setters
+    public get familleGamme(): FamilleGamme {
+        return this._familleGamme;
+    }
+    public set familleGamme(familleGamme: FamilleGamme) {
+        this._familleGamme = familleGamme;
+    }
+
     public get produits(): Produit[] {
         return this._produits;
     }
