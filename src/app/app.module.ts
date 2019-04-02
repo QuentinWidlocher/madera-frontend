@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/page/home/home.component';
+import { UserProjectComponent } from './components/page/user-project/user-project.component';
 
 //Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,7 +44,8 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    NavBarComponent
+    NavBarComponent,
+    UserProjectComponent
   ],
   imports: [
     BrowserModule,
