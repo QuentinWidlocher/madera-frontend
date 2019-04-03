@@ -62,5 +62,10 @@ export class ApiConfig {
     public static GAMME_EXISTS = ApiConfig.GAMME_UNIQUE + 'exists/';
     public static GAMME_COUNT = ApiConfig.GAMME + 'count/';
 
+    public static FAMILLE_GAMME = ApiConfig.BASE_API + 'famille-gamme/';
+    public static FAMILLE_GAMME_UNIQUE = ApiConfig.FAMILLE_GAMME + ':id/';
+    public static FAMILLE_GAMME_EXISTS = ApiConfig.FAMILLE_GAMME_UNIQUE + 'exists/';
+    public static FAMILLE_GAMME_COUNT = ApiConfig.FAMILLE_GAMME + 'count/';
+
     public static XMYSQL_VERSION = ApiConfig.BASE_URL + '_version/';
 }
