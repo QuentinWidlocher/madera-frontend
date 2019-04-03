@@ -92,5 +92,10 @@ export class ApiConfig {
     public static COMPOSANT_EXISTS = ApiConfig.COMPOSANT_UNIQUE + 'exists/';
     public static COMPOSANT_COUNT = ApiConfig.COMPOSANT + 'count/';
 
+    public static FAMILLE_COMPOSANT = ApiConfig.BASE_API + 'famille-composant/';
+    public static FAMILLE_COMPOSANT_UNIQUE = ApiConfig.FAMILLE_COMPOSANT + ':id/';
+    public static FAMILLE_COMPOSANT_EXISTS = ApiConfig.FAMILLE_COMPOSANT_UNIQUE + 'exists/';
+    public static FAMILLE_COMPOSANT_COUNT = ApiConfig.FAMILLE_COMPOSANT + 'count/';
+
     public static XMYSQL_VERSION = ApiConfig.BASE_URL + '_version/';
 }
