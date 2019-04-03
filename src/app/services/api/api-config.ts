@@ -52,6 +52,11 @@ export class ApiConfig {
     public static PRODUIT_EXISTS = ApiConfig.PRODUIT_UNIQUE + 'exists/';
     public static PRODUIT_COUNT = ApiConfig.PRODUIT + 'count/';
 
+    public static CCTP = ApiConfig.BASE_API + 'cctp/';
+    public static CCTP_UNIQUE = ApiConfig.CCTP + ':id/';
+    public static CCTP_EXISTS = ApiConfig.CCTP_UNIQUE + 'exists/';
+    public static CCTP_COUNT = ApiConfig.CCTP + 'count/';
+
     public static GAMME = ApiConfig.BASE_API + 'gamme/';
     public static GAMME_UNIQUE = ApiConfig.GAMME + ':id/';
     public static GAMME_EXISTS = ApiConfig.GAMME_UNIQUE + 'exists/';
