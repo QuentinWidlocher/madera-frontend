@@ -72,5 +72,10 @@ export class ApiConfig {
     public static MODULE_EXISTS = ApiConfig.MODULE_UNIQUE + 'exists/';
     public static MODULE_COUNT = ApiConfig.MODULE + 'count/';
 
+    public static CARACTERISTIQUE = ApiConfig.BASE_API + 'caracteristique/';
+    public static CARACTERISTIQUE_UNIQUE = ApiConfig.CARACTERISTIQUE + ':id/';
+    public static CARACTERISTIQUE_EXISTS = ApiConfig.CARACTERISTIQUE_UNIQUE + 'exists/';
+    public static CARACTERISTIQUE_COUNT = ApiConfig.CARACTERISTIQUE + 'count/';
+
     public static XMYSQL_VERSION = ApiConfig.BASE_URL + '_version/';
 }
