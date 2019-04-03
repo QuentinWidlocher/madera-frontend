@@ -77,5 +77,10 @@ export class ApiConfig {
     public static CARACTERISTIQUE_EXISTS = ApiConfig.CARACTERISTIQUE_UNIQUE + 'exists/';
     public static CARACTERISTIQUE_COUNT = ApiConfig.CARACTERISTIQUE + 'count/';
 
+    public static UNITE = ApiConfig.BASE_API + 'unite/';
+    public static UNITE_UNIQUE = ApiConfig.UNITE + ':id/';
+    public static UNITE_EXISTS = ApiConfig.UNITE_UNIQUE + 'exists/';
+    public static UNITE_COUNT = ApiConfig.UNITE + 'count/';
+
     public static XMYSQL_VERSION = ApiConfig.BASE_URL + '_version/';
 }
