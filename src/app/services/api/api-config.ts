@@ -82,5 +82,10 @@ export class ApiConfig {
     public static UNITE_EXISTS = ApiConfig.UNITE_UNIQUE + 'exists/';
     public static UNITE_COUNT = ApiConfig.UNITE + 'count/';
 
+    public static COUPE_DE_PRINCIPE = ApiConfig.BASE_API + 'coupe-de-principe/';
+    public static COUPE_DE_PRINCIPE_UNIQUE = ApiConfig.COUPE_DE_PRINCIPE + ':id/';
+    public static COUPE_DE_PRINCIPE_EXISTS = ApiConfig.COUPE_DE_PRINCIPE_UNIQUE + 'exists/';
+    public static COUPE_DE_PRINCIPE_COUNT = ApiConfig.COUPE_DE_PRINCIPE + 'count/';
+
     public static XMYSQL_VERSION = ApiConfig.BASE_URL + '_version/';
 }
