@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
 import { Client } from '../classes/client';
 import { Caracteristique } from '../classes/caracteristique';
-import { CCTP } from '../classes/CCTP';
+import { CCTP } from '../classes/cctp';
 import { Composant } from '../classes/composant';
 import { CoupeDePrincipe } from '../classes/coupe-de-principe';
 import { Devis } from '../classes/devis';
@@ -54,26 +54,26 @@ export class IndexedDbService extends Dexie {
 
     // On déclare la structure des tables
     this.version(1).stores({
-      caracteristiques: '++id',
-      cctp: '++id',
-      clients: '++id',
-      composants: '++id',
-      coupesDePrincipe: '++id',
-      devis: '++id',
-      dossiersTechniques: '++id',
-      famillesComposant: '++id',
-      famillesGamme: '++id',
-      gammesComposant: '++id',
-      gammes: '++id',
-      lignes: '++id',
-      modeles: '++id',
-      modules: '++id',
-      plans: '++id',
-      produits: '++id',
-      projets: '++id',
-      roles: '++id',
-      unites: '++id',
-      utilisateurs: '++id',
+      caracteristiques: '++id, &_id, value, unite',
+      cctp: '++id, &_id, &_code',
+      clients: '++id, &_id, &_code, creationDate',
+      composants: '++id, &_id',
+      coupesDePrincipe: '++id, &_id, &_code',
+      devis: '++id, &_id, &numero, creationDate, editionDate',
+      dossiersTechniques: '++id, &_id, &numero, creationDate, editionDate',
+      famillesComposant: '++id, &_id',
+      famillesGamme: '++id, &_id',
+      gammesComposant: '++id, &_id, &_code',
+      gammes: '++id, &_id, &_code',
+      lignes: '++id, &_id, devis',
+      modeles: '++id, &_id, creationDate, editionDate',
+      modules: '++id, &_id, creationDate, editionDate',
+      plans: '++id, &_id, &number, creationDate, editionDate',
+      produits: '++id, &_id, creationDate, editionDate',
+      projets: '++id, &_id, creationDate, editionDate',
+      roles: '++id, &_id, &_code',
+      unites: '++id, &_id, &_code',
+      utilisateurs: '++id, &_id',
     });
 
     // On lie les structures aux propriétés
@@ -120,16 +120,16 @@ export class IndexedDbService extends Dexie {
     this.unites.mapToClass(Unite);
     this.utilisateurs.mapToClass(Utilisateur);
 
-    this.clients.count().then(count => {
-      if (count === 0) {
-        this.populate();
-      }
-    });
+    this.populate();
   }
 
   populate() {
-    this.clients.add(new Client(undefined, 'JOAVIN', 'Joanne', 'Vincent', undefined, undefined, undefined, undefined, undefined));
-    this.clients.add(new Client(undefined, 'QUEWID', 'Quentin', 'Widlocher', undefined, undefined, undefined, undefined, undefined));
-    this.clients.add(new Client(undefined, 'THOHOU', 'Thomas', 'Houtin', undefined, undefined, undefined, undefined, undefined));
+    this.clients.add(new Client('JOAVIN', 'Joanne', 'Vincent', undefined, undefined, undefined, undefined, undefined));
+
+    // this.clients.add(new Client(undefined, 'QUEWID', 'Quentin', 'Widlocher', undefined, undefined, undefined, undefined, undefined))
+    //   .then(id => { this.clients.update(id, { _id: id }); });
+
+    // this.clients.add(new Client(undefined, 'THOHOU', 'Thomas', 'Houtin', undefined, undefined, undefined, undefined, undefined))
+    //   .then(id => { this.clients.update(id, { _id: id }); });
   }
 }
