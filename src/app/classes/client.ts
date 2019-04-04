@@ -25,6 +25,10 @@ export class Client {
     this.projets = projets;
   }
 
+  public get fullName(): string {
+    return this.firstName + ' ' + this.lastName;
+  }
+
   //#region getter and setter
   public get id(): number {
     return this._id;
