@@ -2,6 +2,7 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'material-design-icons/iconfont/material-icons.css';
 
+
 /* Rules for sizing the icon. */
 mat-icon.md-18 {
   font-size: 18px;
@@ -21,7 +22,7 @@ mat-icon.md-48 {
 
 body {
   margin: 0 !important;
-  height: 100%;
+  height: 100vh;
 }
 
 button:focus {
