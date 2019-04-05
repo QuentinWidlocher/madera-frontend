@@ -124,7 +124,7 @@ export class IndexedDbService extends Dexie {
   }
 
   populate() {
-    
+
     this.clients.add(new Client(undefined, 'JOAVIN', 'Joanne', 'Vincent', undefined, undefined, undefined, undefined, undefined))
       .then(id => { this.clients.update(id, { _id: id }); }).catch(() => { });
 
