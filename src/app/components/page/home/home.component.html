@@ -1,1 +1,6 @@
-<mat-spinner>
+<mat-action-list>
+    <mat-list-item *ngFor="let caracteristique of caracteristiques">
+        <h4 mat-line>{{ caracteristique.description }}</h4>
+        <p mat-line>{{ caracteristique.value }}</p>
+    </mat-list-item>
+</mat-action-list>

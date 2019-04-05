@@ -17,6 +17,10 @@ export class Caracteristique {
         this.unite = unite;
     }
 
+    public get valueUnite(): string {
+        return this.value + ' ' + this.unite.code;
+    }
+
     //#region getters and setters
     public get unite(): Unite {
         return this._unite;

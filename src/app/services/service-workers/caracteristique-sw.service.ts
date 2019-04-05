@@ -1,60 +1,45 @@
 import { Injectable } from '@angular/core';
 import { Caracteristique } from 'src/app/classes/caracteristique';
 import { ConnectivityService } from './connectivity.service';
+import { CaracteristiqueApiService } from '../api/caracteristique-api.service';
+import { IndexedDbService } from '../indexed-db.service';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CaracteristiqueSwService {
 
-  constructor(private connectivity: ConnectivityService) { }
+  constructor(private connectivity: ConnectivityService, private caracteristiqueApi: CaracteristiqueApiService,
+              private idb: IndexedDbService) { }
 
-  get(): Promise<Caracteristique[]> {
+  getAll(): Promise<Caracteristique[]> {
 
-    // On retourne au final une simple Promise qui contient notre liste de contact
-    return new Promise(rslv2 => {
-      // On instancie une variable qui contient le résultat
-      let result: Promise<Caracteristique[]>;
+    if (this.connectivity.isConnected) {
 
-      // On check pour savoir si l'on appelle l'API ou l'IDB
-      this.connectivity.isConnected.then(isConnected => {
-        if (isConnected) {
+      // Si on peux toucher l'API, on la call, on remplace la base locale par les nouvelles données
+      return new Promise(rslv => {
+        this.caracteristiqueApi.getAll().subscribe((caracteristiques: Caracteristique[]) => {
 
-          // Si on peux toucher l'API, on la call et on stock la Promise dans result
-          result = new Promise(rslv => {
-            this.contactApi.getContacts().subscribe((contactsJson: Contact[]) => {
+          console.log(caracteristiques);
 
-              // On converti l'array format JSON en array d'objets Contact
-              const contacts = plainToClass(Contact, contactsJson);
-              const db = this.idb.contactDatabase;
+          // On vide la base locale
+          this.idb.caracteristiques.clear();
 
-              db.clear();
-
-              // On ajoute à l'IDB les contacts obtenu (ou on met à jour les données existantes)
-              contacts.forEach(contact => {
-                db.add(contact);
-              });
-
-              rslv(contacts);
-            });
+          // On ajoute à l'IDB les données obtenue
+          caracteristiques.forEach(caracteristique => {
+            this.idb.caracteristiques.add(caracteristique);
           });
-        } else {
 
-          // Si on ne peux pas toucher l'API, on call l'IDB et on stock la Promise dans result
-          result = new Promise(rslv => {
-            this.idb.contactDatabase.getAll().onsuccess = function (event: any) {
-
-              // On converti l'array format JSON en array d'objets Contact
-              rslv(plainToClass(Contact, this.result));
-            };
-          });
-        }
-      }).finally(() => { // On résout la Promise des données obtenu par l'API ou l'IDB
-        rslv2(result);
-        this.checkIfOnline();
+          rslv(caracteristiques);
+        });
       });
-    });
-  }
+    } else {
+
+      // Si on ne peux pas toucher l'API, on call simplement l'IDB
+      return this.idb.caracteristiques.toArray();
+    }
+}
 
 
 }
