@@ -8,7 +8,7 @@ import { timer } from 'rxjs';
 })
 export class ConnectivityService {
 
-  public isConnected = false;
+  private _isConnected: boolean;
 
   constructor(private http: HttpClient) {
     timer(0, 5000).subscribe(() => {
@@ -16,12 +16,17 @@ export class ConnectivityService {
     });
   }
 
-  updateConnection() {
+  public get isConnected(): Promise<boolean> {
+    return new Promise(rslv => { rslv(this._isConnected); });
+  }
+
+  private updateConnection() {
     this.http.get(ApiConfig.XMYSQL_VERSION).subscribe(
       res => {
-        this.isConnected = true;
+        this._isConnected = true;
       }, err => {
-        this.isConnected = false;
-    });
+        this._isConnected = false;
+    }, () => { console.log(this._isConnected ? 'ONLINE' : 'OFFLINE'); });
   }
+
 }

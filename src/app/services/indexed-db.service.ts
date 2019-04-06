@@ -125,14 +125,14 @@ export class IndexedDbService extends Dexie {
 
   populate() {
 
-    this.clients.add(new Client(undefined, 'JOAVIN', 'Joanne', 'Vincent', undefined, undefined, undefined, undefined, undefined))
-      .then(id => { this.clients.update(id, { _id: id }); });
+    // this.clients.add(new Client(undefined, 'JOAVIN', 'Joanne', 'Vincent', undefined, undefined, undefined, undefined, undefined))
+    //   .then(id => { this.clients.update(id, { _id: id }); });
 
-    this.clients.add(new Client(undefined, 'QUEWID', 'Quentin', 'Widlocher', undefined, undefined, undefined, undefined, undefined))
-      .then(id => { this.clients.update(id, { _id: id }); });
+    // this.clients.add(new Client(undefined, 'QUEWID', 'Quentin', 'Widlocher', undefined, undefined, undefined, undefined, undefined))
+    //   .then(id => { this.clients.update(id, { _id: id }); });
 
-    this.clients.add(new Client(undefined, 'THOHOU', 'Thomas', 'Houtin', undefined, undefined, undefined, undefined, undefined))
-      .then(id => { this.clients.update(id, { _id: id }); });
+    // this.clients.add(new Client(undefined, 'THOHOU', 'Thomas', 'Houtin', undefined, undefined, undefined, undefined, undefined))
+    //   .then(id => { this.clients.update(id, { _id: id }); });
 
 
     // this.caracteristiques.add(new Caracteristique(undefined, 'Poids', 50, undefined, undefined))
