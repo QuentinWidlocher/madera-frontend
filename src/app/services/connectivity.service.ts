@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApiConfig } from '../api/api-config';
+import { ApiConfig } from './api/api-config';
 import { timer } from 'rxjs';
 
 @Injectable({

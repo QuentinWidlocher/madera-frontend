@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Caracteristique } from 'src/app/classes/caracteristique';
-import { ConnectivityService } from './connectivity.service';
+import { ConnectivityService } from '../connectivity.service';
 import { CaracteristiqueApiService } from '../api/caracteristique-api.service';
 import { IndexedDbService } from '../indexed-db.service';
 import Dexie from 'dexie';
@@ -56,17 +56,17 @@ export class CaracteristiqueSwService {
     return new Promise(rtrn => {
       this.connectivity.isConnected.then(isConnected => {
         if (isConnected) {
-  
+
           // Si on touche l'API, on la call, on ajoute/modifie l'enregistrement local et on retourne
           result = new Promise(rslv => {
             this.api.get(id).subscribe((caracteristique: Caracteristique) => {
               this.idb.put(caracteristique, caracteristique.id);
-  
+
               rslv(caracteristique);
             });
           });
         } else {
-  
+
           // Si on ne peux pas toucher l'API on call simplement l'IDB
           result = this.idb.get(id);
         }
@@ -113,6 +113,7 @@ export class CaracteristiqueSwService {
             });
           });
         } else {
+          // TODO: Ajouter la gestions des differed queries
           result = this.idb.update(caracteristique.id, { ...caracteristique });
         }
 
@@ -136,6 +137,7 @@ export class CaracteristiqueSwService {
             });
           });
         } else {
+          // TODO: Ajouter la gestions des differed queries
           result = this.idb.delete(id);
         }
       }).finally(() => { rtrn(result); });

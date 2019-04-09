@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IndexedDbService } from './services/indexed-db.service';
 import 'hammerjs/hammer.min';
-import { ConnectivityService } from './services/service-workers/connectivity.service';
+import { ConnectivityService } from './services/connectivity.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,7 @@ export class AppComponent {
 
   // On instancie certains services au démarrage de l'appli
   constructor(private idb: IndexedDbService,
-              private connectivity: ConnectivityService) {}
+              private connectivity: ConnectivityService) {
+  }
 
 }
