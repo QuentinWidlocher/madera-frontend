@@ -8,10 +8,9 @@ import { TestComponent } from './components/page/test/test.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
-//Angular Material Components
+// Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule } from '@angular/material';
-import { MatButtonModule } from '@angular/material';
+import { MatCheckboxModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';

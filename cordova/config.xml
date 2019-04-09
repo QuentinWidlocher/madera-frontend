@@ -34,5 +34,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
+    <preference name="StatusBarBackgroundColor" value="#338a3e" />
     <engine name="android" spec="^7.1.4" />
 </widget>
