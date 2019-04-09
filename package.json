@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href . --output-path ./cordova/www",
+    "build": "ng build --prod --aot --base-href . --output-path ./cordova/www",
     "build-android": "npm run-script build && npm run-script cordova-build-android",
     "run-android": "npm run-script build && npm run-script cordova-run-android",
     "cordova-build-android": "cd ./cordova && cordova build android",
