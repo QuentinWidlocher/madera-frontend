@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Caracteristique } from 'src/app/classes/caracteristique';
 import { CaracteristiqueSwService } from 'src/app/services/service-workers/caracteristique-sw.service';
+import { DeferredQueriesService } from 'src/app/services/deferred-queries.service';
 
 @Component({
   selector: 'app-test',
@@ -13,7 +14,8 @@ export class TestComponent implements OnInit {
 
   newCaracteristique: string;
 
-  constructor(private caracteristiqueSw: CaracteristiqueSwService) { }
+  constructor(private caracteristiqueSw: CaracteristiqueSwService,
+              private deferredQueries: DeferredQueriesService) { }
 
   ngOnInit() {
     this.refreshList();
@@ -37,6 +39,10 @@ export class TestComponent implements OnInit {
     this.caracteristiqueSw.delete(caracteristique.id).then(() => {
       this.caracteristiques.splice(this.caracteristiques.indexOf(caracteristique), 1);
     });
+  }
+
+  updateDeferred() {
+    this.deferredQueries.executeAll();
   }
 
 }

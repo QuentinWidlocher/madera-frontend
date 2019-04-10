@@ -4,6 +4,7 @@ import { ConnectivityService } from '../connectivity.service';
 import { CaracteristiqueApiService } from '../api/caracteristique-api.service';
 import { IndexedDbService } from '../indexed-db.service';
 import Dexie from 'dexie';
+import { DeferredQuery } from 'src/app/classes/deferred-query';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,7 @@ export class CaracteristiqueSwService {
           // Si on ne touche pas l'API, on ajoute seulement dans l'IDB
           // TODO: Ajouter la gestions des differed queries
           result = this.idb.add(caracteristique);
+          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique.toJSON(), 'add', 'caracteristique'));
         }
       }).finally(() => { rtrn(result); });
     });

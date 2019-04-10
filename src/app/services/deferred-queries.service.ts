@@ -20,7 +20,7 @@ import { ProjetApiService } from './api/projet-api.service';
 import { RoleApiService } from './api/role-api.service';
 import { UniteApiService } from './api/unite-api.service';
 import { UtilisateurApiService } from './api/utilisateur-api.service';
-import * as ts from 'typescript';
+// import * as ts from 'typescript';
 import { Caracteristique } from '../classes/caracteristique';
 import { IndexedDbService } from './indexed-db.service';
 
@@ -53,13 +53,16 @@ export class DeferredQueriesService {
 
   execute(query: DeferredQuery) {
     const type = query.type.toLowerCase();
-    const action = query.type.toLowerCase();
-    ts.transpile(`this.${type}.${action}(${query.data}).subscribe();`);
+    const method = query.method.toLowerCase();
+
+    console.log(`this.${type}.${method}(query.data).subscribe();`);
+    eval(`this.${type}.${method}(query.data).subscribe();`);
   }
 
   executeAll() {
-    this.idb.deferredQueries.each((deferredQuery: DeferredQuery) => {
+    this.idb.deferredQueries.toCollection().each((deferredQuery: DeferredQuery, cursor) => {
       this.execute(deferredQuery);
+      this.idb.deferredQueries.delete(cursor.primaryKey).catch(issou => { console.log(issou); });
     });
   }
 }

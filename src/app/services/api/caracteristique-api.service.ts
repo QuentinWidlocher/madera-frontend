@@ -20,6 +20,8 @@ export class CaracteristiqueApiService {
   }
 
   add(caracteristique: Caracteristique): Observable<object> {
+    caracteristique = Object.assign(Caracteristique.newEmpty(), caracteristique);
+
     caracteristique.id = undefined;
     const caracteristiquePlain = caracteristique.toJSON();
 
