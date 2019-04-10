@@ -20,6 +20,8 @@ export class CaracteristiqueApiService {
   }
 
   add(caracteristique: Caracteristique): Observable<object> {
+    caracteristique = Object.assign(Caracteristique.newEmpty(), caracteristique);
+
     caracteristique.id = undefined;
     const caracteristiquePlain = caracteristique.toJSON();
 
@@ -31,8 +33,8 @@ export class CaracteristiqueApiService {
     return this.http.put(ApiConfig.CARACTERISTIQUE, caracteristiquePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.CARACTERISTIQUE_UNIQUE.replace(':id', '' + id));
+  delete(caracteristique: Caracteristique): Observable<object> {
+    return this.http.delete(ApiConfig.CARACTERISTIQUE_UNIQUE.replace(':id', '' + caracteristique.id));
   }
 
   count(): Observable<object> {

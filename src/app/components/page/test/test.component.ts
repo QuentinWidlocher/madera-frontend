@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Caracteristique } from 'src/app/classes/caracteristique';
 import { CaracteristiqueSwService } from 'src/app/services/service-workers/caracteristique-sw.service';
+import { DeferredQueriesService } from 'src/app/services/deferred-queries.service';
 
 @Component({
   selector: 'app-test',
@@ -12,6 +13,9 @@ export class TestComponent implements OnInit {
   caracteristiques: Caracteristique[];
 
   newCaracteristique: string;
+
+  currentCaracteristique: Caracteristique = Caracteristique.newEmpty();
+  selectedListIndex: number;
 
   constructor(private caracteristiqueSw: CaracteristiqueSwService) { }
 
@@ -37,6 +41,17 @@ export class TestComponent implements OnInit {
     this.caracteristiqueSw.delete(caracteristique.id).then(() => {
       this.caracteristiques.splice(this.caracteristiques.indexOf(caracteristique), 1);
     });
+  }
+
+  editCaracteristique() {
+    this.caracteristiqueSw.edit(this.currentCaracteristique).then(() => {
+      this.caracteristiques[this.selectedListIndex] = this.currentCaracteristique;
+    });
+  }
+
+  selectCaracteristique(caracteristique: Caracteristique, index: number) {
+    this.currentCaracteristique = caracteristique;
+    this.selectedListIndex = index;
   }
 
 }

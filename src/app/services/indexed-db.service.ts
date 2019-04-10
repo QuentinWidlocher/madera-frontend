@@ -20,6 +20,7 @@ import { Projet } from '../classes/projet';
 import { Role } from '../classes/role';
 import { Unite } from '../classes/unite';
 import { Utilisateur } from '../classes/utilisateur';
+import { DeferredQuery } from '../classes/deferred-query';
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +50,22 @@ export class IndexedDbService extends Dexie {
   unites: Dexie.Table<Unite, number>;
   utilisateurs: Dexie.Table<Utilisateur, number>;
 
+  deferredQueries: Dexie.Table<DeferredQuery, number>;
+
   constructor() {
     super('Madera');
+
+    // Si on peux rendre les données plus persistente, on le fait !
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().then(granted => {
+        if (granted) {
+          console.log('Storage will not be cleared except by explicit user action');
+        }
+        else {
+          console.log('Storage may be cleared by the UA under storage pressure.');
+        }
+      });
+    }
 
     // On déclare la structure des tables
     this.version(1).stores({
@@ -74,6 +89,7 @@ export class IndexedDbService extends Dexie {
       roles: '++id, &_id, &_code',
       unites: '++id, &_id, &_code',
       utilisateurs: '++id, &_id',
+      deferredQueries: '++id'
     });
 
     // On lie les structures aux propriétés
@@ -98,6 +114,8 @@ export class IndexedDbService extends Dexie {
     this.unites = this.table('unites');
     this.utilisateurs = this.table('utilisateurs');
 
+    this.deferredQueries = this.table('deferredQueries');
+
     // On lie les tables aux classes
     this.caracteristiques.mapToClass(Caracteristique);
     this.cctp.mapToClass(CCTP);
@@ -119,6 +137,8 @@ export class IndexedDbService extends Dexie {
     this.roles.mapToClass(Role);
     this.unites.mapToClass(Unite);
     this.utilisateurs.mapToClass(Utilisateur);
+
+    this.deferredQueries.mapToClass(DeferredQuery);
 
     this.populate();
   }

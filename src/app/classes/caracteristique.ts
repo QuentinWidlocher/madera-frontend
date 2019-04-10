@@ -17,6 +17,10 @@ export class Caracteristique {
         this.unite = unite;
     }
 
+    public static newEmpty(): Caracteristique {
+        return new Caracteristique(undefined, undefined, undefined, undefined, undefined);
+    }
+
     public toJSON(): object {
         return {
             id: this.id,
