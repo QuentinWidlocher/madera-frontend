@@ -60,9 +60,12 @@ export class DeferredQueriesService {
   }
 
   executeAll() {
-    this.idb.deferredQueries.toCollection().each((deferredQuery: DeferredQuery, cursor) => {
-      this.execute(deferredQuery);
-      this.idb.deferredQueries.delete(cursor.primaryKey).catch(issou => { console.log(issou); });
+    this.idb.transaction('rw', this.idb.deferredQueries, () => {
+      this.idb.deferredQueries.each((deferredQuery: DeferredQuery, cursor) => {
+        this.execute(deferredQuery);
+        this.idb.deferredQueries.delete(cursor.primaryKey);
+      });
     });
+
   }
 }

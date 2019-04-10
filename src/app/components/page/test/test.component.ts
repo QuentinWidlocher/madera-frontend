@@ -14,8 +14,7 @@ export class TestComponent implements OnInit {
 
   newCaracteristique: string;
 
-  constructor(private caracteristiqueSw: CaracteristiqueSwService,
-              private deferredQueries: DeferredQueriesService) { }
+  constructor(private caracteristiqueSw: CaracteristiqueSwService) { }
 
   ngOnInit() {
     this.refreshList();
@@ -39,10 +38,6 @@ export class TestComponent implements OnInit {
     this.caracteristiqueSw.delete(caracteristique.id).then(() => {
       this.caracteristiques.splice(this.caracteristiques.indexOf(caracteristique), 1);
     });
-  }
-
-  updateDeferred() {
-    this.deferredQueries.executeAll();
   }
 
 }

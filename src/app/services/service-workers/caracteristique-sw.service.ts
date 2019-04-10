@@ -92,8 +92,9 @@ export class CaracteristiqueSwService {
         } else {
 
           // Si on ne touche pas l'API, on ajoute seulement dans l'IDB
-          // TODO: Ajouter la gestions des differed queries
           result = this.idb.add(caracteristique);
+
+          // On ajoute une requête différée pour update la base plus tard
           this.idbService.deferredQueries.add(new DeferredQuery(caracteristique.toJSON(), 'add', 'caracteristique'));
         }
       }).finally(() => { rtrn(result); });
@@ -115,8 +116,11 @@ export class CaracteristiqueSwService {
             });
           });
         } else {
-          // TODO: Ajouter la gestions des differed queries
+
           result = this.idb.update(caracteristique.id, { ...caracteristique });
+
+          // On ajoute une requête différée pour update la base plus tard
+          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique.toJSON(), 'edit', 'caracteristique'));
         }
 
       }).finally(() => { rtrn(result); });
@@ -131,16 +135,19 @@ export class CaracteristiqueSwService {
     return new Promise(rtrn => {
 
       this.connectivity.isConnected.then(isConnected => {
-        if (this.connectivity.isConnected) {
+        if (isConnected) {
           result = new Promise(rslv => {
-            this.api.delete(id).subscribe(() => {
+            this.api.delete(Object.assign(Caracteristique.newEmpty(), {id})).subscribe(() => {
               this.idb.delete(id);
               rslv();
             });
           });
         } else {
-          // TODO: Ajouter la gestions des differed queries
+
           result = this.idb.delete(id);
+
+          // On ajoute une requête différée pour update la base plus tard
+          this.idbService.deferredQueries.add(new DeferredQuery({id}, 'delete', 'caracteristique'));
         }
       }).finally(() => { rtrn(result); });
 

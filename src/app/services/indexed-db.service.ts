@@ -55,6 +55,18 @@ export class IndexedDbService extends Dexie {
   constructor() {
     super('Madera');
 
+    // Si on peux rendre les données plus persistente, on le fait !
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().then(granted => {
+        if (granted) {
+          console.log('Storage will not be cleared except by explicit user action');
+        }
+        else {
+          console.log('Storage may be cleared by the UA under storage pressure.');
+        }
+      });
+    }
+
     // On déclare la structure des tables
     this.version(1).stores({
       caracteristiques: '++id, &_id, value, unite',

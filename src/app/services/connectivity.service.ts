@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfig } from './api/api-config';
 import { timer } from 'rxjs';
 import { rootRenderNodes } from '@angular/core/src/view';
+import { DeferredQueriesService } from './deferred-queries.service';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class ConnectivityService {
 
   private _isConnected: boolean;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private deferredQueries: DeferredQueriesService, private snackBar: MatSnackBar) {
 
     // Met à jour l'état de la connexion toutes les cinq secondes
     timer(0, 5000).subscribe(() => {
@@ -47,8 +49,16 @@ export class ConnectivityService {
   private updateConnection() {
     this.http.get(ApiConfig.XMYSQL_VERSION).subscribe(
       res => {
+        if (this._isConnected === false) {
+          this.deferredQueries.executeAll();
+          this.snackBar.open('Vous êtes maintenant EN LIGNE !', undefined, {duration: 2000});
+        }
         this._isConnected = true;
       }, err => {
+        if (this._isConnected === true) {
+          this.deferredQueries.executeAll();
+          this.snackBar.open('Oh oh... Vous n\'êtes plus connecté...', undefined, { duration: 2000 });
+        }
         this._isConnected = false;
     }, () => { console.log(this._isConnected ? 'ONLINE' : 'OFFLINE'); });
   }
