@@ -4,3 +4,12 @@
     overflow-y: scroll;
 }
 
+.spinner-container {
+    height: 90%;
+    width: 100%;
+    display: flex;
+
+    mat-spinner {
+        margin: auto;
+    }
+}

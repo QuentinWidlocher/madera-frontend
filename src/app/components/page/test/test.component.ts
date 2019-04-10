@@ -14,6 +14,9 @@ export class TestComponent implements OnInit {
 
   newCaracteristique: string;
 
+  currentCaracteristique: Caracteristique = Caracteristique.newEmpty();
+  selectedListIndex: number;
+
   constructor(private caracteristiqueSw: CaracteristiqueSwService) { }
 
   ngOnInit() {
@@ -38,6 +41,17 @@ export class TestComponent implements OnInit {
     this.caracteristiqueSw.delete(caracteristique.id).then(() => {
       this.caracteristiques.splice(this.caracteristiques.indexOf(caracteristique), 1);
     });
+  }
+
+  editCaracteristique() {
+    this.caracteristiqueSw.edit(this.currentCaracteristique).then(() => {
+      this.caracteristiques[this.selectedListIndex] = this.currentCaracteristique;
+    });
+  }
+
+  selectCaracteristique(caracteristique: Caracteristique, index: number) {
+    this.currentCaracteristique = caracteristique;
+    this.selectedListIndex = index;
   }
 
 }
