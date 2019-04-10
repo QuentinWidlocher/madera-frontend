@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiConfig } from './api-config';
-import { CCTP } from 'src/app/classes/CCTP';
+import { CCTP } from 'src/app/classes/cctp';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,6 @@
 export class ApiConfig {
-    public static BASE_URL = 'http://lazard.sytes.net:3000/';
+    // public static BASE_URL = 'http://lazard.sytes.net:3000/';
+    public static BASE_URL = 'http://127.0.0.1:3000/';
     public static BASE_API = ApiConfig.BASE_URL + 'api/';
 
     public static CLIENT = ApiConfig.BASE_API + 'client/';

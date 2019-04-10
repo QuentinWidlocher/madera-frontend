@@ -21,7 +21,7 @@ export class CaracteristiqueApiService {
 
   add(caracteristique: Caracteristique): Observable<object> {
     caracteristique.id = undefined;
-    const caracteristiquePlain = { ...caracteristique };
+    const caracteristiquePlain = caracteristique.toJSON();
 
     return this.http.post(ApiConfig.CARACTERISTIQUE, caracteristiquePlain);
   }
