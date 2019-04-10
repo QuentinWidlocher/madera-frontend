@@ -12,6 +12,7 @@ export class NavBarComponent {
   // Ici on mets les différents boutons avec leurs routes
   buttons = [
     { icon: 'home', title: 'home', route: '/home', active: false },
+    { icon: 'bug_report', title: 'test page', route: '/test', active: false },
   ];
 
   constructor(private router: Router) {

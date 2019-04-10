@@ -35,3 +35,11 @@ button:focus {
 mat-toolbar {
   color: white !important;
 }
+
+button[color="primary"] {
+
+  &[mat-flat-button],
+  &[mat-raised-button] {
+    color: white;
+  }
+}

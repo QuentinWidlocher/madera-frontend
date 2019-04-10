@@ -17,6 +17,16 @@ export class Caracteristique {
         this.unite = unite;
     }
 
+    public toJSON(): object {
+        return {
+            id: this.id,
+            description: this.description,
+            value: this.value,
+            module: this.module !== undefined ? this.module.id : undefined,
+            unite: this.unite !== undefined ? this.unite.id : undefined
+        };
+    }
+
     public get valueUnite(): string {
         return this.value + ' ' + this.unite.code;
     }
