@@ -69,7 +69,7 @@ export class IndexedDbService extends Dexie {
 
     // On déclare la structure des tables
     this.version(1).stores({
-      caracteristiques: '++id, &_id, value, unite',
+      caracteristiques: '++id, value, unite',
       cctp: '++id, &_id, &_code',
       clients: '++id, &_id, &_code, creationDate',
       composants: '++id, &_id',
@@ -153,6 +153,8 @@ export class IndexedDbService extends Dexie {
 
     // this.clients.add(new Client(undefined, 'THOHOU', 'Thomas', 'Houtin', undefined, undefined, undefined, undefined, undefined))
     //   .then(id => { this.clients.update(id, { _id: id }); });
+
+    this.caracteristiques.add(new Caracteristique(undefined, 'yes', undefined, undefined, undefined).toPlain());
 
 
     // this.caracteristiques.add(new Caracteristique(undefined, 'Poids', 50, undefined, undefined))

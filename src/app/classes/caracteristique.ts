@@ -3,11 +3,11 @@ import { Unite } from './unite';
 
 export class Caracteristique {
 
-    private _id: number;
-    private _description: string;
-    private _value: number;
-    private _module: Module;
-    private _unite: Unite;
+    public id?: number;
+    public description: string;
+    public value: number;
+    public module: Module;
+    public unite: Unite;
 
     constructor(id: number, description: string, value: number, module: Module, unite: Unite) {
         this.id = id;
@@ -21,55 +21,21 @@ export class Caracteristique {
         return new Caracteristique(undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): object {
-        return {
-            id: this.id,
+    public toPlain(withId = false): Caracteristique {
+        const result = {
             description: this.description,
-            value: this.value,
-            module: this.module !== undefined ? this.module.id : undefined,
-            unite: this.unite !== undefined ? this.unite.id : undefined
-        };
+            value: this.value
+        } as Caracteristique;
+
+        if (withId) {
+            result.id = this.id;
+        }
+
+        return result;
     }
 
     public get valueUnite(): string {
         return this.value + ' ' + this.unite.code;
     }
-
-    //#region getters and setters
-    public get unite(): Unite {
-        return this._unite;
-    }
-    public set unite(unite: Unite) {
-        this._unite = unite;
-    }
-
-    public get module(): Module {
-        return this._module;
-    }
-    public set module(module: Module) {
-        this._module = module;
-    }
-
-    public get value(): number {
-        return this._value;
-    }
-    public set value(value: number) {
-        this._value = value;
-    }
-
-    public get description(): string {
-        return this._description;
-    }
-    public set description(description: string) {
-        this._description = description;
-    }
-
-    public get id(): number {
-        return this._id;
-    }
-    public set id(id: number) {
-        this._id = id;
-    }
-    //#endregion
 
 }

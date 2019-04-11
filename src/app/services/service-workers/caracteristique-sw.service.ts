@@ -84,18 +84,21 @@ export class CaracteristiqueSwService {
         // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
         if (isConnected) {
           result = new Promise(rslv => {
-            this.api.add(caracteristique).subscribe(() => {
-              this.idb.add(caracteristique);
+            this.api.add(caracteristique).subscribe((added: any) => {
+              caracteristique.id = added.insertId;
+              this.idb.add(caracteristique, added.insertId);
             });
             rslv();
           });
         } else {
 
+          console.table(caracteristique.toPlain());
+
           // Si on ne touche pas l'API, on ajoute seulement dans l'IDB
-          result = this.idb.add(caracteristique);
+          result = this.idb.add(caracteristique.toPlain());
 
           // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique.toJSON(), 'add', 'caracteristique'));
+          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique, 'add', 'caracteristique'));
         }
       }).finally(() => { rtrn(result); });
     });
@@ -117,11 +120,11 @@ export class CaracteristiqueSwService {
           });
         } else {
 
-          console.log(caracteristique.toJSON());
+          console.log(caracteristique);
           result = this.idb.update(caracteristique.id, { ...caracteristique });
 
           // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique.toJSON(), 'edit', 'caracteristique'));
+          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique, 'edit', 'caracteristique'));
         }
 
       }).finally(() => { rtrn(result); });
