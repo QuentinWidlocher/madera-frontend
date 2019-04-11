@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Caracteristique } from 'src/app/classes/caracteristique';
 import { CaracteristiqueSwService } from 'src/app/services/service-workers/caracteristique-sw.service';
 import { DeferredQueriesService } from 'src/app/services/deferred-queries.service';
+import { Unite } from 'src/app/classes/unite';
 
 @Component({
   selector: 'app-test',
@@ -30,9 +31,9 @@ export class TestComponent implements OnInit {
   }
 
   addCaracteristique() {
-    const newCaracteristique = new Caracteristique(undefined, this.newCaracteristique, 0, undefined, undefined);
-    this.caracteristiqueSw.add(newCaracteristique).then(() => {
-      this.caracteristiques.push(newCaracteristique);
+    const newCaracteristique = { description: this.newCaracteristique, value: 1, uniteId: 1 } as Caracteristique;
+    this.caracteristiqueSw.add(newCaracteristique).then((addedCaracteristique) => {
+      this.caracteristiques.push(addedCaracteristique);
       this.newCaracteristique = '';
     });
   }
@@ -51,6 +52,7 @@ export class TestComponent implements OnInit {
   }
 
   selectCaracteristique(caracteristique: Caracteristique, index: number) {
+    console.table(caracteristique);
     this.currentCaracteristique = Object.assign(Caracteristique.newEmpty(), caracteristique);
     this.selectedListIndex = index;
   }

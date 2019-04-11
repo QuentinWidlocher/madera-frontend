@@ -26,8 +26,7 @@ export class CaracteristiqueApiService {
   }
 
   edit(caracteristique: Caracteristique): Observable<object> {
-    const caracteristiquePlain = { ...caracteristique };
-    return this.http.put(ApiConfig.CARACTERISTIQUE, caracteristiquePlain);
+    return this.http.put(ApiConfig.CARACTERISTIQUE_UNIQUE.replace(':id', '' + caracteristique.id), caracteristique);
   }
 
   delete(caracteristique: Caracteristique): Observable<object> {

@@ -75,7 +75,7 @@ export class CaracteristiqueSwService {
     });
   }
 
-  add(caracteristique: Caracteristique): Promise<any> {
+  add(caracteristique: Caracteristique): Promise<Caracteristique> {
 
     let result: Promise<any>;
 
@@ -84,11 +84,10 @@ export class CaracteristiqueSwService {
         // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
         if (isConnected) {
           result = new Promise(rslv => {
-            this.api.add(caracteristique).subscribe((added: any) => {
-              caracteristique.id = added.insertId;
-              this.idb.add(caracteristique, added.insertId);
+            this.api.add(caracteristique).subscribe((added: Caracteristique) => {
+              this.idb.add(added);
+              rslv(added);
             });
-            rslv();
           });
         } else {
 
@@ -99,9 +98,9 @@ export class CaracteristiqueSwService {
               caracteristique.id = lastRecord.id + 1;
               console.table(caracteristique);
               result = this.idb.add(caracteristique);
+              rslv(caracteristique);
 
             });
-            rslv();
           });
 
           // On ajoute une requête différée pour update la base plus tard
@@ -126,8 +125,6 @@ export class CaracteristiqueSwService {
             });
           });
         } else {
-
-          console.log(caracteristique);
           result = this.idb.update(caracteristique.id, { ...caracteristique });
 
           // On ajoute une requête différée pour update la base plus tard

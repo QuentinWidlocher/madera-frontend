@@ -33,7 +33,7 @@ export class ConnectivityService {
       } else {
 
         // On n'a pas de valeur, alors on va la chercher
-        this.http.get(ApiConfig.XMYSQL_VERSION).subscribe(
+        this.http.get(ApiConfig.PING).subscribe(
           res => {
             rtrn(true);
           }, err => {
@@ -47,7 +47,7 @@ export class ConnectivityService {
 
   // Essaye de faire une simple requête sur l'API et met à jour la propriété _isConnected
   private updateConnection() {
-    this.http.get(ApiConfig.XMYSQL_VERSION).subscribe(
+    this.http.get(ApiConfig.PING).subscribe(
       res => {
         if (this._isConnected === false) {
           this.deferredQueries.executeAll();

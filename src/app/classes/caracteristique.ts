@@ -7,6 +7,7 @@ export class Caracteristique {
     public description: string;
     public value: number;
     public module: Module;
+    public uniteId: number;
     public unite: Unite;
 
     constructor(id: number, description: string, value: number, module: Module, unite: Unite) {
