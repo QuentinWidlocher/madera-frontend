@@ -3,7 +3,7 @@ import { Unite } from './unite';
 
 export class Caracteristique {
 
-    public id?: number;
+    public id: number;
     public description: string;
     public value: number;
     public module: Module;
