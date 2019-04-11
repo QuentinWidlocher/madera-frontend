@@ -20,19 +20,4 @@ export class CCTP {
         return new CCTP(undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toPlain(withId = false): CCTP {
-        const result = {
-            code : this.code,
-            description : this.description,
-            feature : this.feature,
-            produits : this.produits,
-        } as CCTP;
-
-        if (withId) {
-            result.id = this.id;
-        }
-
-        return result;
-    }
-
 }

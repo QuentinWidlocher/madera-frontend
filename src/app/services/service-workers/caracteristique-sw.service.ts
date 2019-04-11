@@ -92,10 +92,17 @@ export class CaracteristiqueSwService {
           });
         } else {
 
-          console.table(caracteristique.toPlain());
+          result = new Promise(rslv => {
+            this.idb.orderBy('id').reverse().first().then(lastRecord => {
 
-          // Si on ne touche pas l'API, on ajoute seulement dans l'IDB
-          result = this.idb.add(caracteristique.toPlain());
+              // Si on ne touche pas l'API, on ajoute seulement dans l'IDB
+              caracteristique.id = lastRecord.id + 1;
+              console.table(caracteristique);
+              result = this.idb.add(caracteristique);
+
+            });
+            rslv();
+          });
 
           // On ajoute une requête différée pour update la base plus tard
           this.idbService.deferredQueries.add(new DeferredQuery(caracteristique, 'add', 'caracteristique'));

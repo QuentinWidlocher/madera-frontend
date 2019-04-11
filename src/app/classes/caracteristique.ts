@@ -21,19 +21,6 @@ export class Caracteristique {
         return new Caracteristique(undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toPlain(withId = false): Caracteristique {
-        const result = {
-            description: this.description,
-            value: this.value
-        } as Caracteristique;
-
-        if (withId) {
-            result.id = this.id;
-        }
-
-        return result;
-    }
-
     public get valueUnite(): string {
         return this.value + ' ' + this.unite.code;
     }
