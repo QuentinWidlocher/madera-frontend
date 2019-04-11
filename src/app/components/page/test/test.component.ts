@@ -3,6 +3,7 @@ import { Caracteristique } from 'src/app/classes/caracteristique';
 import { CaracteristiqueSwService } from 'src/app/services/service-workers/caracteristique-sw.service';
 import { DeferredQueriesService } from 'src/app/services/deferred-queries.service';
 import { Unite } from 'src/app/classes/unite';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-test',
@@ -15,17 +16,25 @@ export class TestComponent implements OnInit {
 
   newCaracteristique: string;
 
-  currentCaracteristique: Caracteristique = undefined;//Caracteristique.newEmpty();
+  currentCaracteristique: Caracteristique = undefined;
   selectedListIndex: number;
 
-  constructor(private caracteristiqueSw: CaracteristiqueSwService) { }
+  constructor(private caracteristiqueSw: CaracteristiqueSwService, private connectivityService: ConnectivityService) {
+    connectivityService.event.subscribe(val => {
+      if (val) {
+        this.refreshList();
+      }
+    });
+   }
 
   ngOnInit() {
     this.refreshList();
   }
 
   refreshList() {
+    this.caracteristiques = undefined;
     this.caracteristiqueSw.getAll().then(caracteristiques => {
+      console.log(caracteristiques);
       this.caracteristiques = caracteristiques;
     });
   }
