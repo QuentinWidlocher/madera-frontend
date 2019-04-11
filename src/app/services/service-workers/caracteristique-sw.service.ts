@@ -117,6 +117,7 @@ export class CaracteristiqueSwService {
           });
         } else {
 
+          console.log(caracteristique.toJSON());
           result = this.idb.update(caracteristique.id, { ...caracteristique });
 
           // On ajoute une requête différée pour update la base plus tard

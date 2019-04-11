@@ -20,8 +20,6 @@ import { ProjetApiService } from './api/projet-api.service';
 import { RoleApiService } from './api/role-api.service';
 import { UniteApiService } from './api/unite-api.service';
 import { UtilisateurApiService } from './api/utilisateur-api.service';
-// import * as ts from 'typescript';
-import { Caracteristique } from '../classes/caracteristique';
 import { IndexedDbService } from './indexed-db.service';
 
 @Injectable({
@@ -55,7 +53,6 @@ export class DeferredQueriesService {
     const type = query.type.toLowerCase();
     const method = query.method.toLowerCase();
 
-    console.log(`this.${type}.${method}(query.data).subscribe();`);
     eval(`this.${type}.${method}(query.data).subscribe();`);
   }
 

@@ -14,7 +14,7 @@ export class TestComponent implements OnInit {
 
   newCaracteristique: string;
 
-  currentCaracteristique: Caracteristique = Caracteristique.newEmpty();
+  currentCaracteristique: Caracteristique = undefined;//Caracteristique.newEmpty();
   selectedListIndex: number;
 
   constructor(private caracteristiqueSw: CaracteristiqueSwService) { }
@@ -37,9 +37,10 @@ export class TestComponent implements OnInit {
     });
   }
 
-  deleteCaracteristique(caracteristique: Caracteristique) {
-    this.caracteristiqueSw.delete(caracteristique.id).then(() => {
-      this.caracteristiques.splice(this.caracteristiques.indexOf(caracteristique), 1);
+  deleteCaracteristique() {
+    this.caracteristiqueSw.delete(this.currentCaracteristique.id).then(() => {
+      this.caracteristiques.splice(this.caracteristiques.indexOf(this.currentCaracteristique), 1);
+      this.currentCaracteristique = undefined;
     });
   }
 
@@ -50,7 +51,7 @@ export class TestComponent implements OnInit {
   }
 
   selectCaracteristique(caracteristique: Caracteristique, index: number) {
-    this.currentCaracteristique = caracteristique;
+    this.currentCaracteristique = Object.assign(Caracteristique.newEmpty(), caracteristique);
     this.selectedListIndex = index;
   }
 
