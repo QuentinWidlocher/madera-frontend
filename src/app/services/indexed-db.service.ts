@@ -69,27 +69,27 @@ export class IndexedDbService extends Dexie {
 
     // On déclare la structure des tables
     this.version(1).stores({
-      caracteristiques: '++id, &_id, value, unite',
-      cctp: '++id, &_id, &_code',
-      clients: '++id, &_id, &_code, creationDate',
-      composants: '++id, &_id',
-      coupesDePrincipe: '++id, &_id, &_code',
-      devis: '++id, &_id, &numero, creationDate, editionDate',
-      dossiersTechniques: '++id, &_id, &numero, creationDate, editionDate',
-      famillesComposant: '++id, &_id',
-      famillesGamme: '++id, &_id',
-      gammesComposant: '++id, &_id, &_code',
-      gammes: '++id, &_id, &_code',
-      lignes: '++id, &_id, devis',
-      modeles: '++id, &_id, creationDate, editionDate',
-      modules: '++id, &_id, creationDate, editionDate',
-      plans: '++id, &_id, &number, creationDate, editionDate',
-      produits: '++id, &_id, creationDate, editionDate',
-      projets: '++id, &_id, creationDate, editionDate',
-      roles: '++id, &_id, &_code',
-      unites: '++id, &_id, &_code',
-      utilisateurs: '++id, &_id',
-      deferredQueries: '++id'
+      caracteristiques: '++id, value, unite',
+      cctp: '++id, &code',
+      clients: '++id, &code, creationDate',
+      composants: '++id',
+      coupesDePrincipe: '++id, &code',
+      devis: '++id, &numero, creationDate, editionDate',
+      dossiersTechniques: '++id, &numero, creationDate, editionDate',
+      famillesComposant: '++id',
+      famillesGamme: '++id',
+      gammesComposant: '++id, &code',
+      gammes: '++id, &code',
+      lignes: '++id, devis',
+      modeles: '++id, creationDate, editionDate',
+      modules: '++id, creationDate, editionDate',
+      plans: '++id, &number, creationDate, editionDate',
+      produits: '++id, creationDate, editionDate',
+      projets: '++id, creationDate, editionDate',
+      roles: '++id, &code',
+      unites: '++id, &code',
+      utilisateurs: '++id',
+      deferredQueries: '++id, type, method, date'
     });
 
     // On lie les structures aux propriétés
@@ -139,29 +139,5 @@ export class IndexedDbService extends Dexie {
     this.utilisateurs.mapToClass(Utilisateur);
 
     this.deferredQueries.mapToClass(DeferredQuery);
-
-    this.populate();
-  }
-
-  populate() {
-
-    // this.clients.add(new Client(undefined, 'JOAVIN', 'Joanne', 'Vincent', undefined, undefined, undefined, undefined, undefined))
-    //   .then(id => { this.clients.update(id, { _id: id }); });
-
-    // this.clients.add(new Client(undefined, 'QUEWID', 'Quentin', 'Widlocher', undefined, undefined, undefined, undefined, undefined))
-    //   .then(id => { this.clients.update(id, { _id: id }); });
-
-    // this.clients.add(new Client(undefined, 'THOHOU', 'Thomas', 'Houtin', undefined, undefined, undefined, undefined, undefined))
-    //   .then(id => { this.clients.update(id, { _id: id }); });
-
-
-    // this.caracteristiques.add(new Caracteristique(undefined, 'Poids', 50, undefined, undefined))
-    //   .then(id => { this.caracteristiques.update(id, {_id: id}); });
-
-    // this.caracteristiques.add(new Caracteristique(undefined, 'Taille', 29, undefined, undefined))
-    //   .then(id => { this.caracteristiques.update(id, { _id: id }); });
-
-    // this.caracteristiques.add(new Caracteristique(undefined, 'Surface', 127.8, undefined, undefined))
-    //   .then(id => { this.caracteristiques.update(id, { _id: id }); });
   }
 }

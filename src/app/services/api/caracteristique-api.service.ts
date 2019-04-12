@@ -20,17 +20,13 @@ export class CaracteristiqueApiService {
   }
 
   add(caracteristique: Caracteristique): Observable<object> {
-    caracteristique = Object.assign(Caracteristique.newEmpty(), caracteristique);
-
     caracteristique.id = undefined;
-    const caracteristiquePlain = caracteristique.toJSON();
 
-    return this.http.post(ApiConfig.CARACTERISTIQUE, caracteristiquePlain);
+    return this.http.post(ApiConfig.CARACTERISTIQUE, caracteristique);
   }
 
   edit(caracteristique: Caracteristique): Observable<object> {
-    const caracteristiquePlain = { ...caracteristique };
-    return this.http.put(ApiConfig.CARACTERISTIQUE, caracteristiquePlain);
+    return this.http.put(ApiConfig.CARACTERISTIQUE_UNIQUE.replace(':id', '' + caracteristique.id), caracteristique);
   }
 
   delete(caracteristique: Caracteristique): Observable<object> {

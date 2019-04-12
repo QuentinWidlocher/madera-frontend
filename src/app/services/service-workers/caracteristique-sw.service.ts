@@ -5,6 +5,7 @@ import { CaracteristiqueApiService } from '../api/caracteristique-api.service';
 import { IndexedDbService } from '../indexed-db.service';
 import Dexie from 'dexie';
 import { DeferredQuery } from 'src/app/classes/deferred-query';
+import { DeferredQueriesService } from '../deferred-queries.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class CaracteristiqueSwService {
 
   constructor(private connectivity: ConnectivityService,
               private api: CaracteristiqueApiService,
-              private idbService: IndexedDbService) {
+              private idbService: IndexedDbService,
+              private deferredQueries: DeferredQueriesService) {
     this.idb = this.idbService.caracteristiques;
   }
 
@@ -75,7 +77,7 @@ export class CaracteristiqueSwService {
     });
   }
 
-  add(caracteristique: Caracteristique): Promise<any> {
+  add(caracteristique: Caracteristique): Promise<Caracteristique> {
 
     let result: Promise<any>;
 
@@ -84,18 +86,30 @@ export class CaracteristiqueSwService {
         // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
         if (isConnected) {
           result = new Promise(rslv => {
-            this.api.add(caracteristique).subscribe(() => {
-              this.idb.add(caracteristique);
+            this.api.add(caracteristique).subscribe((added: Caracteristique) => {
+              this.idb.add(added);
+              rslv(added);
             });
-            rslv();
           });
         } else {
 
-          // Si on ne touche pas l'API, on ajoute seulement dans l'IDB
-          result = this.idb.add(caracteristique);
+          result = new Promise(rslv => {
 
-          // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique.toJSON(), 'add', 'caracteristique'));
+            // On doit trouver le dernier id pour pouvoir ajouter la donnée
+            this.idb.orderBy('id').reverse().first().then(lastRecord => {
+
+              const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
+              caracteristique.id = nextId;
+
+              // On ajoute une requête différée pour update la base plus tard
+              this.deferredQueries.add(new DeferredQuery(caracteristique, 'add', 'caracteristique'));
+
+              result = this.idb.add(caracteristique);
+              rslv(caracteristique);
+
+            });
+          });
+
         }
       }).finally(() => { rtrn(result); });
     });
@@ -116,11 +130,10 @@ export class CaracteristiqueSwService {
             });
           });
         } else {
-
           result = this.idb.update(caracteristique.id, { ...caracteristique });
 
           // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique.toJSON(), 'edit', 'caracteristique'));
+          this.deferredQueries.add(new DeferredQuery(caracteristique, 'edit', 'caracteristique'));
         }
 
       }).finally(() => { rtrn(result); });
@@ -147,7 +160,7 @@ export class CaracteristiqueSwService {
           result = this.idb.delete(id);
 
           // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery({id}, 'delete', 'caracteristique'));
+          this.deferredQueries.add(new DeferredQuery({ id }, 'delete', 'caracteristique'));
         }
       }).finally(() => { rtrn(result); });
 
