@@ -5,6 +5,7 @@ import { CaracteristiqueApiService } from '../api/caracteristique-api.service';
 import { IndexedDbService } from '../indexed-db.service';
 import Dexie from 'dexie';
 import { DeferredQuery } from 'src/app/classes/deferred-query';
+import { DeferredQueriesService } from '../deferred-queries.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class CaracteristiqueSwService {
 
   constructor(private connectivity: ConnectivityService,
               private api: CaracteristiqueApiService,
-              private idbService: IndexedDbService) {
+              private idbService: IndexedDbService,
+              private deferredQueries: DeferredQueriesService) {
     this.idb = this.idbService.caracteristiques;
   }
 
@@ -92,19 +94,22 @@ export class CaracteristiqueSwService {
         } else {
 
           result = new Promise(rslv => {
+
+            // On doit trouver le dernier id pour pouvoir ajouter la donnée
             this.idb.orderBy('id').reverse().first().then(lastRecord => {
 
-              // Si on ne touche pas l'API, on ajoute seulement dans l'IDB
-              caracteristique.id = lastRecord.id + 1;
-              console.table(caracteristique);
+              const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
+              caracteristique.id = nextId;
+
+              // On ajoute une requête différée pour update la base plus tard
+              this.deferredQueries.add(new DeferredQuery(caracteristique, 'add', 'caracteristique'));
+
               result = this.idb.add(caracteristique);
               rslv(caracteristique);
 
             });
           });
 
-          // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique, 'add', 'caracteristique'));
         }
       }).finally(() => { rtrn(result); });
     });
@@ -128,7 +133,7 @@ export class CaracteristiqueSwService {
           result = this.idb.update(caracteristique.id, { ...caracteristique });
 
           // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery(caracteristique, 'edit', 'caracteristique'));
+          this.deferredQueries.add(new DeferredQuery(caracteristique, 'edit', 'caracteristique'));
         }
 
       }).finally(() => { rtrn(result); });
@@ -155,7 +160,7 @@ export class CaracteristiqueSwService {
           result = this.idb.delete(id);
 
           // On ajoute une requête différée pour update la base plus tard
-          this.idbService.deferredQueries.add(new DeferredQuery({id}, 'delete', 'caracteristique'));
+          this.deferredQueries.add(new DeferredQuery({ id }, 'delete', 'caracteristique'));
         }
       }).finally(() => { rtrn(result); });
 

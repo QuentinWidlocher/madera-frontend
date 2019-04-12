@@ -6,7 +6,7 @@ export class DeferredQuery {
 
     constructor(data: object, method: string, type: string) {
         this.data = data;
-        this.method = method;
-        this.type = type;
+        this.method = method.toLowerCase();
+        this.type = type.toLowerCase();
     }
 }

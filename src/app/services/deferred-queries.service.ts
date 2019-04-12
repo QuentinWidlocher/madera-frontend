@@ -49,11 +49,51 @@ export class DeferredQueriesService {
               private utilisateur: UtilisateurApiService,
               private idb: IndexedDbService) { }
 
-  execute(query: DeferredQuery) {
-    const type = query.type.toLowerCase();
-    const method = query.method.toLowerCase();
+  // On passe par cette fonction pour alléger les requêtes faites à la base lors de la reconnexion
+  add(query: DeferredQuery) {
+    switch (query.method) {
 
-    eval(`this.${type}.${method}(query.data).subscribe();`);
+      // Si on supprime un enregistrement, les DQ d'ajout et de suppression qui venaient avant ne servent plus à rien
+      // Exemple 1 - Inutile de faire : AJOUT → MODIF → MODIF → SUPPRESSION
+      // Exemple 2 - Au lieu de faire : MODIF → MODIF → SUPPRESSION
+      //             On fait simplemement une suppression
+      case 'delete':
+
+        // Liste des id des requêtes différées rendues inutiles par la suppression de l'objet
+        const deferredQueriesIdToDelete: number[] = [];
+
+        // Si l'objet n'existait pas dans la base, on n'ajoute pas la DQ de suppression
+        let deleteInDDB = false;
+
+        // On récupère les DQ add et edit de l'objet qu'on souhaite supprimer
+        this.idb.deferredQueries
+          .where({ type: query.type })
+          .filter(x => x.method === 'add' || x.method === 'edit')
+          .filter(x => (x.data as any).id === (query.data as any).id)
+          .each(deferredQuery => {
+            if (deferredQuery.method === 'add') {
+              deleteInDDB = true;
+            }
+            deferredQueriesIdToDelete.push((deferredQuery as any).id);
+        }).then(() => {
+          this.idb.deferredQueries.bulkDelete(deferredQueriesIdToDelete);
+
+          if (deleteInDDB) {
+            // On ajoute une requête différée pour supprimer l'enregistrement dans la base plus tard
+            this.idb.deferredQueries.add(query);
+          }
+         });
+        break;
+
+      default:
+        // On ajoute une requête différée pour mettre à jour la base plus tard
+        this.idb.deferredQueries.add(query);
+        break;
+    }
+  }
+
+  execute(query: DeferredQuery) {
+    eval(`this.${query.type}.${query.method}(query.data).subscribe();`);
   }
 
   executeAll() {
