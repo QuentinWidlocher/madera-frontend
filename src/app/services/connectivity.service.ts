@@ -59,12 +59,17 @@ export class ConnectivityService {
 
         // Si on viens de se reconnecter
         if (changed) {
-          // On exécute toutes les requêtes différées
-          this.deferredQueries.executeAll();
-          // On trigger la valeur true dans l'event
-          this._event.next(true);
-          // On indique à l'utilisateur qu'il est connecté
-          this.snackBar.open('Vous êtes maintenant EN LIGNE !', undefined, {duration: 2000});
+
+          // On exécute d'abord toutes les requêtes différées
+          this.deferredQueries.executeAll().then(() => {
+
+            // On indique à l'utilisateur qu'il est connecté
+            this.snackBar.open('Vous êtes maintenant EN LIGNE !', undefined, {duration: 2000});
+
+            // On trigger la valeur true dans l'event
+            this._event.next(true);
+
+          });
         }
       }, err => {
         // On regarde si la valeur a changé

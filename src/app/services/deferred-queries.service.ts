@@ -21,6 +21,7 @@ import { RoleApiService } from './api/role-api.service';
 import { UniteApiService } from './api/unite-api.service';
 import { UtilisateurApiService } from './api/utilisateur-api.service';
 import { IndexedDbService } from './indexed-db.service';
+import { zip, Observable, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -141,15 +142,36 @@ export class DeferredQueriesService {
     }
   }
 
-  execute(query: DeferredQuery) {
-    eval(`this.${query.type}.${query.method}(query.data).subscribe();`);
+  // Utilise le contenu d'une DQ pour en faire un call d'API en Observable
+  getApiCall(query: DeferredQuery): Observable<any> {
+    // Exemple : this.caracteristique.add(query.data)
+    return eval(`this.${query.type}.${query.method}(query.data)`);
   }
 
-  executeAll() {
-    this.idb.transaction('rw', this.idb.deferredQueries, () => {
-      this.idb.deferredQueries.each((deferredQuery: DeferredQuery, cursor) => {
-        this.execute(deferredQuery);
-        this.idb.deferredQueries.delete(cursor.primaryKey);
+  // Execute toutes les DQ et renvoie une promise une fois que c'est bon
+  executeAll(): Promise<void> {
+    // On crée un tableau qui contiendra tous les calls d'API
+    const apiCalls: Observable<any>[] = [];
+
+    return new Promise(rslv => {
+
+      // On ouvre manuellement une transaction en écriture
+      this.idb.transaction('rw', this.idb.deferredQueries, () => {
+
+        // On boucle sur toutes les DQ
+        this.idb.deferredQueries.each((deferredQuery: DeferredQuery, cursor) => {
+
+          // On ajoute le call d'api à la liste
+          apiCalls.push(this.getApiCall(deferredQuery));
+
+          // Une fois le call ajouté on supprime la DQ
+          this.idb.deferredQueries.delete(cursor.primaryKey);
+        }).then(() => {
+
+          // On transforme le Observable<any>[] en Observable<any[]> avec forkJoin
+          // puis on subscribe dessus pour savoir quand tous les calls d'API ont été faits, puis on retourne la Promise
+          forkJoin(apiCalls).subscribe(() => rslv());
+        });
       });
     });
 
