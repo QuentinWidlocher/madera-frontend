@@ -51,6 +51,12 @@ export class DeferredQueriesService {
 
   // On passe par cette fonction pour alléger les requêtes faites à la base lors de la reconnexion
   add(query: DeferredQuery) {
+    // Liste des id des requêtes différées rendues inutiles par l'ajout de l'objet
+    const deferredQueriesIdToDelete: number[] = [];
+
+    // Après les modifications, doit-on quand même ajouter cette requête différée ?
+    let stillAddQuery = true;
+
     switch (query.method) {
 
       // Si on supprime un enregistrement, les DQ d'ajout et de suppression qui venaient avant ne servent plus à rien
@@ -59,30 +65,73 @@ export class DeferredQueriesService {
       //             On fait simplemement une suppression
       case 'delete':
 
-        // Liste des id des requêtes différées rendues inutiles par la suppression de l'objet
-        const deferredQueriesIdToDelete: number[] = [];
-
-        // Si l'objet n'existait pas dans la base, on n'ajoute pas la DQ de suppression
-        let deleteInDDB = false;
-
         // On récupère les DQ add et edit de l'objet qu'on souhaite supprimer
         this.idb.deferredQueries
           .where({ type: query.type })
           .filter(x => x.method === 'add' || x.method === 'edit')
           .filter(x => (x.data as any).id === (query.data as any).id)
-          .each(deferredQuery => {
+          .each((deferredQuery, key) => {
+
+            // Si l'objet a été ajouté en hors ligne, pas besoin d'envoyer un POST puis un DELETE
             if (deferredQuery.method === 'add') {
-              deleteInDDB = true;
+              // Du coup on supprime cet DQ et on n'ajoutera pas la DQ de suppression non plus
+              stillAddQuery = false;
             }
-            deferredQueriesIdToDelete.push((deferredQuery as any).id);
+
+            deferredQueriesIdToDelete.push(key.primaryKey);
         }).then(() => {
+          // On supprime les requêtes inutiles
           this.idb.deferredQueries.bulkDelete(deferredQueriesIdToDelete);
 
-          if (deleteInDDB) {
+          // Si l'objet était déjà en base avant d'être en HL, il faut quand même le supprimer à la reconnexion
+          if (stillAddQuery) {
             // On ajoute une requête différée pour supprimer l'enregistrement dans la base plus tard
             this.idb.deferredQueries.add(query);
           }
          });
+        break;
+
+
+
+      // Si on modifie un enregistrement, les DQ de modifs peuvent êtres remplacées par celle là
+      // et si l'objet à été ajouté en HL, on a juste à modifier la DQ d'ajout.
+      // Exemple 1 - Inutile de faire : AJOUT → MODIF
+      //             On change juste l'ajout pour qu'il soit à jour sur la donnée
+      // Exemple 2 - Au lieu de faire : MODIF → MODIF
+      //             On fait simplemement une modif à jour
+      case 'edit':
+        this.idb.transaction('rw', this.idb.deferredQueries, () => {
+          this.idb.deferredQueries
+            .orderBy('date').reverse()
+            .filter(x => x.type === query.type)
+            .filter(x => x.method === 'add' || x.method === 'edit')
+            .filter(x => (x.data as any).id === (query.data as any).id)
+            .each((deferredQuery, key) => {
+
+              // Si on modifie après un ajout, on change directement l'ajout et on n'ajoutera pas cet DQ de modification
+              if (deferredQuery.method === 'add') {
+
+                deferredQuery.data = query.data;
+                this.idb.deferredQueries.put(deferredQuery).then().catch(error => console.error(error));
+                stillAddQuery = false;
+
+              } else if (deferredQuery.method === 'edit') {
+
+                deferredQueriesIdToDelete.push(key.primaryKey);
+
+              }
+            }).then(() => {
+              // On supprime les requêtes inutiles
+              this.idb.deferredQueries.bulkDelete(deferredQueriesIdToDelete);
+
+              // Si l'objet était déjà en base avant d'être en HL, il faut quand même le modifier à la reconnexion
+              if (stillAddQuery) {
+                // On ajoute une requête différée pour modifier l'enregistrement dans la base plus tard
+                this.idb.deferredQueries.add(query);
+              }
+            });
+
+        });
         break;
 
       default:

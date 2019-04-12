@@ -34,7 +34,6 @@ export class TestComponent implements OnInit {
   refreshList() {
     this.caracteristiques = undefined;
     this.caracteristiqueSw.getAll().then(caracteristiques => {
-      console.log(caracteristiques);
       this.caracteristiques = caracteristiques;
     });
   }
@@ -61,7 +60,6 @@ export class TestComponent implements OnInit {
   }
 
   selectCaracteristique(caracteristique: Caracteristique, index: number) {
-    console.table(caracteristique);
     this.currentCaracteristique = Object.assign(Caracteristique.newEmpty(), caracteristique);
     this.selectedListIndex = index;
   }

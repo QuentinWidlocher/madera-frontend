@@ -89,7 +89,7 @@ export class IndexedDbService extends Dexie {
       roles: '++id, &code',
       unites: '++id, &code',
       utilisateurs: '++id',
-      deferredQueries: '++id, type, method'
+      deferredQueries: '++id, type, method, date'
     });
 
     // On lie les structures aux propriétés
