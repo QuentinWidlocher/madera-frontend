@@ -28,7 +28,7 @@ export class ComposantApiService {
 
   edit(composant: Composant): Observable<object> {
     const composantPlain = { ...composant };
-    return this.http.put(ApiConfig.COMPOSANT, composantPlain);
+    return this.http.put(ApiConfig.COMPOSANT_UNIQUE.replace(':id', '' + composant.id), composantPlain);
   }
 
   delete(id: number): Observable<object> {

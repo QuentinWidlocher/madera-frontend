@@ -28,7 +28,7 @@ export class GammeComposantApiService {
 
   edit(gammeComposant: GammeComposant): Observable<object> {
     const gammeComposantPlain = { ...gammeComposant };
-    return this.http.put(ApiConfig.GAMME_COMPOSANT, gammeComposantPlain);
+    return this.http.put(ApiConfig.GAMME_COMPOSANT_UNIQUE.replace(':id', '' + gammeComposant.id), gammeComposantPlain);
   }
 
   delete(id: number): Observable<object> {

@@ -28,7 +28,7 @@ export class FamilleComposantApiService {
 
   edit(familleComposant: FamilleComposant): Observable<object> {
     const familleComposantPlain = { ...familleComposant };
-    return this.http.put(ApiConfig.FAMILLE_COMPOSANT, familleComposantPlain);
+    return this.http.put(ApiConfig.FAMILLE_COMPOSANT_UNIQUE.replace(':id', '' + familleComposant.id), familleComposantPlain);
   }
 
   delete(id: number): Observable<object> {

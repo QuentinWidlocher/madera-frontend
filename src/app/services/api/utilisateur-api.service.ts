@@ -28,7 +28,7 @@ export class UtilisateurApiService {
 
   edit(utilisateur: Utilisateur): Observable<object> {
     const utilisateurPlain = { ...utilisateur };
-    return this.http.put(ApiConfig.UTILISATEUR, utilisateurPlain);
+    return this.http.put(ApiConfig.UTILISATEUR_UNIQUE.replace(':id', '' + utilisateur.id), utilisateurPlain);
   }
 
   delete(id: number): Observable<object> {

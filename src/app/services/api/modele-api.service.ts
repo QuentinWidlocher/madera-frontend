@@ -28,7 +28,7 @@ export class ModeleApiService {
 
   edit(modele: Modele): Observable<object> {
     const modelePlain = { ...modele };
-    return this.http.put(ApiConfig.MODELE, modelePlain);
+    return this.http.put(ApiConfig.MODELE_UNIQUE.replace(':id', '' + modele.id), modelePlain);
   }
 
   delete(id: number): Observable<object> {

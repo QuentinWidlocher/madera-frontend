@@ -28,7 +28,7 @@ export class PlanApiService {
 
   edit(plan: Plan): Observable<object> {
     const planPlain = { ...plan };
-    return this.http.put(ApiConfig.PLAN, planPlain);
+    return this.http.put(ApiConfig.PLAN_UNIQUE.replace(':id', '' + plan.id), planPlain);
   }
 
   delete(id: number): Observable<object> {

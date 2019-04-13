@@ -28,7 +28,7 @@ export class RoleApiService {
 
   edit(role: Role): Observable<object> {
     const rolePlain = { ...role };
-    return this.http.put(ApiConfig.ROLE, rolePlain);
+    return this.http.put(ApiConfig.ROLE_UNIQUE.replace(':id', '' + role.id), rolePlain);
   }
 
   delete(id: number): Observable<object> {

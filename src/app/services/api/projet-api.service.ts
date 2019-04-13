@@ -28,7 +28,7 @@ export class ProjetApiService {
 
   edit(projet: Projet): Observable<object> {
     const projetPlain = { ...projet };
-    return this.http.put(ApiConfig.PROJET, projetPlain);
+    return this.http.put(ApiConfig.PROJET_UNIQUE.replace(':id', '' + projet.id), projetPlain);
   }
 
   delete(id: number): Observable<object> {

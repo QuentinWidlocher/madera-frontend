@@ -28,7 +28,7 @@ export class UniteApiService {
 
   edit(unite: Unite): Observable<object> {
     const unitePlain = { ...unite };
-    return this.http.put(ApiConfig.UNITE, unitePlain);
+    return this.http.put(ApiConfig.UNITE_UNIQUE.replace(':id', '' + unite.id), unitePlain);
   }
 
   delete(id: number): Observable<object> {
