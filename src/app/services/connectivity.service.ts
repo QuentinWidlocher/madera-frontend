@@ -18,7 +18,7 @@ export class ConnectivityService {
   constructor(private http: HttpClient, private deferredQueries: DeferredQueriesService, private snackBar: MatSnackBar) {
 
     // Met à jour l'état de la connexion toutes les cinq secondes
-    timer(0, 5000).subscribe(() => {
+    timer(0, 7000).subscribe(() => {
       this.updateConnection();
     });
   }

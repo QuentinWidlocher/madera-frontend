@@ -41,6 +41,8 @@ export class CaracteristiqueSwService {
               });
 
               rslv(caracteristiques);
+            }, error => {
+              this.connectivity.event.subscribe(connected => rslv(this.getAll()));
             });
           });
         } else {
@@ -66,6 +68,8 @@ export class CaracteristiqueSwService {
               this.idb.put(caracteristique, caracteristique.id);
 
               rslv(caracteristique);
+            }, error => {
+              this.connectivity.event.subscribe(connected => rslv(this.get(id)));
             });
           });
         } else {
@@ -89,6 +93,8 @@ export class CaracteristiqueSwService {
             this.api.add(caracteristique).subscribe((added: Caracteristique) => {
               this.idb.add(added);
               rslv(added);
+            }, error => {
+              this.connectivity.event.subscribe(connected => rslv(this.add(caracteristique)));
             });
           });
         } else {
@@ -127,6 +133,8 @@ export class CaracteristiqueSwService {
             this.api.edit(caracteristique).subscribe(() => {
               this.idb.update(caracteristique.id, { ...caracteristique });
               rslv();
+            }, error => {
+              this.connectivity.event.subscribe(connected => rslv(this.edit(caracteristique)));
             });
           });
         } else {
@@ -153,6 +161,8 @@ export class CaracteristiqueSwService {
             this.api.delete(Object.assign(Caracteristique.newEmpty(), {id})).subscribe(() => {
               this.idb.delete(id);
               rslv();
+            }, error => {
+              this.connectivity.event.subscribe(connected => rslv(this.delete(id)));
             });
           });
         } else {
@@ -177,7 +187,10 @@ export class CaracteristiqueSwService {
       this.connectivity.isConnected.then(isConnected => {
         if (isConnected) {
           result = new Promise(rslv => {
-            this.api.count().subscribe(count => { rslv(+count); });
+            this.api.count().subscribe(count => rslv(+count),
+              error => {
+                this.connectivity.event.subscribe(connected => rslv(this.count()));
+            });
           });
         } else {
           result = this.idb.count();
