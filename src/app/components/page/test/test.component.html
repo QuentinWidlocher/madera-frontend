@@ -10,43 +10,43 @@
 
 <div class="container">
   <h1 class="mat-headline mt-2">Liste des caracteristiques</h1>
-
+  
   <div class="d-flex flex-column page-components">
     <div class="test-list mx-n3 mx-sm-0 flex-shrink-1">
       <mat-action-list>
         <mat-list-item *ngFor="let caracteristique of caracteristiques; let index = index"
-          (click)="selectCaracteristique(caracteristique, index)">
-          {{ caracteristique.description }}
-        </mat-list-item>
-      </mat-action-list>
-      <div class="spinner-container" *ngIf='!caracteristiques'>
-        <mat-spinner></mat-spinner>
-      </div>
+        (click)="selectCaracteristique(caracteristique, index)">
+        {{ caracteristique.description }}
+      </mat-list-item>
+    </mat-action-list>
+    <div class="spinner-container" *ngIf='!caracteristiques'>
+      <mat-spinner></mat-spinner>
     </div>
-
-    <div class="test-actions flex-grow-1">
-      <mat-form-field>
-        <input [(ngModel)]="newCaracteristique" matInput placeholder="Caracteristique">
-      </mat-form-field>
-      <button mat-flat-button (click)="addCaracteristique()" color="primary" class="ml-3">
-        <mat-icon>add</mat-icon> AJOUTER
-      </button>
-
-
-      <div *ngIf="currentCaracteristique !== undefined">
-        <mat-divider></mat-divider>
-        <mat-form-field>
-          <input [(ngModel)]="currentCaracteristique.description" matInput>
-        </mat-form-field>
-        <button mat-stroked-button (click)="editCaracteristique()" color="primary" class="ml-3">
-          <mat-icon>edit</mat-icon> MODIFIER
-        </button>
-        <button mat-button (click)="deleteCaracteristique()" color="warn" class="ml-3">
-          <mat-icon>delete</mat-icon>SUPPRIMER
-        </button>
-      </div>
-    </div>
-
   </div>
+  
+  <div class="test-actions flex-grow-1">
+    <mat-form-field>
+      <input [(ngModel)]="newCaracteristique" matInput placeholder="Caracteristique">
+    </mat-form-field>
+    <button mat-flat-button (click)="addCaracteristique()" color="primary" class="ml-3">
+      <mat-icon>add</mat-icon> AJOUTER
+    </button>
+    
+    
+    <div *ngIf="currentCaracteristique !== undefined">
+      <mat-divider></mat-divider>
+      <mat-form-field>
+        <input [(ngModel)]="currentCaracteristique.description" matInput>
+      </mat-form-field>
+      <button mat-stroked-button (click)="editCaracteristique()" color="primary" class="ml-3">
+        <mat-icon>edit</mat-icon> MODIFIER
+      </button>
+      <button mat-button (click)="deleteCaracteristique()" color="warn" class="ml-3">
+        <mat-icon>delete</mat-icon>SUPPRIMER
+      </button>
+    </div>
+  </div>
+  
+</div>
 
 </div>
