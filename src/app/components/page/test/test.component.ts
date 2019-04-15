@@ -47,6 +47,8 @@ export class TestComponent implements OnInit {
   }
 
   deleteCaracteristique() {
+    console.log(this.currentCaracteristique.id);
+    return;
     this.caracteristiqueSw.delete(this.currentCaracteristique.id).then(() => {
       this.caracteristiques.splice(this.caracteristiques.indexOf(this.currentCaracteristique), 1);
       this.currentCaracteristique = undefined;
