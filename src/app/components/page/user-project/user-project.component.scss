@@ -22,10 +22,26 @@
     font-weight: bold;
 }
 
-.imagePlan {
-    width: 100%;
-    margin-bottom: 1rem;
-    object-fit: cover;
-    max-height: 450px;
-    border-radius: .25rem!important;
+.imagePlanContainer {
+
+    flex: 1;
+    min-height: 10rem;
+
+    .imagePlan {
+        width: 100%;
+        height: 100%;
+        margin-bottom: 1rem;
+        object-fit: cover;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+}
+
+
+.contentPage {
+    height: calc(100vh - 9.5rem);
+}
+
+.scroll-padding {
+    padding-bottom: 25px;
 }

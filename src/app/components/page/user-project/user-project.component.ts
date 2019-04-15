@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProjectComponent implements OnInit {
 
-  constructor() { }
+  projets: Object[] = [];
+
+  constructor() { 
+    for (let i = 0; i < 15; i++) {
+      this.projets.push({ name: "Robert LANGLOIS", description: "18/06/2018 - Projet n°1"})
+    }
+  }
 
   ngOnInit() {
   }
