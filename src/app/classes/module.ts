@@ -9,7 +9,9 @@ export class Module {
     public editionDate: Date;
     public produits: Produit[];
     public caracteristiques: Caracteristique[];
+
     public coupeDePrincipe: CoupeDePrincipe;
+    public coupeDePrincipeId: number;
 
     constructor(id: number, description: string, creationDate: Date, editionDate: Date, produits: Produit[],
                 caracteristiques: Caracteristique[], coupeDePrincipe: CoupeDePrincipe) {

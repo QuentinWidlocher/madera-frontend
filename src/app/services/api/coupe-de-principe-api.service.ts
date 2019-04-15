@@ -28,7 +28,7 @@ export class CoupeDePrincipeApiService {
 
   edit(coupeDePrincipe: CoupeDePrincipe): Observable<object> {
     const coupeDePrincipePlain = { ...coupeDePrincipe };
-    return this.http.put(ApiConfig.COUPE_DE_PRINCIPE, coupeDePrincipePlain);
+    return this.http.put(ApiConfig.COUPE_DE_PRINCIPE_UNIQUE.replace(':id', '' + coupeDePrincipe.id), coupeDePrincipePlain);
   }
 
   delete(id: number): Observable<object> {

@@ -6,7 +6,9 @@ export class Ligne {
     public quantite: number;
     public remise: number;
     public remarques: string;
+
     public devis: Devis;
+    public devisId: number;
 
     constructor(id: number, quantite: number, remise: number, remarques: string, devis: Devis) {
         this.id = id;

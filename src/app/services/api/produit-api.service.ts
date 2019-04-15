@@ -28,7 +28,7 @@ export class ProduitApiService {
 
   edit(produit: Produit): Observable<object> {
     const produitPlain = { ...produit };
-    return this.http.put(ApiConfig.PRODUIT, produitPlain);
+    return this.http.put(ApiConfig.PRODUIT_UNIQUE.replace(':id', '' + produit.id), produitPlain);
   }
 
   delete(id: number): Observable<object> {

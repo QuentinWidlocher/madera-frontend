@@ -9,7 +9,10 @@ export class Devis {
     public creationDate: Date;
     public editionDate: Date;
     public dossiersTechniques: DossierTechnique[];
+
     public projet: Projet;
+    public projetId: number;
+
     public lignes: Ligne[];
 
     constructor(id: number, numero: number, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],

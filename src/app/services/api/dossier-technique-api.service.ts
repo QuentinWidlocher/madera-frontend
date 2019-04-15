@@ -28,7 +28,7 @@ export class DossierTechniqueApiService {
 
   edit(dossierTechnique: DossierTechnique): Observable<object> {
     const dossierTechniquePlain = { ...dossierTechnique };
-    return this.http.put(ApiConfig.DOSSIER_TECHNIQUE, dossierTechniquePlain);
+    return this.http.put(ApiConfig.DOSSIER_TECHNIQUE_UNIQUE.replace(':id', '' + dossierTechnique.id), dossierTechniquePlain);
   }
 
   delete(id: number): Observable<object> {

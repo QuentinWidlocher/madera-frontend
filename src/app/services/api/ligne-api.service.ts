@@ -28,7 +28,7 @@ export class LigneApiService {
 
   edit(ligne: Ligne): Observable<object> {
     const lignePlain = { ...ligne };
-    return this.http.put(ApiConfig.LIGNE, lignePlain);
+    return this.http.put(ApiConfig.LIGNE_UNIQUE.replace(':id', '' + ligne.id), lignePlain);
   }
 
   delete(id: number): Observable<object> {

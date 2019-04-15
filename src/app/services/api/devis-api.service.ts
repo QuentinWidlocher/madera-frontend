@@ -28,7 +28,7 @@ export class DevisApiService {
 
   edit(devis: Devis): Observable<object> {
     const devisPlain = { ...devis };
-    return this.http.put(ApiConfig.DEVIS, devisPlain);
+    return this.http.put(ApiConfig.DEVIS_UNIQUE.replace(':id', '' + devis.id), devisPlain);
   }
 
   delete(id: number): Observable<object> {

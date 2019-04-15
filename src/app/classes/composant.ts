@@ -9,8 +9,12 @@ export class Composant {
     public unitPriceNoTax: number;
     public unitPriceTax: number;
     public coupesDePrincipe: CoupeDePrincipe[];
+
     public familleComposant: FamilleComposant;
+    public familleComposantId: number;
+
     public gammeComposant: GammeComposant;
+    public gammeComposantId: number;
 
     constructor(id: number, name: string, unitPriceNoTax: number, unitPriceTax: number,
                 coupesDePrincipe: CoupeDePrincipe[], familleComposant: FamilleComposant, gammeComposant: GammeComposant) {

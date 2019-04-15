@@ -28,7 +28,7 @@ export class GammeApiService {
 
   edit(gamme: Gamme): Observable<object> {
     const gammePlain = { ...gamme };
-    return this.http.put(ApiConfig.GAMME, gammePlain);
+    return this.http.put(ApiConfig.GAMME_UNIQUE.replace(':id', '' + gamme.id), gammePlain);
   }
 
   delete(id: number): Observable<object> {

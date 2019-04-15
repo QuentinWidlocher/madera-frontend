@@ -13,7 +13,9 @@ export class Projet {
     public version: string;
     public client: Client;
     public dossiersTechniques: DossierTechnique[];
+
     public devis: Devis;
+    public devisId: number;
 
     constructor(id: number, title: string, creationDate: Date, editionDate: Date, version: string, client: Client,
                 dossiersTechniques: DossierTechnique[], devis: Devis) {

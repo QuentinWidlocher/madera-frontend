@@ -6,9 +6,12 @@ export class Caracteristique {
     public id: number;
     public description: string;
     public value: number;
+
     public module: Module;
-    public uniteId: number;
+    public moduleId: number;
+
     public unite: Unite;
+    public uniteId: number;
 
     constructor(id: number, description: string, value: number, module: Module, unite: Unite) {
         this.id = id;

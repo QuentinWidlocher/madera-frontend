@@ -29,28 +29,28 @@ import { DeferredQuery } from '../classes/deferred-query';
 export class IndexedDbService extends Dexie {
 
   // Les tables sont publiques
-  caracteristiques: Dexie.Table<Caracteristique, number>;
-  cctp: Dexie.Table<CCTP, number>;
-  clients: Dexie.Table<Client, number>;
-  composants: Dexie.Table<Composant, number>;
-  coupesDePrincipe: Dexie.Table<CoupeDePrincipe, number>;
-  devis: Dexie.Table<Devis, number>;
-  dossiersTechniques: Dexie.Table<DossierTechnique, number>;
-  famillesComposant: Dexie.Table<FamilleComposant, number>;
-  famillesGamme: Dexie.Table<FamilleGamme, number>;
-  gammesComposant: Dexie.Table<GammeComposant, number>;
-  gammes: Dexie.Table<Gamme, number>;
-  lignes: Dexie.Table<Ligne, number>;
-  modeles: Dexie.Table<Modele, number>;
-  modules: Dexie.Table<Module, number>;
-  plans: Dexie.Table<Plan, number>;
-  produits: Dexie.Table<Produit, number>;
-  projets: Dexie.Table<Projet, number>;
-  roles: Dexie.Table<Role, number>;
-  unites: Dexie.Table<Unite, number>;
-  utilisateurs: Dexie.Table<Utilisateur, number>;
+  public caracteristiques: Dexie.Table<Caracteristique, number>;
+  public cctp: Dexie.Table<CCTP, number>;
+  public clients: Dexie.Table<Client, number>;
+  public composants: Dexie.Table<Composant, number>;
+  public coupesDePrincipe: Dexie.Table<CoupeDePrincipe, number>;
+  public devis: Dexie.Table<Devis, number>;
+  public dossiersTechniques: Dexie.Table<DossierTechnique, number>;
+  public famillesComposant: Dexie.Table<FamilleComposant, number>;
+  public famillesGamme: Dexie.Table<FamilleGamme, number>;
+  public gammesComposant: Dexie.Table<GammeComposant, number>;
+  public gammes: Dexie.Table<Gamme, number>;
+  public lignes: Dexie.Table<Ligne, number>;
+  public modeles: Dexie.Table<Modele, number>;
+  public modules: Dexie.Table<Module, number>;
+  public plans: Dexie.Table<Plan, number>;
+  public produits: Dexie.Table<Produit, number>;
+  public projets: Dexie.Table<Projet, number>;
+  public roles: Dexie.Table<Role, number>;
+  public unites: Dexie.Table<Unite, number>;
+  public utilisateurs: Dexie.Table<Utilisateur, number>;
 
-  deferredQueries: Dexie.Table<DeferredQuery, number>;
+  public deferredQueries: Dexie.Table<DeferredQuery, number>;
 
   constructor() {
     super('Madera');
@@ -59,10 +59,10 @@ export class IndexedDbService extends Dexie {
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist().then(granted => {
         if (granted) {
-          console.log('Storage will not be cleared except by explicit user action');
+          console.log('IndexedDB : Storage will not be cleared except by explicit user action');
         }
         else {
-          console.log('Storage may be cleared by the UA under storage pressure.');
+          console.warn('IndexedDB : Storage may be cleared under storage pressure.');
         }
       });
     }

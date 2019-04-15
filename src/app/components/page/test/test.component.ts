@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Caracteristique } from 'src/app/classes/caracteristique';
 import { CaracteristiqueSwService } from 'src/app/services/service-workers/caracteristique-sw.service';
-import { DeferredQueriesService } from 'src/app/services/deferred-queries.service';
-import { Unite } from 'src/app/classes/unite';
 import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
@@ -47,8 +45,17 @@ export class TestComponent implements OnInit {
   }
 
   deleteCaracteristique() {
+    console.log(this.currentCaracteristique.id);
     this.caracteristiqueSw.delete(this.currentCaracteristique.id).then(() => {
-      this.caracteristiques.splice(this.caracteristiques.indexOf(this.currentCaracteristique), 1);
+
+      // On boucle sur la liste et on supprime l'objet avec le bon ID
+      this.caracteristiques.forEach((caracteristique, index) => {
+        if (caracteristique.id === this.currentCaracteristique.id) {
+          this.caracteristiques.splice(index, 1);
+        }
+      });
+
+      // On remet à zéro l'objet en cours
       this.currentCaracteristique = undefined;
     });
   }

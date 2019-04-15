@@ -92,7 +92,7 @@
     ],
 
     // Config different from tslint:latest
-    "no-implicit-dependencies": [true, "dev"],
+    "no-implicit-dependencies": [false, "dev"],
     "object-literal-key-quotes": [true, "consistent-as-needed"],
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
 
@@ -131,6 +131,6 @@
     "no-reference": false,
     "object-literal-sort-keys": false,
     "one-variable-per-declaration": false,
-    "adjacent-overload-signatures": false
+    "adjacent-overload-signatures": false,
   }
 }

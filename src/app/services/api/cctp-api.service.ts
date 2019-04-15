@@ -28,7 +28,7 @@ export class CctpApiService {
 
   edit(cctp: CCTP): Observable<object> {
     const cctpPlain = { ...cctp };
-    return this.http.put(ApiConfig.CCTP, cctpPlain);
+    return this.http.put(ApiConfig.CCTP_UNIQUE.replace(':id', '' + cctp.id), cctpPlain);
   }
 
   delete(id: number): Observable<object> {

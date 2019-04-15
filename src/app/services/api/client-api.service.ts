@@ -28,7 +28,7 @@ export class ClientApiService {
 
   edit(client: Client): Observable<object> {
     const clientPlain = { ...client };
-    return this.http.put(ApiConfig.CLIENT, clientPlain);
+    return this.http.put(ApiConfig.CLIENT_UNIQUE.replace(':id', '' + client.id), clientPlain);
   }
 
   delete(id: number): Observable<object> {

@@ -28,7 +28,7 @@ export class FamilleGammeApiService {
 
   edit(familleGamme: FamilleGamme): Observable<object> {
     const familleGammePlain = { ...familleGamme };
-    return this.http.put(ApiConfig.FAMILLE_GAMME, familleGammePlain);
+    return this.http.put(ApiConfig.FAMILLE_GAMME_UNIQUE.replace(':id', '' + familleGamme.id), familleGammePlain);
   }
 
   delete(id: number): Observable<object> {
