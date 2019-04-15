@@ -10,9 +10,15 @@ export class DossierTechnique {
     public numero: number;
     public creationDate: Date;
     public editionDate: Date;
+
     public projet: Projet;
+    public projetId: number;
+
     public devis: Devis[];
+
     public utilisateur: Utilisateur;
+    public utilisateurId: number;
+
     public plan: Plan;
     public modele: Modele;
 

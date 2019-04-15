@@ -11,7 +11,9 @@ export class Gamme {
     public finishes: string;
     public cover: string;
     public produits: Produit[];
+
     public familleGamme: FamilleGamme;
+    public familleGammeId: number;
 
     constructor(id: number, code: string, description: string, insulating: string, frame: string, finishes: string, cover: string,
                 produits: Produit[], familleGame: FamilleGamme) {

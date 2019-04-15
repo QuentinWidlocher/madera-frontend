@@ -9,7 +9,9 @@ export class Modele {
     public editionDate: Date;
     public dossiersTechniques: DossierTechnique[];
     public produits: Produit[];
+
     public utilisateur: Utilisateur;
+    public utilisateurId: number;
 
     constructor(id: number, description: string, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
                 produits: Produit[], utilisateur: Utilisateur) {

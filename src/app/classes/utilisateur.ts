@@ -7,7 +7,9 @@ export class Utilisateur {
     public username: string;
     public password: string;
     public dossiersTechniques: DossierTechnique[];
+
     public role: Role;
+    public roleId: number;
 
     constructor(id: number, username: string, password: string, dossiersTechniques: DossierTechnique[], role: Role) {
         this.id = id;
