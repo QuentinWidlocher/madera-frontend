@@ -1,15 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/page/home/home.component';
 import { UserProjectComponent } from './components/page/user-project/user-project.component';
+import { TestComponent } from './components/page/test/test.component';
 
-//Angular Material Components
+import { HttpClientModule } from '@angular/common/http';
+
+// Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule } from '@angular/material';
-import { MatButtonModule } from '@angular/material';
+import { MatCheckboxModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -45,11 +48,14 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     AppComponent,
     HomeComponent,
     NavBarComponent,
-    UserProjectComponent
+    UserProjectComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatCheckboxModule,
     MatCheckboxModule,
     MatButtonModule,

@@ -1,30 +1,46 @@
 @import './app/theme.scss';
-@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap/dist/css/bootstrap-grid.min.css';
 @import 'material-design-icons/iconfont/material-icons.css';
 
 
 /* Rules for sizing the icon. */
-mat-icon.md-18 {
-  font-size: 18px;
-}
+mat-icon {
 
-mat-icon.md-24 {
-  font-size: 24px;
-}
+  &.md-18 {
+    font-size: 18px;
+  }
 
-mat-icon.md-36 {
-  font-size: 36px;
-}
+  &.md-24 {
+    font-size: 24px;
+  }
 
-mat-icon.md-48 {
-  font-size: 48px;
+  &.md-36 {
+    font-size: 36px;
+  }
+
+  &.md-48 {
+    font-size: 48px;
+  }
 }
 
 body {
   margin: 0 !important;
-  height: 100vh;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 button:focus {
   outline: 0;
+}
+
+mat-toolbar {
+  color: white !important;
+}
+
+button[color="primary"] {
+
+  &[mat-flat-button],
+  &[mat-raised-button] {
+    color: white;
+  }
 }
