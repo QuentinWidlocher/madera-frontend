@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/page/home/home.component';
+import { UserProjectComponent } from './components/page/user-project/user-project.component';
 import { TestComponent } from './components/page/test/test.component';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -47,6 +48,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     AppComponent,
     HomeComponent,
     NavBarComponent,
+    UserProjectComponent,
     TestComponent
   ],
   imports: [
