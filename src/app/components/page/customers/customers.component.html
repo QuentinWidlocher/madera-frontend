@@ -1,3 +1,4 @@
+<!-- Titre Nav -->
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <mat-icon>menu</mat-icon> <span class="ml-2">Liste des clients</span>
@@ -5,53 +6,88 @@
 </mat-toolbar>
 
 
-
+<!-- Titre Nav -->
 <div class="contentPage row m-3 h-100">
-  <div class="col-sm-4 h-100">
+  <div class="col-sm-4 h-100 overflow-hidden">
+    <mat-card class="mb-3 py-2 pb-0">
+      <mat-form-field class="w-100">
+        <input type="text" matInput placeholder="Rechercher un client">
+        <mat-icon matSuffix>filter_list</mat-icon>
+      </mat-form-field>
+    </mat-card>
     
-    <form>
-      <mat-card class="py-2 mb-3 h-100">
-        <mat-form-field class="w-100">
-          <input type="text" matInput placeholder="Rechercher un Projet">
-          <mat-icon matSuffix>filter_list</mat-icon>
-        </mat-form-field>
-      </mat-card>
-    </form>
-    
-    <div class="h-100 scroll-padding">
-      <mat-action-list class="scroll h-100">
-        <mat-list-item *ngFor="let projet of projets"> 
-          <p class="mt-3">
-            {{ projet.name }}
-            <br/>
-            <span class="text-muted">{{ projet.description }}</span></p>
+    <div class="d-flex flex-column colUserList">
+      
+      <div class="h-100 w-100 d-flex" *ngIf="projetListLoading">
+        <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
+      </div>
+      <mat-action-list class="scroll h-100 mb-3" *ngIf="!projetListLoading">
+        <mat-list-item (click)="selectProjet(projet, index)" *ngFor="let projet of projets; let index = index">
+          <mat-icon mat-list-icon>people</mat-icon>
+          <h4 mat-line>{{ projet.title }}</h4>
+          <span mat-line class="mat-caption"> {{ projet.creationDate | date: 'shortDate' }}</span>
         </mat-list-item>
       </mat-action-list>
-    </div>  
-  </div>
-        
-        
-        <div class="d-flex flex-column col-lg-8 h-100">
-          
-          
-          <div class="infoProjet"> 
-            <div>
-              <h3 class="pl-3 pt-3 pb-2">Projet n°001</h3>     
-              <div class="row pl-3 mb-3">
-                <p class="text-secondary pl-3 col-12">Version : <span>1.2 lb</span></p>
-                <p class="text-secondary col-6">Client : <span>Rober Langlois</span></p>                  
-                <p class="text-secondary col-6">Total TTC : <span>624 293.74 €</span></p>                    
-                <p class="text-secondary col-6">Projet débuté le : <span>18/06/2016</span></p>                 
-                <p class="text-secondary col-6">Projet terminé le : <span>Pas encore terminé</span></p>
-                
-                <div class="d-flex bd-highlight mb-2 w-100">
-                  <div class="mr-auto p-2 bd-highlight ml-2"><button mat-stroked-button color="warn" class="pl-5 pr-5">Supprimer le projet</button></div>
-                  <div class="p-2 bd-highlight"><button mat-raised-button color="primary" class="pl-4 pr-4">Ouvrir le devis</button></div>
-                  <div class="p-2 bd-highlight mr-5"><button mat-raised-button color="primary"  class="pl-4 pr-4">Ouvrir le plan</button></div>
-                </div>
-              </div>           
-            </div>
-          </div>        
-        </div>
-      </div>
       
+      <button mat-raised-button color="primary" class="flex-shrink-1">Ouvrir le plan</button>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Formulaire -->
+  <div class="col-8 h-100 d-flex flex-column background" >
+    
+    <!-- Info client -->
+    <div class="row">        
+      
+      <!-- Nom & Prenom -->
+      <mat-form-field class="example-full-width text-secondary col-6 mt-3 mb-2">
+        <input matInput placeholder="Prenom" value="">
+      </mat-form-field>
+      <mat-form-field class="example-full-width text-secondary col-6 mt-3 mb-2">
+        <input matInput placeholder="Nom" value="">
+      </mat-form-field>
+      
+      <!-- Adresse -->
+      <mat-form-field class="example-full-width text-secondary col-12 mb-2">
+        <input matInput placeholder="Adresse" value="">
+      </mat-form-field>
+      
+      <!-- Code postal & Ville -->
+      <mat-form-field class="example-full-width text-secondary col-3 mb-2">
+        <input matInput placeholder="Code postal" value="" type="number">
+      </mat-form-field>
+      <mat-form-field class="example-full-width text-secondary col-9 mb-2">
+        <input matInput placeholder="Ville" value="">
+      </mat-form-field>
+      
+      <!-- Telephone fixe & Telephone fixe -->
+      <mat-form-field class="example-full-width text-secondary col-6 mb-2">
+        <input matInput placeholder="Téléphone fixe" value="">
+      </mat-form-field>
+      <mat-form-field class="example-full-width text-secondary col-6 mb-2">
+        <input matInput placeholder="Téléphone portable" value="">
+      </mat-form-field>
+      
+      <!-- Adresse mail -->
+      <mat-form-field class="example-full-width text-secondary col-6 mb-2">
+        <input matInput placeholder="Adresse mail" value="" type="email">
+      </mat-form-field>
+      
+      
+    </div>
+    
+    <!-- Boutons -->
+    <div class="d-flex w-100 mt-auto mb-3">
+      <button mat-button color="warn" class="mr-auto">Supprimer le projet</button>
+      <button mat-raised-button color="primary">Ouvrir le plan</button>
+    </div>
+    
+  </div>
+</div>
