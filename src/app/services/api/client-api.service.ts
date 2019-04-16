@@ -31,8 +31,8 @@ export class ClientApiService {
     return this.http.put(ApiConfig.CLIENT_UNIQUE.replace(':id', '' + client.id), clientPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.CLIENT_UNIQUE.replace(':id', '' + id));
+  delete(client: Client): Observable<object> {
+    return this.http.delete(ApiConfig.CLIENT_UNIQUE.replace(':id', '' + client.id));
   }
 
   count(): Observable<object> {

@@ -31,8 +31,8 @@ export class PlanApiService {
     return this.http.put(ApiConfig.PLAN_UNIQUE.replace(':id', '' + plan.id), planPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.PLAN_UNIQUE.replace(':id', '' + id));
+  delete(plan: Plan): Observable<object> {
+    return this.http.delete(ApiConfig.PLAN_UNIQUE.replace(':id', '' + plan.id));
   }
 
   count(): Observable<object> {

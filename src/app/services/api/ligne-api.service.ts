@@ -31,8 +31,8 @@ export class LigneApiService {
     return this.http.put(ApiConfig.LIGNE_UNIQUE.replace(':id', '' + ligne.id), lignePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.LIGNE_UNIQUE.replace(':id', '' + id));
+  delete(ligne: Ligne): Observable<object> {
+    return this.http.delete(ApiConfig.LIGNE_UNIQUE.replace(':id', '' + ligne.id));
   }
 
   count(): Observable<object> {

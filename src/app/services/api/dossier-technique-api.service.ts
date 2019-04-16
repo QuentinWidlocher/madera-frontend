@@ -31,8 +31,8 @@ export class DossierTechniqueApiService {
     return this.http.put(ApiConfig.DOSSIER_TECHNIQUE_UNIQUE.replace(':id', '' + dossierTechnique.id), dossierTechniquePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.DOSSIER_TECHNIQUE_UNIQUE.replace(':id', '' + id));
+  delete(dossierTechnique: DossierTechnique): Observable<object> {
+    return this.http.delete(ApiConfig.DOSSIER_TECHNIQUE_UNIQUE.replace(':id', '' + dossierTechnique.id));
   }
 
   count(): Observable<object> {

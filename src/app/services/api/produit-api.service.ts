@@ -31,8 +31,8 @@ export class ProduitApiService {
     return this.http.put(ApiConfig.PRODUIT_UNIQUE.replace(':id', '' + produit.id), produitPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.PRODUIT_UNIQUE.replace(':id', '' + id));
+  delete(produit: Produit): Observable<object> {
+    return this.http.delete(ApiConfig.PRODUIT_UNIQUE.replace(':id', '' + produit.id));
   }
 
   count(): Observable<object> {

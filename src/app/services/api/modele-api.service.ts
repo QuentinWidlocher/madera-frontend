@@ -31,8 +31,8 @@ export class ModeleApiService {
     return this.http.put(ApiConfig.MODELE_UNIQUE.replace(':id', '' + modele.id), modelePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.MODELE_UNIQUE.replace(':id', '' + id));
+  delete(modele: Modele): Observable<object> {
+    return this.http.delete(ApiConfig.MODELE_UNIQUE.replace(':id', '' + modele.id));
   }
 
   count(): Observable<object> {

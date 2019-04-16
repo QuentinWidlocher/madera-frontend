@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Projet } from 'src/app/classes/projet';
+import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
 
 @Component({
   selector: 'app-user-project',
@@ -7,15 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProjectComponent implements OnInit {
 
-  projets: Object[] = [];
+  projets: Projet[] = [];
+  currentProjet: Projet;
 
-  constructor() { 
-    for (let i = 0; i < 15; i++) {
-      this.projets.push({ name: "Robert LANGLOIS", description: "18/06/2018 - Projet n°1"})
-    }
+  projetListIndex: number;
+  projetListLoading = true;
+
+  constructor(private projetSw: ProjetSwService) {
+    this.projetListLoading = true;
+    projetSw.getAll().then(projets => {
+      this.projets = projets;
+      this.projetListLoading = false;
+    });
   }
 
   ngOnInit() {
+  }
+
+  selectProjet(projet: Projet, index: number) {
+    this.currentProjet = projet;
+    this.projetListIndex = index;
   }
 
 }
