@@ -31,8 +31,8 @@ export class RoleApiService {
     return this.http.put(ApiConfig.ROLE_UNIQUE.replace(':id', '' + role.id), rolePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.ROLE_UNIQUE.replace(':id', '' + id));
+  delete(role: Role): Observable<object> {
+    return this.http.delete(ApiConfig.ROLE_UNIQUE.replace(':id', '' + role.id));
   }
 
   count(): Observable<object> {

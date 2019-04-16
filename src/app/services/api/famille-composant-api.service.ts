@@ -31,8 +31,8 @@ export class FamilleComposantApiService {
     return this.http.put(ApiConfig.FAMILLE_COMPOSANT_UNIQUE.replace(':id', '' + familleComposant.id), familleComposantPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.FAMILLE_COMPOSANT_UNIQUE.replace(':id', '' + id));
+  delete(familleComposant: FamilleComposant): Observable<object> {
+    return this.http.delete(ApiConfig.FAMILLE_COMPOSANT_UNIQUE.replace(':id', '' + familleComposant.id));
   }
 
   count(): Observable<object> {

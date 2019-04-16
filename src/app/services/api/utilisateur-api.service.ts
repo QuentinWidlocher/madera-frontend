@@ -31,8 +31,8 @@ export class UtilisateurApiService {
     return this.http.put(ApiConfig.UTILISATEUR_UNIQUE.replace(':id', '' + utilisateur.id), utilisateurPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.UTILISATEUR_UNIQUE.replace(':id', '' + id));
+  delete(utilisateur: Utilisateur): Observable<object> {
+    return this.http.delete(ApiConfig.UTILISATEUR_UNIQUE.replace(':id', '' + utilisateur.id));
   }
 
   count(): Observable<object> {

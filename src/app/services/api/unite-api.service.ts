@@ -31,8 +31,8 @@ export class UniteApiService {
     return this.http.put(ApiConfig.UNITE_UNIQUE.replace(':id', '' + unite.id), unitePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.UNITE_UNIQUE.replace(':id', '' + id));
+  delete(unite: Unite): Observable<object> {
+    return this.http.delete(ApiConfig.UNITE_UNIQUE.replace(':id', '' + unite.id));
   }
 
   count(): Observable<object> {

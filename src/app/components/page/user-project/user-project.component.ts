@@ -13,10 +13,13 @@ export class UserProjectComponent implements OnInit {
   currentProjet: Projet;
 
   projetListIndex: number;
+  projetListLoading = true;
 
   constructor(private projetSw: ProjetSwService) {
+    this.projetListLoading = true;
     projetSw.getAll().then(projets => {
       this.projets = projets;
+      this.projetListLoading = false;
     });
   }
 

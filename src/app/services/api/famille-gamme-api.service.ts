@@ -31,8 +31,8 @@ export class FamilleGammeApiService {
     return this.http.put(ApiConfig.FAMILLE_GAMME_UNIQUE.replace(':id', '' + familleGamme.id), familleGammePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.FAMILLE_GAMME_UNIQUE.replace(':id', '' + id));
+  delete(familleGamme: FamilleGamme): Observable<object> {
+    return this.http.delete(ApiConfig.FAMILLE_GAMME_UNIQUE.replace(':id', '' + familleGamme.id));
   }
 
   count(): Observable<object> {

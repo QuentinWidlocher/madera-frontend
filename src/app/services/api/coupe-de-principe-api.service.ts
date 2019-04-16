@@ -31,8 +31,8 @@ export class CoupeDePrincipeApiService {
     return this.http.put(ApiConfig.COUPE_DE_PRINCIPE_UNIQUE.replace(':id', '' + coupeDePrincipe.id), coupeDePrincipePlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.COUPE_DE_PRINCIPE_UNIQUE.replace(':id', '' + id));
+  delete(coupeDePrincipe: CoupeDePrincipe): Observable<object> {
+    return this.http.delete(ApiConfig.COUPE_DE_PRINCIPE_UNIQUE.replace(':id', '' + coupeDePrincipe.id));
   }
 
   count(): Observable<object> {

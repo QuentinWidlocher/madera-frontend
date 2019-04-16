@@ -31,8 +31,8 @@ export class ComposantApiService {
     return this.http.put(ApiConfig.COMPOSANT_UNIQUE.replace(':id', '' + composant.id), composantPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.COMPOSANT_UNIQUE.replace(':id', '' + id));
+  delete(composant: Composant): Observable<object> {
+    return this.http.delete(ApiConfig.COMPOSANT_UNIQUE.replace(':id', '' + composant.id));
   }
 
   count(): Observable<object> {

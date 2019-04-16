@@ -31,8 +31,8 @@ export class GammeComposantApiService {
     return this.http.put(ApiConfig.GAMME_COMPOSANT_UNIQUE.replace(':id', '' + gammeComposant.id), gammeComposantPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.GAMME_COMPOSANT_UNIQUE.replace(':id', '' + id));
+  delete(gammeComposant: GammeComposant): Observable<object> {
+    return this.http.delete(ApiConfig.GAMME_COMPOSANT_UNIQUE.replace(':id', '' + gammeComposant.id));
   }
 
   count(): Observable<object> {

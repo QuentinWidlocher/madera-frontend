@@ -19,9 +19,13 @@ export class AppComponent {
               private connectivity: ConnectivityService,
               private projets: ProjetSwService) {
 
-    for (let i = 1; i < 15; i++) {
-      projets.add(new Projet(i, 'Projet ' + i, new Date(Date.now()), new Date(Date.now()), '1', undefined, undefined, undefined));      
-    }
+    projets.count().then(count => {
+      if (count < 15) {
+        for (let i = 1; i < 15; i++) {
+          projets.add(new Projet(undefined, 'Projet ' + i, new Date(Date.now()), new Date(Date.now()), '1', undefined, undefined, undefined));
+        }
+      }
+    })
                 
   }
 

@@ -31,8 +31,8 @@ export class ProjetApiService {
     return this.http.put(ApiConfig.PROJET_UNIQUE.replace(':id', '' + projet.id), projetPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.PROJET_UNIQUE.replace(':id', '' + id));
+  delete(projet: Projet): Observable<object> {
+    return this.http.delete(ApiConfig.PROJET_UNIQUE.replace(':id', '' + projet.id));
   }
 
   count(): Observable<object> {

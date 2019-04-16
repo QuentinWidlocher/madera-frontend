@@ -31,8 +31,8 @@ export class DevisApiService {
     return this.http.put(ApiConfig.DEVIS_UNIQUE.replace(':id', '' + devis.id), devisPlain);
   }
 
-  delete(id: number): Observable<object> {
-    return this.http.delete(ApiConfig.DEVIS_UNIQUE.replace(':id', '' + id));
+  delete(devis: Devis): Observable<object> {
+    return this.http.delete(ApiConfig.DEVIS_UNIQUE.replace(':id', '' + devis.id));
   }
 
   count(): Observable<object> {
