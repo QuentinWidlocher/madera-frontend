@@ -29,4 +29,8 @@ export class Projet {
         this.devis = devis;
     }
 
+    public static newEmpty(): Projet {
+        return new Projet(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    }
+
 }

@@ -15,11 +15,13 @@
 
 .infoProjet {
     background-color: rgba(0, 0, 0, 0.04);
-}
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
 
-.infoProjet span {
-    color: black;
-    font-weight: bold;
+    span {
+      color: black;
+      font-weight: bold;
+    }
 }
 
 .imagePlanContainer {

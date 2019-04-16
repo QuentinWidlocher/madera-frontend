@@ -139,5 +139,6 @@ export class IndexedDbService extends Dexie {
     this.utilisateurs.mapToClass(Utilisateur);
 
     this.deferredQueries.mapToClass(DeferredQuery);
+
   }
 }

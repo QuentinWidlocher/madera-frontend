@@ -26,5 +26,9 @@ export class Devis {
         this.lignes = lignes;
     }
 
+    public static newEmpty(): Devis {
+        return new Devis(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    }
+
 
 }
