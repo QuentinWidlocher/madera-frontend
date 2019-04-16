@@ -51,6 +51,12 @@ button {
   &[color="warn"], &[mat-stroked-button] {
     border-color: mat-color($warn, 500) !important;
   }
+
+  &[mat-fab] {
+    position: absolute;
+    right: 3rem;
+    bottom: 6rem;
+  }
 }
 
 .h-100 {

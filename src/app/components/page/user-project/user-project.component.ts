@@ -47,7 +47,7 @@ export class UserProjectComponent implements OnInit {
 
     this.projets = this.projetsOriginal.filter(x => {      
       return x.title.match(new RegExp(this.searchTerms, 'i'));
-    })
+    });
   }
 
 }

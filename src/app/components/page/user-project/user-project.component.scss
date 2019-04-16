@@ -98,3 +98,10 @@ mat-expansion-panel-header {
     }
 
 }
+
+button[mat-fab] {
+    right: unset;
+    left: 25vw;
+    position: relative;
+    bottom: 20vh;
+}

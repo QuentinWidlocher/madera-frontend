@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule, MatButtonModule } from '@angular/material';
+import { MatCheckboxModule, MatButtonModule, MatNativeDateModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -89,6 +89,7 @@ import { CustomersComponent } from './components/page/customers/customers.compon
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatNativeDateModule,
     AppRoutingModule
   ],
   providers: [],

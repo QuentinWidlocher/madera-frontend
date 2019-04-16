@@ -21,7 +21,19 @@
             <button mat-icon-button (click)="filterMenu = !filterMenu"><mat-icon>filter_list</mat-icon></button>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        FILTRAGE
+        
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" placeholder="Date de début">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker2" placeholder="Date de début">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+        </mat-form-field>
+
       </mat-expansion-panel>
     </mat-accordion>
 
@@ -35,6 +47,7 @@
             <span mat-line class="mat-caption">Projet du {{ projet.creationDate | date: 'shortDate' }}</span>
         </mat-list-item>
       </mat-action-list>
+      <button mat-fab color="accent"><mat-icon>add</mat-icon></button>
   </div>
 
 
