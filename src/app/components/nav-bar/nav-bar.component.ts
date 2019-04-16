@@ -14,6 +14,7 @@ export class NavBarComponent {
     { icon: 'bug_report', title: 'test page', route: '/test', active: false },
     { icon: 'home', title: 'home', route: '/home', active: false },
     { icon: 'library_books', title: 'Projets', route: '/user-project', active: false },
+    { icon: 'people', title: 'customers', route: '/customers', active: false },
   ];
 
   constructor(private router: Router) {

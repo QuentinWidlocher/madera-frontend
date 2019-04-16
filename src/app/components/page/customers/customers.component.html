@@ -1,0 +1,57 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon>menu</mat-icon> <span class="ml-2">Liste des clients</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+
+<div class="contentPage row m-3 h-100">
+  <div class="col-sm-4 h-100">
+    
+    <form>
+      <mat-card class="py-2 mb-3 h-100">
+        <mat-form-field class="w-100">
+          <input type="text" matInput placeholder="Rechercher un Projet">
+          <mat-icon matSuffix>filter_list</mat-icon>
+        </mat-form-field>
+      </mat-card>
+    </form>
+    
+    <div class="h-100 scroll-padding">
+      <mat-action-list class="scroll h-100">
+        <mat-list-item *ngFor="let projet of projets"> 
+          <p class="mt-3">
+            {{ projet.name }}
+            <br/>
+            <span class="text-muted">{{ projet.description }}</span></p>
+        </mat-list-item>
+      </mat-action-list>
+    </div>  
+  </div>
+        
+        
+        <div class="d-flex flex-column col-lg-8 h-100">
+          
+          
+          <div class="infoProjet"> 
+            <div>
+              <h3 class="pl-3 pt-3 pb-2">Projet n°001</h3>     
+              <div class="row pl-3 mb-3">
+                <p class="text-secondary pl-3 col-12">Version : <span>1.2 lb</span></p>
+                <p class="text-secondary col-6">Client : <span>Rober Langlois</span></p>                  
+                <p class="text-secondary col-6">Total TTC : <span>624 293.74 €</span></p>                    
+                <p class="text-secondary col-6">Projet débuté le : <span>18/06/2016</span></p>                 
+                <p class="text-secondary col-6">Projet terminé le : <span>Pas encore terminé</span></p>
+                
+                <div class="d-flex bd-highlight mb-2 w-100">
+                  <div class="mr-auto p-2 bd-highlight ml-2"><button mat-stroked-button color="warn" class="pl-5 pr-5">Supprimer le projet</button></div>
+                  <div class="p-2 bd-highlight"><button mat-raised-button color="primary" class="pl-4 pr-4">Ouvrir le devis</button></div>
+                  <div class="p-2 bd-highlight mr-5"><button mat-raised-button color="primary"  class="pl-4 pr-4">Ouvrir le plan</button></div>
+                </div>
+              </div>           
+            </div>
+          </div>        
+        </div>
+      </div>
+      
