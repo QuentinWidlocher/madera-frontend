@@ -25,6 +25,10 @@ export class Client {
     this.projets = projets;
   }
 
+  public static newEmpty(): Client {
+    return new Client(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+  }
+
   public get fullName(): string {
     return this.firstName + ' ' + this.lastName;
   }
