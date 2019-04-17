@@ -46,7 +46,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CustomersComponent } from './components/page/customers/customers.component';
-import { EditProjectComponent } from './components/page/user-project/edit-project/edit-project.component';
+import { EditProjectComponent, DeleteConfirmationDialog } from './components/page/user-project/edit-project/edit-project.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,8 @@ import { EditProjectComponent } from './components/page/user-project/edit-projec
     UserProjectComponent,
     TestComponent,
     CustomersComponent,
-    EditProjectComponent
+    EditProjectComponent,
+    DeleteConfirmationDialog
   ],
   imports: [
     BrowserModule,
@@ -99,6 +100,9 @@ import { EditProjectComponent } from './components/page/user-project/edit-projec
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "fr" },
+  ],
+  entryComponents: [
+    DeleteConfirmationDialog
   ],
   bootstrap: [AppComponent]
 })

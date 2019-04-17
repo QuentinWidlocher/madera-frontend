@@ -39,9 +39,9 @@
 
 
       <div class="d-flex col-12 mt-2">
-        <button mat-button color="warn" class="mr-auto">Supprimer le projet</button>
-        <button mat-stroked-button color="basic" (click)="exit(false)" class="mr-3">Annuler</button>
-        <button mat-raised-button color="primary" (click)="exit(true)"><mat-icon class="md-18 align-bottom">save</mat-icon>Enregistrer</button>
+        <button mat-button color="warn" class="mr-auto" (click)="delete()">Supprimer le projet</button>
+        <button mat-stroked-button color="basic" (click)="exit('cancel')" class="mr-3">Annuler</button>
+        <button mat-raised-button color="primary" (click)="exit('save')"><mat-icon class="md-18 align-bottom">save</mat-icon>Enregistrer</button>
       </div>
     </div>
   </div>

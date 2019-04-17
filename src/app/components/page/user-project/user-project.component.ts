@@ -67,4 +67,16 @@ export class UserProjectComponent implements OnInit {
     this.editMode = state;
   }
 
+  exitedEditMode(action: string) {
+    this.editMode = false;
+
+    if (action === 'delete') {
+      this.projets = this.projetsOriginal.filter(projet => {
+        return projet !== this.currentProjet;
+      });
+
+      this.currentProjet = undefined;
+    }
+  }
+
 }

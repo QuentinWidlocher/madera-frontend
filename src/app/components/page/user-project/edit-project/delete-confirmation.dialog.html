@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Attention !</h1>
+<div mat-dialog-content>
+    Vous allez supprimer le projet {{ projectName }}. <br>
+    Êtes vous certain de vouloir le supprimer ?
+</div>
+<div mat-dialog-actions class="d-flex mt-3">
+  <button mat-button class="ml-auto" [mat-dialog-close]="false">Annuler et revenir</button>
+  <button mat-flat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>Supprimer le projet</button>
+</div>
