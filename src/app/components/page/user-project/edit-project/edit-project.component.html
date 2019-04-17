@@ -8,7 +8,7 @@
   <div class="infoProjet px-4 pb-3">
     <div class="row">
 
-     <mat-form-field class="mt-2 col-12">
+     <mat-form-field class="mt-4 col-12">
        <input type="text" [(ngModel)]="currentProjet.title" matInput placeholder="Nom du Projet">
      </mat-form-field>
 
@@ -40,8 +40,8 @@
 
       <div class="d-flex col-12 mt-2">
         <button mat-button color="warn" class="mr-auto">Supprimer le projet</button>
-        <button mat-stroked-button color="basic" class="mr-3">Annuler</button>
-        <button mat-raised-button color="primary">Enregistrer</button>
+        <button mat-stroked-button color="basic" (click)="exit(false)" class="mr-3">Annuler</button>
+        <button mat-raised-button color="primary" (click)="exit(true)"><mat-icon class="md-18 align-bottom">save</mat-icon>Enregistrer</button>
       </div>
     </div>
   </div>

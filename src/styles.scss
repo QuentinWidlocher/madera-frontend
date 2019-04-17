@@ -19,6 +19,12 @@ mat-toolbar {
 
 button {
 
+  &:not([mat-fab]) &:not([mat-icon-button]) {
+    mat-icon {
+      vertical-align: text-top !important;
+    }
+  }
+
   &[color="primary"] {
 
     &[mat-flat-button],

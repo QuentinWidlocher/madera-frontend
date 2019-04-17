@@ -75,6 +75,12 @@ mat-action-list {
     mat-icon {
         opacity: 0.60;
     }
+
+    mat-list-item {
+        &.selected {
+            background: rgba(0, 0, 0, 0.05);
+        }
+    }
 }
 
 .contentPage {

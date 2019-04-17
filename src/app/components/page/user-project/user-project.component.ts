@@ -22,15 +22,24 @@ export class UserProjectComponent implements OnInit {
   editMode = false;
 
   constructor(private projetSw: ProjetSwService) {
-    this.projetListLoading = true;
-    projetSw.getAll().then(projets => {
-      this.projets = projets;
-      this.projetsOriginal = projets;
-      this.projetListLoading = false;
-    });
   }
 
   ngOnInit() {
+    this.refresh();
+  }
+
+  refresh() {
+    this.currentProjet = undefined;
+    this.projetListLoading = true;
+    this.projetSw.getAll().then(projets => {
+      this.projets = projets;
+      this.projetsOriginal = projets;
+      this.projetListLoading = false;
+
+      if (this.projetListIndex > 0) {
+        this.currentProjet = this.projetsOriginal[this.projetListIndex];
+      }
+    });
   }
 
   selectProjet(projet: Projet, index: number) {

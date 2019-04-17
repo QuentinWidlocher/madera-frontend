@@ -44,7 +44,7 @@
       <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
     <mat-action-list class="scroll mt-3 h-100" *ngIf="!projetListLoading">
-      <mat-list-item (click)="selectProjet(projet, index)" *ngFor="let projet of projets; let index = index">
+      <mat-list-item (click)="selectProjet(projet, index)" [class.selected]="currentProjet === projet" *ngFor="let projet of projets; let index = index">
         <mat-icon mat-list-icon>assignment</mat-icon>
         <h4 mat-line>{{ projet.title }}</h4>
         <span mat-line class="mat-caption">Projet du {{ projet.creationDate | date: 'shortDate' }}</span>
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <app-edit-project *ngIf="editMode" [currentProjet]="currentProjet"></app-edit-project>
+    <app-edit-project *ngIf="editMode" (done)="this.editMode = false" [(currentProjet)]="currentProjet"></app-edit-project>
     
     <div *ngIf="currentProjet && !editMode" class="d-flex flex-column h-100">
       <div class="imagePlanContainer">
@@ -91,8 +91,7 @@
             <span>{{ currentProjet.creationDate | date: 'fullDate' }}</span></p>
           <p class="text-secondary my-1 col-6">Projet terminé le : <span>Pas encore terminé</span></p>
     
-          <div class="d-flex col-12 mt-5">
-            <button mat-button color="warn" class="mr-auto">Supprimer le projet</button>
+          <div class="d-flex col-12 mt-4 justify-content-end">
             <button mat-raised-button color="primary" class="mr-3">Ouvrir le devis</button>
             <button mat-raised-button color="primary">Ouvrir le plan</button>
           </div>
