@@ -19,9 +19,16 @@ mat-toolbar {
 
 button {
 
-  &:not([mat-fab]) &:not([mat-icon-button]) {
+  &:not([mat-button]) {
     mat-icon {
       vertical-align: text-top !important;
+      text-align: left;
+    }
+  }
+
+  &[mat-fab] {
+    mat-icon {
+      vertical-align: bottom !important;
     }
   }
 

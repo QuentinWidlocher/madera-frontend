@@ -16,20 +16,40 @@ export class EditProjectComponent implements OnInit {
   // Retourne true si une modif a été faite, false sinon
   @Output() done: EventEmitter<string> = new EventEmitter<string>();
 
+  @Input() createMode = false;
+
   constructor(private projetSw: ProjetSwService, private dialog: MatDialog) { 
   }
   
   ngOnInit() {
     // On crée une copie DIFFERENTE du projet, on assigne les valeurs à un NOUVEL objet
     this.projetOriginal = Object.assign(Projet.newEmpty(), this.currentProjet);
+
+    if (this.createMode) {
+      this.currentProjet.creationDate = new Date(Date.now());
+    }
   }
 
   exit(action = 'cancel') {
-    if (action === 'save') {
-      this.projetSw.edit(this.currentProjet);
-    } else {
-      // On réassigne les valeurs originale à l'objet lié
-      Object.assign(this.currentProjet, this.projetOriginal);
+
+    action = (this.createMode && action !== 'cancel' ? 'create' : action);
+
+    switch (action) {
+      case 'save':
+        this.projetSw.edit(this.currentProjet);
+        break;
+
+      case 'create':
+        this.projetSw.add(this.currentProjet);
+        break;
+
+      case 'cancel':
+        // On réassigne les valeurs originale à l'objet lié
+        Object.assign(this.currentProjet, this.projetOriginal);
+        break;
+    
+      default:
+        break;
     }
 
     this.isDone(action);

@@ -51,7 +51,7 @@
       </mat-list-item>
     </mat-action-list>
 
-    <button mat-fab color="accent">
+    <button mat-fab color="accent" (click)="createProjet()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <app-edit-project *ngIf="editMode" (done)="exitedEditMode($event)" [(currentProjet)]="currentProjet"></app-edit-project>
+    <app-edit-project *ngIf="editMode" (done)="exitedEditMode($event)" [createMode]="createMode" [(currentProjet)]="currentProjet"></app-edit-project>
     
     <div *ngIf="currentProjet && !editMode" class="d-flex flex-column h-100">
       <div class="imagePlanContainer">

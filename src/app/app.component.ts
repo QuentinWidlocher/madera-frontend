@@ -21,7 +21,7 @@ export class AppComponent {
               private connectivity: ConnectivityService,
               private projets: ProjetSwService,
               private clients: ClientSwService) {
-    this.populate();
+    // this.populate();
   }
 
   populate() {

@@ -20,6 +20,7 @@ export class UserProjectComponent implements OnInit {
 
   filterMenu = false;
   editMode = false;
+  createMode = false;
 
   constructor(private projetSw: ProjetSwService) {
   }
@@ -59,23 +60,36 @@ export class UserProjectComponent implements OnInit {
     });
   }
 
-  changeEditMode(state = !this.editMode) {
+  createProjet() {
+    this.currentProjet = Projet.newEmpty();
+    this.changeEditMode(true, true);
+  }
+
+  changeEditMode(state = !this.editMode, createMode = false) {
     if (!this.currentProjet) {
       return;
     }
 
+    this.createMode = createMode;
     this.editMode = state;
   }
 
   exitedEditMode(action: string) {
     this.editMode = false;
 
-    if (action === 'delete') {
-      this.projets = this.projetsOriginal.filter(projet => {
-        return projet !== this.currentProjet;
-      });
+    switch (action) {
 
-      this.currentProjet = undefined;
+      case 'delete':
+        this.projets = this.projetsOriginal.filter(projet => {
+          return projet !== this.currentProjet;
+        });
+
+        this.currentProjet = undefined;
+        break;
+    
+      case 'create':
+        this.projets.push(this.currentProjet);
+        break;
     }
   }
 
