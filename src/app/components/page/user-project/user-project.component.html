@@ -8,50 +8,57 @@
 
 <div class="contentPage row m-3 h-100">
   <div class="col-sm-4 h-100 overflow-hidden">
-    
+
     <mat-accordion>
       <mat-expansion-panel hideToggle disabled [expanded]="filterMenu">
         <mat-expansion-panel-header class="py-2">
           <mat-panel-title class="w-100">
             <mat-form-field class="w-100">
-              <input type="text" (click)="$event.stopPropagation()" [(ngModel)]="searchTerms" (change)="searchProjet()" matInput placeholder="Rechercher un Projet">
+              <input type="text" (click)="$event.stopPropagation()" [(ngModel)]="searchTerms" (change)="searchProjet()"
+                matInput placeholder="Rechercher un Projet">
             </mat-form-field>
           </mat-panel-title>
           <mat-panel-description>
-            <button mat-icon-button (click)="filterMenu = !filterMenu"><mat-icon>filter_list</mat-icon></button>
+            <button mat-icon-button (click)="filterMenu = !filterMenu">
+              <mat-icon>filter_list</mat-icon>
+            </button>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        
+
         <mat-form-field>
-          <input matInput [matDatepicker]="picker1" placeholder="Date de début">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
+          <input matInput [matDatepicker]="dateDebutPicker" placeholder="Date de début">
+          <mat-datepicker-toggle matSuffix [for]="dateDebutPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #dateDebutPicker></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput [matDatepicker]="picker2" placeholder="Date de début">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
+          <input matInput [matDatepicker]="dateFinPicker" placeholder="Date de fin">
+          <mat-datepicker-toggle matSuffix [for]="dateFinPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #dateFinPicker></mat-datepicker>
         </mat-form-field>
 
       </mat-expansion-panel>
     </mat-accordion>
 
-      <div class="h-100 w-100 d-flex" *ngIf="projetListLoading">
-        <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
-      </div>
-      <mat-action-list class="scroll mt-3 h-100" *ngIf="!projetListLoading">
-        <mat-list-item (click)="selectProjet(projet, index)" *ngFor="let projet of projets; let index = index">
-          <mat-icon mat-list-icon>description</mat-icon>
-            <h4 mat-line>{{ projet.title }}</h4>
-            <span mat-line class="mat-caption">Projet du {{ projet.creationDate | date: 'shortDate' }}</span>
-        </mat-list-item>
-      </mat-action-list>
-      <button mat-fab color="accent"><mat-icon>add</mat-icon></button>
+    <div class="h-100 w-100 d-flex" *ngIf="projetListLoading">
+      <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
+    </div>
+    <mat-action-list class="scroll mt-3 h-100" *ngIf="!projetListLoading">
+      <mat-list-item (click)="selectProjet(projet, index)" *ngFor="let projet of projets; let index = index">
+        <mat-icon mat-list-icon>assignment</mat-icon>
+        <h4 mat-line>{{ projet.title }}</h4>
+        <span mat-line class="mat-caption">Projet du {{ projet.creationDate | date: 'shortDate' }}</span>
+      </mat-list-item>
+    </mat-action-list>
+
+    <button mat-fab color="accent">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
 
 
-  <div class="col-8 h-100" >
+  <div class="col-8 h-100">
+    
     <div class="emptyState" *ngIf="!currentProjet">
       <img src="../../../../assets/svg/illustrations/not-found.svg">
       <div class="subtitle">
@@ -60,28 +67,38 @@
       </div>
     </div>
 
-    <div *ngIf="currentProjet" class="d-flex flex-column h-100">
+    <app-edit-project *ngIf="editMode" [currentProjet]="currentProjet"></app-edit-project>
+    
+    <div *ngIf="currentProjet && !editMode" class="d-flex flex-column h-100">
       <div class="imagePlanContainer">
-        <img src="https://travauxlib.cdn.prismic.io/travauxlib/edcc0c68a72d78a8b26b2b9daaf5ce38f9fb1ebb_plan-technique-maison-cotes.jpg" class="imagePlan">
+        <img
+          src="https://travauxlib.cdn.prismic.io/travauxlib/edcc0c68a72d78a8b26b2b9daaf5ce38f9fb1ebb_plan-technique-maison-cotes.jpg"
+          class="imagePlan">
       </div>
-  
+    
       <div class="infoProjet px-4 pb-3">
+        <div class="d-flex">
           <h1>{{ currentProjet.title }}</h1>
-          <div class="row">
-            <p class="text-secondary my-1 col-12">Version : <span>{{ currentProjet.version }}</span></p>
-            <p class="text-secondary my-1 col-6">Client : <span>{{ currentProjet.client.fullName }}</span></p>
-            <p class="text-secondary my-1 col-6">Total TTC : <span>n/a</span></p>
-            <p class="text-secondary my-1 col-6">Projet débuté le : <span>{{ currentProjet.creationDate | date: 'fullDate' }}</span></p>
-            <p class="text-secondary my-1 col-6">Projet terminé le : <span>Pas encore terminé</span></p>
-  
-            <div class="d-flex col-12 mt-5">
-                <button mat-button color="warn" class="mr-auto">Supprimer le projet</button>
-                <button mat-raised-button color="primary" class="mr-3">Ouvrir le devis</button>
-                <button mat-raised-button color="primary">Ouvrir le plan</button>
-            </div>
+          <button mat-icon-button (click)="changeEditMode(true)" class="my-auto ml-2">
+            <mat-icon class="text-muted">edit</mat-icon>
+          </button>
+        </div>
+        <div class="row">
+          <p class="text-secondary my-1 col-12">Version : <span>{{ currentProjet.version }}</span></p>
+          <p class="text-secondary my-1 col-6">Client : <span>{{ currentProjet.client.fullName }}</span></p>
+          <p class="text-secondary my-1 col-6">Total TTC : <span>n/a</span></p>
+          <p class="text-secondary my-1 col-6">Projet débuté le :
+            <span>{{ currentProjet.creationDate | date: 'fullDate' }}</span></p>
+          <p class="text-secondary my-1 col-6">Projet terminé le : <span>Pas encore terminé</span></p>
+    
+          <div class="d-flex col-12 mt-5">
+            <button mat-button color="warn" class="mr-auto">Supprimer le projet</button>
+            <button mat-raised-button color="primary" class="mr-3">Ouvrir le devis</button>
+            <button mat-raised-button color="primary">Ouvrir le plan</button>
           </div>
+        </div>
       </div>
     </div>
-    
+
   </div>
 </div>

@@ -19,7 +19,7 @@ export class UserProjectComponent implements OnInit {
   searchTerms: string;
 
   filterMenu = false;
-  locked = true;
+  editMode = false;
 
   constructor(private projetSw: ProjetSwService) {
     this.projetListLoading = true;
@@ -48,6 +48,14 @@ export class UserProjectComponent implements OnInit {
     this.projets = this.projetsOriginal.filter(x => {      
       return x.title.match(new RegExp(this.searchTerms, 'i'));
     });
+  }
+
+  changeEditMode(state = !this.editMode) {
+    if (!this.currentProjet) {
+      return;
+    }
+
+    this.editMode = state;
   }
 
 }

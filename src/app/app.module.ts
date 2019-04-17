@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +46,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CustomersComponent } from './components/page/customers/customers.component';
+import { EditProjectComponent } from './components/page/user-project/edit-project/edit-project.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,8 @@ import { CustomersComponent } from './components/page/customers/customers.compon
     NavBarComponent,
     UserProjectComponent,
     TestComponent,
-    CustomersComponent
+    CustomersComponent,
+    EditProjectComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +97,12 @@ import { CustomersComponent } from './components/page/customers/customers.compon
     MatNativeDateModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: "fr" },
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+}
+
+registerLocaleData(localeFr);

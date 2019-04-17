@@ -1,0 +1,25 @@
+.imagePlanContainer {
+
+  flex: 1;
+  min-height: 10rem;
+
+  .imagePlan {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1rem;
+    object-fit: cover;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
+}
+
+.infoProjet {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+
+  span {
+    color: black;
+    font-weight: bold;
+  }
+}
