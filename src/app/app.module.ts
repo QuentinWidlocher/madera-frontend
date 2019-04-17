@@ -43,6 +43,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CustomersComponent } from './components/page/customers/customers.component';
+import { DevisComponent } from './components/page/devis/devis.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { CustomersComponent } from './components/page/customers/customers.compon
     NavBarComponent,
     UserProjectComponent,
     TestComponent,
-    CustomersComponent
+    CustomersComponent,
+    DevisComponent
   ],
   imports: [
     BrowserModule,
