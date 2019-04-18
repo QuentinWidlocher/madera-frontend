@@ -79,7 +79,8 @@
       <div class="infoProjet px-4 pb-3">
         <div class="d-flex">
           <h1>{{ currentProjet.title | slice:0:40 }}<span *ngIf="currentProjet.title.length > 40">...</span></h1>
-          <button mat-icon-button (click)="changeEditMode(true)" class="my-auto ml-2">
+          <button mat-icon-button (click)="changeEditMode(true)" matTooltip="Editer le projet"
+                  [matTooltipPosition]="'after'" class="my-auto ml-2">
             <mat-icon class="text-muted">edit</mat-icon>
           </button>
         </div>

@@ -30,16 +30,17 @@ export class EditProjectComponent implements OnInit {
     // On crée une copie DIFFERENTE du projet, on assigne les valeurs à un NOUVEL objet
     this.projetOriginal = Object.assign(Projet.newEmpty(), this.currentProjet);
 
-    this.selectedClientId = this.currentProjet.client.id;
-
     if (this.createMode) {
       this.currentProjet.creationDate = new Date(Date.now());
     }
     
-    this.selectedClientId = this.currentProjet.client.id;
+    if (this.currentProjet.client !== undefined) {
+      this.selectedClientId = this.currentProjet.client.id;
+    }
 
     this.clientSw.getAll().then(clients => {
       this.listClient = clients;
+      console.log(this.listClient);
     });
 
   }
