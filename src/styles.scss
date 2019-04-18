@@ -1,27 +1,7 @@
 @import './app/theme.scss';
 @import 'bootstrap/dist/css/bootstrap-grid.min.css';
 @import 'material-design-icons/iconfont/material-icons.css';
-
-
-/* Rules for sizing the icon. */
-mat-icon {
-
-  &.md-18 {
-    font-size: 18px;
-  }
-
-  &.md-24 {
-    font-size: 24px;
-  }
-
-  &.md-36 {
-    font-size: 36px;
-  }
-
-  &.md-48 {
-    font-size: 48px;
-  }
-}
+@import './helpers.scss';
 
 body {
   margin: 0 !important;
@@ -39,6 +19,19 @@ mat-toolbar {
 
 button {
 
+  &:not([mat-button]) {
+    mat-icon {
+      vertical-align: text-top !important;
+      text-align: left;
+    }
+  }
+
+  &[mat-fab] {
+    mat-icon {
+      vertical-align: bottom !important;
+    }
+  }
+
   &[color="primary"] {
 
     &[mat-flat-button],
@@ -48,19 +41,13 @@ button {
 
   }
 
-  &[color="warn"], &[mat-stroked-button] {
+  &[color="warn"] &[mat-stroked-button] {
     border-color: mat-color($warn, 500) !important;
   }
-}
 
-.h-100 {
-  height: 100%;
-}
-
-.w-100 {
-  width: 100%;
-}
-
-.overflow-hidden {
-  overflow: hidden;
+  &[mat-fab] {
+    position: absolute;
+    right: 3rem;
+    bottom: 6rem;
+  }
 }

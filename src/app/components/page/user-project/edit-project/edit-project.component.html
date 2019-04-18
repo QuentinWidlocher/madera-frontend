@@ -1,0 +1,57 @@
+<div class="d-flex flex-column h-100">
+  <div class="imagePlanContainer">
+    <img
+      src="https://travauxlib.cdn.prismic.io/travauxlib/edcc0c68a72d78a8b26b2b9daaf5ce38f9fb1ebb_plan-technique-maison-cotes.jpg"
+      class="imagePlan">
+  </div>
+
+  <div class="infoProjet px-4 pb-3">
+    <div class="row">
+
+     <mat-form-field class="mt-4 col-12">
+       <input type="text" [(ngModel)]="currentProjet.title" matInput placeholder="Nom du Projet">
+     </mat-form-field>
+
+      <mat-form-field class="mt-2 col-6">
+        <input type="text" [(ngModel)]="currentProjet.version" matInput placeholder="Version">
+      </mat-form-field>
+
+      <div class="col-6"></div>
+
+      <mat-form-field class="col-6">
+        <mat-label>Client</mat-label>
+        <mat-select [(value)]="selectedClientId" (selectionChange)="updateClient()">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let client of listClient" [value]="client.id">{{ client.fullName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="col-6"></div>
+
+      <mat-form-field class="col-6">
+        <input matInput [(ngModel)]="currentProjet.creationDate" [matDatepicker]="dateDebutPicker" placeholder="Date de début du projet">
+        <mat-datepicker-toggle matSuffix [for]="dateDebutPicker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #dateDebutPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-6">
+        <input matInput [matDatepicker]="dateFinPicker"
+          placeholder="Date de fin du projet">
+        <mat-datepicker-toggle matSuffix [for]="dateFinPicker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #dateFinPicker></mat-datepicker>
+      </mat-form-field>
+
+
+      <div class="d-flex col-12 mt-2" *ngIf="createMode">
+        <button mat-stroked-button color="basic" (click)="exit('cancel')" class="ml-auto mr-3">Annuler</button>
+        <button mat-raised-button color="primary" (click)="exit('create')"><mat-icon class="md-18">add</mat-icon>Ajouter</button>
+      </div>
+
+      <div class="d-flex col-12 mt-2" *ngIf="!createMode">
+        <button mat-button color="warn" class="mr-auto" (click)="delete()">Supprimer le projet</button>
+        <button mat-stroked-button color="basic" (click)="exit('cancel')" class="mr-3">Annuler</button>
+        <button mat-raised-button color="primary" (click)="exit('save')"><mat-icon class="md-18">save</mat-icon>Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>

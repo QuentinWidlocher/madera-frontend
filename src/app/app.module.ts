@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule, MatButtonModule } from '@angular/material';
+import { MatCheckboxModule, MatButtonModule, MatNativeDateModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -43,6 +46,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CustomersComponent } from './components/page/customers/customers.component';
+import { EditProjectComponent, DeleteConfirmationDialog } from './components/page/user-project/edit-project/edit-project.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,9 @@ import { CustomersComponent } from './components/page/customers/customers.compon
     NavBarComponent,
     UserProjectComponent,
     TestComponent,
-    CustomersComponent
+    CustomersComponent,
+    EditProjectComponent,
+    DeleteConfirmationDialog
   ],
   imports: [
     BrowserModule,
@@ -89,9 +95,18 @@ import { CustomersComponent } from './components/page/customers/customers.compon
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatNativeDateModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: "fr" },
+  ],
+  entryComponents: [
+    DeleteConfirmationDialog
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+}
+
+registerLocaleData(localeFr);

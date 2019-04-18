@@ -33,4 +33,8 @@ export class Projet {
         return new Projet(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }
 
+    public loadClient(): void {
+        this.client = Object.assign(Client.newEmpty(), this.client);
+    }
+
 }

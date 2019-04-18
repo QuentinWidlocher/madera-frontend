@@ -1,35 +1,34 @@
 import { Injectable } from '@angular/core';
-import { Projet } from 'src/app/classes/projet';
+import { Client } from 'src/app/classes/client';
 import { ConnectivityService } from '../connectivity.service';
-import { ProjetApiService } from '../api/projet-api.service';
+import { ClientApiService } from '../api/client-api.service';
 import { IndexedDbService } from '../indexed-db.service';
 import Dexie from 'dexie';
 import { DeferredQuery } from 'src/app/classes/deferred-query';
 import { DeferredQueriesService } from '../deferred-queries.service';
-import { Client } from 'src/app/classes/client';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjetSwService {
+export class ClientSwService {
 
-  idb: Dexie.Table<Projet, number>;
+  idb: Dexie.Table<Client, number>;
 
   constructor(private connectivity: ConnectivityService,
-              private api: ProjetApiService,
-              private idbService: IndexedDbService,
-              private deferredQueries: DeferredQueriesService) {
-    this.idb = this.idbService.projets;
+    private api: ClientApiService,
+    private idbService: IndexedDbService,
+    private deferredQueries: DeferredQueriesService) {
+    this.idb = this.idbService.clients;
   }
 
 
   ///
   /// GET ALL
   ///
-  getAll(): Promise<Projet[]> {
+  getAll(): Promise<Client[]> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise<Projet[]>;
+    let result: Promise<Client[]>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -42,19 +41,18 @@ export class ProjetSwService {
           // Si on peux toucher l'API, on la call, on remplace la base locale par les nouvelles données
           result = new Promise(rslv => {
 
-            this.api.getAll().subscribe((projets: Projet[]) => {
+            this.api.getAll().subscribe((clients: Client[]) => {
 
               // On vide la base locale
               this.idb.clear();
 
               // On ajoute à l'IDB les données obtenue
-              projets.forEach((projet, index) => {
-                this.idb.add(projet);
-                projets[index].client = Object.assign(Client.newEmpty(), projet.client);
+              clients.forEach(client => {
+                this.idb.add(client);
               });
 
               // On résout les données de la Promesse
-              rslv(projets);
+              rslv(clients);
             }, error => {
 
               // Si on détecte une erreur, on attend un changement de connexion et on réessaye
@@ -65,20 +63,7 @@ export class ProjetSwService {
         } else {
 
           // Si on ne peux pas toucher l'API, on call simplement l'IDB
-          result = new Promise(rslv => {
-
-            // On boucle sur tout les résultats et on transforme les objets anonymes en objets typés
-            this.idb.toArray().then(projets => {
-              projets.forEach((projet, index) => {
-                this.idb.add(projet);
-                projets[index].loadClient();
-              });
-
-              // On résout les données de la Promesse
-              rslv(projets);
-            });
-
-          }); 
+          result = this.idb.toArray();
         }
       }).finally(() => { rtrn(result); });
     });
@@ -89,10 +74,10 @@ export class ProjetSwService {
   ///
   /// GET ONE
   ///
-  get(id: number): Promise<Projet> {
+  get(id: number): Promise<Client> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise<Projet>;
+    let result: Promise<Client>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -103,13 +88,13 @@ export class ProjetSwService {
 
           // Si on touche l'API, on la call, on ajoute/modifie l'enregistrement local et on retourne
           result = new Promise(rslv => {
-            this.api.get(id).subscribe((projet: Projet) => {
+            this.api.get(id).subscribe((client: Client) => {
 
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
-              this.idb.put(projet, projet.id);
+              this.idb.put(client, client.id);
 
               // On résout les données de la Promesse
-              rslv(projet);
+              rslv(client);
             }, error => {
 
               // Si on détecte une erreur, on attend un changement de connexion et on réessaye
@@ -130,7 +115,7 @@ export class ProjetSwService {
   ///
   /// ADD
   ///
-  add(projet: Projet): Promise<Projet> {
+  add(client: Client): Promise<Client> {
 
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
@@ -146,7 +131,7 @@ export class ProjetSwService {
           // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
           result = new Promise(rslv => {
 
-            this.api.add(projet).subscribe((added: Projet) => {
+            this.api.add(client).subscribe((added: Client) => {
 
               // On ajoute aussi à l'IDB
               this.idb.add(added);
@@ -157,7 +142,7 @@ export class ProjetSwService {
             }, error => {
 
               // Si on détecte une erreur, on attend un changement de connexion et on réessaye
-              this.connectivity.event.subscribe(connected => rslv(this.add(projet)));
+              this.connectivity.event.subscribe(connected => rslv(this.add(client)));
 
             });
           });
@@ -172,13 +157,13 @@ export class ProjetSwService {
               const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
 
               // On met à jour l'objet qu'on va ajouter
-              projet.id = nextId;
+              client.id = nextId;
 
               // On ajoute une requête différée pour update la base plus tard
-              this.deferredQueries.add(new DeferredQuery(projet, 'add', 'projet'));
+              this.deferredQueries.add(new DeferredQuery(client, 'add', 'client'));
 
-              result = this.idb.add(projet);
-              rslv(projet);
+              result = this.idb.add(client);
+              rslv(client);
 
             });
           });
@@ -192,7 +177,7 @@ export class ProjetSwService {
   ///
   /// EDIT
   ///
-  edit(projet: Projet): Promise<any> {
+  edit(client: Client): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
@@ -208,27 +193,27 @@ export class ProjetSwService {
           // Si on peux toucher l'API, on la call, on remplace la base locale par les nouvelles données
           result = new Promise(rslv => {
 
-            this.api.edit(projet).subscribe(() => {
+            this.api.edit(client).subscribe(() => {
 
               // On met à jour l'enregistrement dans l'IDB
-              this.idb.update(projet.id, { ...projet });
+              this.idb.update(client.id, { ...client });
 
               // On résout vide, histoire de dire que c'est fini
               rslv();
             }, error => {
 
               // Si on détecte une erreur, on attend un changement de connexion et on réessaye
-              this.connectivity.event.subscribe(connected => rslv(this.edit(projet)));
+              this.connectivity.event.subscribe(connected => rslv(this.edit(client)));
 
             });
           });
         } else {
 
           // On met à jour l'enregistrement dans l'IDB
-          result = this.idb.update(projet.id, { ...projet });
+          result = this.idb.update(client.id, { ...client });
 
           // On ajoute une requête différée pour update la base plus tard
-          this.deferredQueries.add(new DeferredQuery(projet, 'edit', 'projet'));
+          this.deferredQueries.add(new DeferredQuery(client, 'edit', 'client'));
         }
 
       }).finally(() => { rtrn(result); });
@@ -256,7 +241,7 @@ export class ProjetSwService {
           result = new Promise(rslv => {
 
             // On delete en base
-            this.api.delete(Object.assign(Projet.newEmpty(), {id})).subscribe(() => {
+            this.api.delete(Object.assign(Client.newEmpty(), { id })).subscribe(() => {
 
               // Et on delete dans l'idb
               this.idb.delete(id);
@@ -277,7 +262,7 @@ export class ProjetSwService {
           result = this.idb.delete(id);
 
           // On ajoute une requête différée pour update la base plus tard
-          this.deferredQueries.add(new DeferredQuery({ id }, 'delete', 'projet'));
+          this.deferredQueries.add(new DeferredQuery({ id }, 'delete', 'client'));
         }
       }).finally(() => { rtrn(result); });
 
@@ -310,7 +295,7 @@ export class ProjetSwService {
                 // Si on détecte une erreur, on attend un changement de connexion et on réessaye
                 this.connectivity.event.subscribe(connected => rslv(this.count()));
 
-            });
+              });
           });
 
         } else {
