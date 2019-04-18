@@ -7,19 +7,19 @@
 
 
 <div class="contentPage row m-3 h-100">
-  <div class="col-sm-4 h-100 overflow-hidden">
+  <div class="col-sm-4 pl-1 h-100 overflow-hidden" [class.locked]="editMode">
 
     <mat-accordion>
-      <mat-expansion-panel hideToggle disabled [expanded]="filterMenu">
+      <mat-expansion-panel hideToggle disabled [expanded]="filterMenu && !editMode">
         <mat-expansion-panel-header class="py-2">
           <mat-panel-title class="w-100">
             <mat-form-field class="w-100">
-              <input type="text" (click)="$event.stopPropagation()" [(ngModel)]="searchTerms" (change)="searchProjet()"
+              <input [disabled]="editMode" type="text" (click)="$event.stopPropagation()" [(ngModel)]="searchTerms" (change)="searchProjet()"
                 matInput placeholder="Rechercher un Projet">
             </mat-form-field>
           </mat-panel-title>
           <mat-panel-description>
-            <button mat-icon-button (click)="filterMenu = !filterMenu">
+            <button mat-icon-button [disabled]="editMode" (click)="filterMenu = !filterMenu">
               <mat-icon>filter_list</mat-icon>
             </button>
           </mat-panel-description>
@@ -44,14 +44,15 @@
       <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
     <mat-action-list class="scroll mt-3 h-100" *ngIf="!projetListLoading">
-      <mat-list-item (click)="selectProjet(projet, index)" [class.selected]="currentProjet === projet" *ngFor="let projet of projets; let index = index">
+      <mat-list-item (click)="selectProjet(projet, index)" [class.selected]="currentProjet === projet"
+        *ngFor="let projet of projets; let index = index" [disableRipple]="editMode">
         <mat-icon mat-list-icon>assignment</mat-icon>
         <h4 mat-line>{{ projet.title }}</h4>
         <span mat-line class="mat-caption">Projet du {{ projet.creationDate | date: 'shortDate' }}</span>
       </mat-list-item>
     </mat-action-list>
 
-    <button mat-fab color="accent" (click)="createProjet()">
+    <button mat-fab color="accent" [disabled]="editMode" (click)="createProjet()">
       <mat-icon>add</mat-icon>
     </button>
   </div>

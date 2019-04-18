@@ -44,6 +44,9 @@ export class UserProjectComponent implements OnInit {
   }
 
   selectProjet(projet: Projet, index: number) {
+    if (this.editMode) {
+      return;
+    }
     console.log(projet);
     this.currentProjet = projet;
     this.projetListIndex = index;
