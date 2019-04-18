@@ -44,6 +44,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CustomersComponent } from './components/page/customers/customers.component';
 import { DevisComponent } from './components/page/devis/devis.component';
+import { LoginComponent } from './components/page/login/login.component';
+import { CreateUsersComponent } from './components/page/create-users/create-users.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { DevisComponent } from './components/page/devis/devis.component';
     UserProjectComponent,
     TestComponent,
     CustomersComponent,
-    DevisComponent
+    DevisComponent,
+    LoginComponent,
+    CreateUsersComponent
   ],
   imports: [
     BrowserModule,

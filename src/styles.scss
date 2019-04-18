@@ -43,7 +43,7 @@ button {
 
     &[mat-flat-button],
     &[mat-raised-button] {
-      color: white;
+      color: white !important;
     }
 
   }

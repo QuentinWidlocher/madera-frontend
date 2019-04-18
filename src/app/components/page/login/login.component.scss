@@ -1,0 +1,32 @@
+@import '../../../theme.scss';
+@include mat-core();
+
+.h-100 {
+    height: calc(100vh - 4.5rem);
+}
+
+.font-size {
+ font-size: 150px;
+
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.Profil_icon {
+    width: 75%;
+    opacity: 0.5;
+}
+
+.btn-login {
+    float: right;
+}
+
+.background {
+    background: mat-color($primary, 500);
+}
+
+.w-30 {
+    width: 30%;
+}

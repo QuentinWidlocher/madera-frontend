@@ -1,0 +1,31 @@
+<div class="d-flex h-100 background">
+  <mat-card class="m-auto p-5 w-30">
+
+      <!-- Profil icon -->
+      <div class="text-align-center">
+        <img src="../assets/svg/illustrations/Profil_icon.svg" class="Profil_icon">
+      </div>
+
+      <!-- Champ Nom Utilisateur -->
+      <div>
+        <mat-form-field class="w-100"> 
+          <input matInput placeholder="Nom d'utilisateur">
+        </mat-form-field>
+      </div>
+
+      <!-- Champ Mot de passe -->
+      <div>
+        <mat-form-field class="w-100">
+          <input matInput placeholder="Mot de passe" [type]="hide ? 'password' : 'text'">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+      </div> 
+      
+      <!-- Button de Connexion -->
+      <div class="btn-login pt-2">
+        <button mat-raised-button color="primary">Connexion</button>
+      </div>    
+
+  </mat-card>
+</div>
+
