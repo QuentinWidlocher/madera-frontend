@@ -19,7 +19,11 @@
       <div class="col-6"></div>
 
       <mat-form-field class="col-6">
-        <input type="text" matInput placeholder="Nom du Client">
+        <mat-label>Client</mat-label>
+        <mat-select [(value)]="selectedClientId" (selectionChange)="updateClient()">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let client of listClient" [value]="client.id">{{ client.fullName }}</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <div class="col-6"></div>

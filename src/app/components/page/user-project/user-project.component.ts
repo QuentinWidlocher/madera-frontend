@@ -90,6 +90,12 @@ export class UserProjectComponent implements OnInit {
       case 'create':
         this.projets.push(this.currentProjet);
         break;
+
+      case 'cancel':
+        if (this.createMode) {
+          this.currentProjet = undefined;
+        }
+        break;
     }
   }
 

@@ -63,7 +63,7 @@
       <img src="../../../../assets/svg/illustrations/not-found.svg">
       <div class="subtitle">
         <h3>Aucun projet selectionné.</h3>
-        <button mat-button color="primary">Créer un projet</button>
+        <button mat-button color="primary" (click)="createProjet()">Créer un projet</button>
       </div>
     </div>
 
@@ -78,7 +78,7 @@
     
       <div class="infoProjet px-4 pb-3">
         <div class="d-flex">
-          <h1>{{ currentProjet.title }}</h1>
+          <h1>{{ currentProjet.title | slice:0:40 }}<span *ngIf="currentProjet.title.length > 40">...</span></h1>
           <button mat-icon-button (click)="changeEditMode(true)" class="my-auto ml-2">
             <mat-icon class="text-muted">edit</mat-icon>
           </button>

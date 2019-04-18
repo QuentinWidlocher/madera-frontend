@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular
 import { Projet } from 'src/app/classes/projet';
 import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Client } from 'src/app/classes/client';
+import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 
 @Component({
   selector: 'app-edit-project',
@@ -18,16 +20,37 @@ export class EditProjectComponent implements OnInit {
 
   @Input() createMode = false;
 
-  constructor(private projetSw: ProjetSwService, private dialog: MatDialog) { 
+  selectedClientId: number;
+  listClient: Client[] = [];
+
+  constructor(private projetSw: ProjetSwService, private dialog: MatDialog, private clientSw: ClientSwService) {
   }
   
   ngOnInit() {
     // On crée une copie DIFFERENTE du projet, on assigne les valeurs à un NOUVEL objet
     this.projetOriginal = Object.assign(Projet.newEmpty(), this.currentProjet);
 
+    this.selectedClientId = this.currentProjet.client.id;
+
     if (this.createMode) {
       this.currentProjet.creationDate = new Date(Date.now());
     }
+    
+    this.selectedClientId = this.currentProjet.client.id;
+
+    this.clientSw.getAll().then(clients => {
+      this.listClient = clients;
+    });
+
+  }
+
+  updateClient() {
+    this.listClient.forEach((client, index) => {
+      if (client.id === +this.selectedClientId) {
+        this.currentProjet.client = client;
+        return;
+      }
+    }); 
   }
 
   exit(action = 'cancel') {
