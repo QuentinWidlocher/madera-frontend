@@ -60,7 +60,7 @@ import { CreateUsersComponent } from './components/page/create-users/create-user
     TestComponent,
     CustomersComponent,
     EditProjectComponent,
-    DeleteConfirmationDialog
+    DeleteConfirmationDialog,
     DevisComponent,
     LoginComponent,
     CreateUsersComponent
