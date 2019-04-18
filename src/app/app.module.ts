@@ -47,6 +47,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CustomersComponent } from './components/page/customers/customers.component';
 import { EditProjectComponent, DeleteConfirmationDialog } from './components/page/user-project/edit-project/edit-project.component';
+import { DevisComponent } from './components/page/devis/devis.component';
+import { LoginComponent } from './components/page/login/login.component';
+import { CreateUsersComponent } from './components/page/create-users/create-users.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { EditProjectComponent, DeleteConfirmationDialog } from './components/pag
     CustomersComponent,
     EditProjectComponent,
     DeleteConfirmationDialog
+    DevisComponent,
+    LoginComponent,
+    CreateUsersComponent
   ],
   imports: [
     BrowserModule,

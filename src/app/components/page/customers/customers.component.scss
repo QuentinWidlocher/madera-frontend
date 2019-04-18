@@ -4,22 +4,32 @@
 }
 
 .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
-    height: 70px;
-    border: none;
-
+    height: 4rem;
 }
 
 .scroll {
     overflow-y:scroll;
 }
 
-.infoProjet {
-    background-color: rgba(0, 0, 0, 0.04);
-}
 
-.infoProjet span {
-    color: black;
-    font-weight: bold;
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    img {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        width: 20rem;
+        height: 20rem;
+    }
+
+    h1 {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: auto;
+    }
 }
 
 .imagePlanContainer {
@@ -42,6 +52,18 @@
     height: calc(100vh - 9.5rem);
 }
 
-.scroll-padding {
-    padding-bottom: 25px;
+.colUserList {
+    height: calc(100vh - 16rem);
+}
+
+.background {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+}
+
+mat-action-list {
+    flex: 1;
 }

@@ -1,0 +1,78 @@
+<!-- Titre Nav -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon>menu</mat-icon> <span class="ml-2">Devis n° ...</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="contentPage">
+  
+  <div class="row mt-3 mb-3 justify-content-around">
+    <!-- Card Info Client / projet-->
+    <mat-card class="col-7">
+        <div class="row">
+        <p class="text-muted col-12 mt-0 mb-4">Client : <span> Robert LANGLOIS{{ currentProjet.version }}</span></p>
+        <p class="text-muted col-6 mt-0 mb-0">Projet débutée le : <span> 18/06/2018{{ currentProjet.client.fullName }}</span></p>
+        <p class="text-muted col-6 mt-0 mb-0">Projet terminée le : <span>en cour</span></p>
+        </div>
+    </mat-card>
+    <!-- Card Coût du projet-->
+    <mat-card class="col-4">
+        <div class="row pl-5 pr-5">
+        <p class="col-6 text-muted mt-0 mb-2 text-align-right">Total HT :</p><span class="col-6 text-align-right"> prout{{ currentProjet.version }}</span>
+        <p class="col-6 text-muted mt-0 mb-2 text-align-right">TVA : </p><span class="col-6 text-align-right"> prout{{ currentProjet.client.fullName }}</span>
+        <p class="col-6 text-muted mt-0 mb-2 text-align-right">Total TTC : </p><span class="col-6 text-align-right"> pd n/a</span>
+        </div>
+    </mat-card>
+  </div>
+
+
+
+  <div class="d-flex flex-column">
+    <mat-card class="example-container m-2">
+      <table mat-table [dataSource]="dataSource">
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef class="text-transform"> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="text-transform"> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef class="text-transform"> Weight </th>
+          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef class="text-transform"> Symbol </th>
+          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card>
+
+    <!-- Card total projet -->
+    <div class="row m-2">
+        <mat-card class="col-7">
+            <div class="row">
+              <p class="col-5">Temps estimé : <span> 150 </span></p><p class="col-7 text-align-right"> Main d'oeuvre horaire : {{ currentProjet.version }} <span class="text-muted"> 45 € / heure</span> <br> <span> Main d'oeuvre estimée : </span> <span class="text-muted"> 45 € / heure</span></p>
+            </div>          
+        </mat-card>
+        <div class="col-auto ml-auto mt-auto">
+          <button mat-raised-button color="primary">Envoyer le devis par mail</button>
+        </div>
+    </div>
+    
+  </div>
+</div>
