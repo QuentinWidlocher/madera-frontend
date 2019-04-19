@@ -37,4 +37,5 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <preference name="StatusBarBackgroundColor" value="#338a3e" />
     <engine name="android" spec="^7.1.4" />
+    <engine name="ios" spec="^4.5.5" />
 </widget>

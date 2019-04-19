@@ -4,6 +4,7 @@ import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.serv
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
+import { Utilisateur } from 'src/app/classes/utilisateur';
 
 @Component({
   selector: 'app-edit-project',
@@ -58,13 +59,15 @@ export class EditProjectComponent implements OnInit {
 
     action = (this.createMode && action !== 'cancel' ? 'create' : action);
 
+    this.currentProjet.utilisateur = Object.assign(Utilisateur.newEmpty(), { id: 1 });
+
     switch (action) {
       case 'save':
         this.projetSw.edit(this.currentProjet);
         break;
 
       case 'create':
-        this.projetSw.add(this.currentProjet);
+        this.projetSw.add(this.currentProjet).catch(error => console.error(error));
         break;
 
       case 'cancel':

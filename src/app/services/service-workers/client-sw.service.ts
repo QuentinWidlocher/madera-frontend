@@ -46,9 +46,14 @@ export class ClientSwService {
               // On vide la base locale
               this.idb.clear();
 
-              // On ajoute à l'IDB les données obtenue
-              clients.forEach(client => {
+              // On traite les données
+              clients.forEach((client, index) => {
+
+                // On ajoute à l'IDB les données obtenue
                 this.idb.add(client);
+
+                // On transforme l'objet anonyme en client
+                clients[index] = Object.assign(Client.newEmpty(), client);
               });
 
               // On résout les données de la Promesse

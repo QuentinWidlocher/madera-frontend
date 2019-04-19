@@ -17,7 +17,6 @@ import { Module } from '../classes/module';
 import { Plan } from '../classes/plan';
 import { Produit } from '../classes/produit';
 import { Projet } from '../classes/projet';
-import { Role } from '../classes/role';
 import { Unite } from '../classes/unite';
 import { Utilisateur } from '../classes/utilisateur';
 import { DeferredQuery } from '../classes/deferred-query';
@@ -46,7 +45,6 @@ export class IndexedDbService extends Dexie {
   public plans: Dexie.Table<Plan, number>;
   public produits: Dexie.Table<Produit, number>;
   public projets: Dexie.Table<Projet, number>;
-  public roles: Dexie.Table<Role, number>;
   public unites: Dexie.Table<Unite, number>;
   public utilisateurs: Dexie.Table<Utilisateur, number>;
 
@@ -86,7 +84,6 @@ export class IndexedDbService extends Dexie {
       plans: '++id, &number, creationDate, editionDate',
       produits: '++id, creationDate, editionDate',
       projets: '++id, creationDate, editionDate',
-      roles: '++id, &code',
       unites: '++id, &code',
       utilisateurs: '++id',
       deferredQueries: '++id, type, method, date'
@@ -110,7 +107,6 @@ export class IndexedDbService extends Dexie {
     this.plans = this.table('plans');
     this.produits = this.table('produits');
     this.projets = this.table('projets');
-    this.roles = this.table('roles');
     this.unites = this.table('unites');
     this.utilisateurs = this.table('utilisateurs');
 
@@ -134,7 +130,6 @@ export class IndexedDbService extends Dexie {
     this.plans.mapToClass(Plan);
     this.produits.mapToClass(Produit);
     this.projets.mapToClass(Projet);
-    this.roles.mapToClass(Role);
     this.unites.mapToClass(Unite);
     this.utilisateurs.mapToClass(Utilisateur);
 
