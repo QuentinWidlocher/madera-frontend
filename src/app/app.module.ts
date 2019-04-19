@@ -11,7 +11,9 @@ import { HomeComponent } from './components/page/home/home.component';
 import { UserProjectComponent } from './components/page/user-project/user-project.component';
 import { TestComponent } from './components/page/test/test.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthInterceptor } from "./auth-interceptor";
 
 // Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -106,6 +108,7 @@ import { CreateUsersComponent } from './components/page/create-users/create-user
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "fr" },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   entryComponents: [
     DeleteConfirmationDialog
