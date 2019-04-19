@@ -1,11 +1,13 @@
 <!-- Titre Nav -->
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <mat-icon>menu</mat-icon> <span class="ml-2">Liste des utilisateurs</span>
+    <button mat-button (click)="onHamburger.emit()"><mat-icon>menu</mat-icon></button> <span class="ml-2">Liste des utilisateurs</span>
   </mat-toolbar-row>
 </mat-toolbar>
-  
-  
+
+
+
+
 <!-- Bar de Recherche -->
 <div class="contentPage row m-3 h-100">
   <div class="col-sm-4 pl-1 h-100 overflow-hidden">
@@ -68,4 +70,3 @@
     
   </div>
 </div>
-  

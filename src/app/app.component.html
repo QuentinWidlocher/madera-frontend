@@ -1,4 +1,18 @@
-<div class="page">
-  <router-outlet></router-outlet>
-</div>
-<app-nav-bar></app-nav-bar>
+<mat-sidenav-container class="h-100">
+  <mat-sidenav #sidenav mode="over" [(opened)]="hamburgerOpened" class="content-nav">
+    <app-side-nav></app-side-nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    
+    <div class="page">
+    
+      <router-outlet (activate)="getComponent($event)"></router-outlet>
+
+    </div>
+
+    <app-nav-bar></app-nav-bar>
+    
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
