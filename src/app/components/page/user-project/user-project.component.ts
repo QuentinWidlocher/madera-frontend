@@ -47,7 +47,6 @@ export class UserProjectComponent implements OnInit {
     if (this.editMode) {
       return;
     }
-    console.log(projet);
     this.currentProjet = projet;
     this.projetListIndex = index;
   }
@@ -83,15 +82,16 @@ export class UserProjectComponent implements OnInit {
     switch (action) {
 
       case 'delete':
-        this.projets = this.projetsOriginal.filter(projet => {
+        this.projets = this.projets.filter(projet => {
           return projet !== this.currentProjet;
         });
-
+        this.projetsOriginal = this.projets;
         this.currentProjet = undefined;
         break;
     
       case 'create':
         this.projets.push(this.currentProjet);
+        this.projetsOriginal = this.projets;
         break;
 
       case 'cancel':
