@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Projet } from 'src/app/classes/projet';
 import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
+import { Client } from 'src/app/classes/client';
+import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 
 @Component({
   selector: 'app-user-project',
@@ -17,12 +19,15 @@ export class UserProjectComponent implements OnInit {
   projetListLoading = true;
 
   searchTerms: string;
-
   filterMenu = false;
+  selectedClientsIds: number[] = [];
+  listClient: Client[] = [];
+
   editMode = false;
   createMode = false;
 
-  constructor(private projetSw: ProjetSwService) {
+  constructor(private projetSw: ProjetSwService,
+              private clientSw: ClientSwService) {
   }
 
   ngOnInit() {
@@ -41,6 +46,10 @@ export class UserProjectComponent implements OnInit {
         this.currentProjet = this.projetsOriginal[this.projetListIndex];
       }
     });
+
+    this.clientSw.getAll().then(clients => {
+      this.listClient = clients;
+    });
   }
 
   selectProjet(projet: Projet, index: number) {
@@ -51,16 +60,26 @@ export class UserProjectComponent implements OnInit {
     this.projetListIndex = index;
   }
 
-  searchProjet() {
-    if (this.searchTerms === '') {
-      this.projets = this.projetsOriginal;
-      return;
-    }
+  filter() {
+    this.projets = this.projetsOriginal.filter(x => {
+      let valid = true;
 
-    this.projets = this.projetsOriginal.filter(x => {      
-      return x.title.match(new RegExp(this.searchTerms, 'i'));
+      if (this.searchTerms !== '') {
+        valid = valid && x.title.match(new RegExp(this.searchTerms, 'i')) ? true : false;
+      } else {
+        valid = valid && true;
+      }
+
+      if (this.selectedClientsIds.length > 0) {
+        valid = valid && this.selectedClientsIds.includes(x.client.id);
+      }
+
+      return valid;
     });
+
+
   }
+
 
   createProjet() {
     this.currentProjet = Projet.newEmpty();

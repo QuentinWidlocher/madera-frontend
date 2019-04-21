@@ -14,27 +14,23 @@
         <mat-expansion-panel-header class="py-2">
           <mat-panel-title class="w-100">
             <mat-form-field class="w-100">
-              <input [disabled]="editMode" type="text" (click)="$event.stopPropagation()" [(ngModel)]="searchTerms" (change)="searchProjet()"
+              <input [disabled]="editMode" type="text" [(ngModel)]="searchTerms" (keyup)="filter()"
                 matInput placeholder="Rechercher un Projet">
             </mat-form-field>
           </mat-panel-title>
           <mat-panel-description>
-            <button mat-icon-button [disabled]="editMode" (click)="filterMenu = !filterMenu">
+            <button mat-icon-button [disabled]="editMode" (click)="filterMenu = !filterMenu"
+              matTooltip="Filtrer la liste des projets" [matTooltipPosition]="'after'">
               <mat-icon>filter_list</mat-icon>
             </button>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-form-field>
-          <input matInput [matDatepicker]="dateDebutPicker" placeholder="Date de début">
-          <mat-datepicker-toggle matSuffix [for]="dateDebutPicker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #dateDebutPicker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput [matDatepicker]="dateFinPicker" placeholder="Date de fin">
-          <mat-datepicker-toggle matSuffix [for]="dateFinPicker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #dateFinPicker></mat-datepicker>
+        <mat-form-field class="w-100">
+          <mat-label>Filtrer par client</mat-label>
+          <mat-select [(ngModel)]="selectedClientsIds" (selectionChange)="filter()" multiple>
+            <mat-option *ngFor="let client of listClient" [value]="client.id">{{ client.fullName }}</mat-option>
+          </mat-select>
         </mat-form-field>
 
       </mat-expansion-panel>
@@ -48,7 +44,7 @@
         *ngFor="let projet of projets; let index = index" [disableRipple]="editMode">
         <mat-icon mat-list-icon>assignment</mat-icon>
         <h4 mat-line>{{ projet.title }}</h4>
-        <span mat-line class="mat-caption">Projet du {{ projet.creationDate | date: 'shortDate' }}</span>
+        <span mat-line class="mat-caption">{{ projet.client.fullName }} - {{ projet.creationDate | date: 'shortDate' }}</span>
       </mat-list-item>
     </mat-action-list>
 
@@ -79,7 +75,7 @@
     
       <div class="infoProjet px-4 pb-3">
         <div class="d-flex">
-          <h1>{{ currentProjet.title | slice:0:40 }}<span *ngIf="currentProjet.title.length > 40">...</span></h1>
+          <h1>{{ currentProjet.title | slice:0:45 }}<span *ngIf="currentProjet.title.length > 45">...</span></h1>
           <button mat-icon-button (click)="changeEditMode(true)" matTooltip="Editer le projet"
                   [matTooltipPosition]="'after'" class="my-auto ml-2">
             <mat-icon class="text-muted">edit</mat-icon>
