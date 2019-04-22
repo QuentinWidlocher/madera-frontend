@@ -76,8 +76,6 @@ export class UserProjectComponent implements OnInit {
 
       return valid;
     });
-
-
   }
 
 

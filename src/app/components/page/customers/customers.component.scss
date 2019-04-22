@@ -1,69 +1,92 @@
 .list-group-item.active {
-    background-color: grey;
-    border: none;
+  background-color: grey;
+  border: none;
 }
 
-.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
-    height: 4rem;
+.mat-list-base .mat-list-item,
+.mat-list-base .mat-list-option {
+  height: 4rem;
 }
 
 .scroll {
-    overflow-y:scroll;
+  overflow-y: scroll;
 }
-
 
 .emptyState {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .subtitle {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+
     display: flex;
     flex-direction: column;
-    height: 100%;
 
-    img {
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: auto;
-        width: 20rem;
-        height: 20rem;
+    h3 {
+      margin-bottom: 0.5rem;
     }
 
-    h1 {
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: auto;
+    button {
+      margin-left: auto;
+      margin-right: auto;
     }
-}
-
-.imagePlanContainer {
-
-    flex: 1;
-    min-height: 10rem;
-
-    .imagePlan {
-        width: 100%;
-        height: 100%;
-        margin-bottom: 1rem;
-        object-fit: cover;
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
-    }
-}
-
-
-.contentPage {
-    height: calc(100vh - 9.5rem);
-}
-
-.colUserList {
-    height: calc(100vh - 16rem);
-}
-
-.background {
-    background-color: rgba(0, 0, 0, 0.04);
-    border-bottom-left-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-    border-top-left-radius: 0.25rem;
+  }
 }
 
 mat-action-list {
-    flex: 1;
+  padding-bottom: 6rem;
+
+  mat-icon {
+    opacity: 0.60;
+  }
+
+  mat-list-item {
+    &.selected {
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+.contentPage {
+  height: calc(100vh - 9.5rem);
+}
+
+mat-expansion-panel-header {
+
+  mat-panel-description {
+    margin-right: 0;
+    justify-content: space-between;
+    align-items: center;
+
+    mat-icon {
+      color: black !important;
+    }
+  }
+
+  input {
+    color: black !important;
+  }
+
+}
+
+button[mat-fab] {
+  position: relative;
+  float: right;
+  bottom: 11rem;
+  right: 2rem;
+}
+
+.locked {
+  opacity: 0.5;
 }

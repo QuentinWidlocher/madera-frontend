@@ -47,8 +47,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { CustomersComponent } from './components/page/customers/customers.component';
-import { EditProjectComponent, DeleteConfirmationDialog } from './components/page/user-project/edit-project/edit-project.component';
+import { CustomersComponent, ClientDeleteConfirmationDialog } from './components/page/customers/customers.component';
+import { EditProjectComponent, ProjetDeleteConfirmationDialog } from './components/page/user-project/edit-project/edit-project.component';
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent } from './components/page/create-users/create-users.component';
@@ -65,7 +65,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     TestComponent,
     CustomersComponent,
     EditProjectComponent,
-    DeleteConfirmationDialog,
+    ProjetDeleteConfirmationDialog,
+    ClientDeleteConfirmationDialog,
     DevisComponent,
     LoginComponent,
     CreateUsersComponent,
@@ -116,7 +117,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   entryComponents: [
-    DeleteConfirmationDialog
+    ProjetDeleteConfirmationDialog,
+    ClientDeleteConfirmationDialog
   ],
   bootstrap: [AppComponent]
 })
