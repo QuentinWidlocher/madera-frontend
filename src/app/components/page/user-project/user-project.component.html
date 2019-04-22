@@ -7,34 +7,30 @@
 
 
 <div class="contentPage row m-3 h-100">
-  <div class="col-sm-4 h-100 overflow-hidden">
+  <div class="col-sm-4 pl-1 h-100 overflow-hidden" [class.locked]="editMode">
 
     <mat-accordion>
-      <mat-expansion-panel hideToggle disabled [expanded]="filterMenu">
+      <mat-expansion-panel hideToggle disabled [expanded]="filterMenu && !editMode">
         <mat-expansion-panel-header class="py-2">
           <mat-panel-title class="w-100">
             <mat-form-field class="w-100">
-              <input type="text" (click)="$event.stopPropagation()" [(ngModel)]="searchTerms" (change)="searchProjet()"
+              <input [disabled]="editMode" type="text" [(ngModel)]="searchTerms" (keyup)="filter()"
                 matInput placeholder="Rechercher un Projet">
             </mat-form-field>
           </mat-panel-title>
           <mat-panel-description>
-            <button mat-icon-button (click)="filterMenu = !filterMenu">
+            <button mat-icon-button [disabled]="editMode" (click)="filterMenu = !filterMenu"
+              matTooltip="Filtrer la liste des projets" [matTooltipPosition]="'after'">
               <mat-icon>filter_list</mat-icon>
             </button>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-form-field>
-          <input matInput [matDatepicker]="dateDebutPicker" placeholder="Date de début">
-          <mat-datepicker-toggle matSuffix [for]="dateDebutPicker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #dateDebutPicker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput [matDatepicker]="dateFinPicker" placeholder="Date de fin">
-          <mat-datepicker-toggle matSuffix [for]="dateFinPicker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #dateFinPicker></mat-datepicker>
+        <mat-form-field class="w-100">
+          <mat-label>Filtrer par client</mat-label>
+          <mat-select [(ngModel)]="selectedClientsIds" (selectionChange)="filter()" multiple>
+            <mat-option *ngFor="let client of listClient" [value]="client.id">{{ client.fullName }}</mat-option>
+          </mat-select>
         </mat-form-field>
 
       </mat-expansion-panel>
@@ -44,14 +40,15 @@
       <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
     <mat-action-list class="scroll mt-3 h-100" *ngIf="!projetListLoading">
-      <mat-list-item (click)="selectProjet(projet, index)" [class.selected]="currentProjet === projet" *ngFor="let projet of projets; let index = index">
+      <mat-list-item (click)="selectProjet(projet, index)" [class.selected]="currentProjet === projet"
+        *ngFor="let projet of projets; let index = index" [disableRipple]="editMode">
         <mat-icon mat-list-icon>assignment</mat-icon>
         <h4 mat-line>{{ projet.title }}</h4>
-        <span mat-line class="mat-caption">Projet du {{ projet.creationDate | date: 'shortDate' }}</span>
+        <span mat-line class="mat-caption">{{ projet.client.fullName }} - {{ projet.creationDate | date: 'shortDate' }}</span>
       </mat-list-item>
     </mat-action-list>
 
-    <button mat-fab color="accent" (click)="createProjet()">
+    <button mat-fab color="accent" [disabled]="editMode" (click)="createProjet()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -78,8 +75,9 @@
     
       <div class="infoProjet px-4 pb-3">
         <div class="d-flex">
-          <h1>{{ currentProjet.title | slice:0:40 }}<span *ngIf="currentProjet.title.length > 40">...</span></h1>
-          <button mat-icon-button (click)="changeEditMode(true)" class="my-auto ml-2">
+          <h1>{{ currentProjet.title | slice:0:45 }}<span *ngIf="currentProjet.title.length > 45">...</span></h1>
+          <button mat-icon-button (click)="changeEditMode(true)" matTooltip="Editer le projet"
+                  [matTooltipPosition]="'after'" class="my-auto ml-2">
             <mat-icon class="text-muted">edit</mat-icon>
           </button>
         </div>

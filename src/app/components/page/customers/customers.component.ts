@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Client } from 'src/app/classes/client';
+import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 
 @Component({
   selector: 'app-customers',
@@ -7,15 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomersComponent implements OnInit {
 
-  projets: Object[] = [];
+  clients: Client[] = [];
+  clientsOriginal : Client[] = [];
+  currentClient: Client;
 
-  constructor() { 
-    for (let i = 0; i < 15; i++) {
-      this.projets.push({ name: "Robert LANGLOIS", description: "18/06/2018 - Projet n°1"})
-    }
+  clientListLoading = true;
+  clientListIndex: number;
+
+  constructor(private clientSw: ClientSwService) { 
   }
 
   ngOnInit() {
+    this.refresh();
+  }
+
+  refresh() {
+    this.currentClient = undefined;
+    this.clientListLoading = true;
+    this.clientSw.getAll().then(clients => {
+      this.clients = clients;
+      this.clientsOriginal = clients;
+      this.clientListLoading = false;
+    });
+  }
+
+  selectClient(client: Client, index: number) {
+    this.currentClient = client;
+    this.clientListIndex = index;
   }
 
 }

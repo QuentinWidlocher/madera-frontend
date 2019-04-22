@@ -151,6 +151,11 @@ export class ProjetSwService {
               // On ajoute aussi à l'IDB
               this.idb.add(added);
 
+              added.client = projet.client;
+              added.devis = projet.devis;
+              added.dossiersTechniques = projet.dossiersTechniques;
+              added.utilisateur = projet.utilisateur;
+
               // On résout les données de la Promesse
               rslv(added);
 

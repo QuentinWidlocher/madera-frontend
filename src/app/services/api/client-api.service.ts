@@ -22,7 +22,7 @@ export class ClientApiService {
   add(client: Client): Observable<object> {
     client.id = undefined;
     const clientPlain = {...client};
-
+    console.log(clientPlain);
     return this.http.post(ApiConfig.CLIENT, clientPlain);
   }
 

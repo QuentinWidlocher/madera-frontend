@@ -106,8 +106,12 @@ mat-expansion-panel-header {
 }
 
 button[mat-fab] {
-    right: unset;
-    left: 25vw;
     position: relative;
-    bottom: 20vh;
+    float: right;
+    bottom: 10rem;
+    right: 1rem;
+}
+
+.locked {
+    opacity: 0.5;
 }
