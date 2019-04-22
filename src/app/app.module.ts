@@ -52,6 +52,7 @@ import { EditProjectComponent, DeleteConfirmationDialog } from './components/pag
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent } from './components/page/create-users/create-users.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -67,7 +68,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DeleteConfirmationDialog,
     DevisComponent,
     LoginComponent,
-    CreateUsersComponent
+    CreateUsersComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,104 @@
+.list-group-item.active {
+    background-color: grey;
+    border: none;
+}
+
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+    height: 4rem;
+}
+
+.scroll {
+    overflow-y:scroll;
+}
+
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    img {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        width: 20rem;
+        height: 20rem;
+    }
+
+    h1 {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: auto;
+    }
+}
+
+.imagePlanContainer {
+
+    flex: 1;
+    min-height: 10rem;
+
+    .imagePlan {
+        width: 100%;
+        height: 100%;
+        margin-bottom: 1rem;
+        object-fit: cover;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+}
+
+
+.contentPage {
+    height: calc(100vh - 9.5rem);
+}
+
+.colUserList {
+    height: calc(100vh - 16rem);
+}
+
+.background {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
+}
+
+mat-action-list {
+    flex: 1;
+}
+
+button[mat-fab] {
+    right: unset;
+    left: 25vw;
+    position: relative;
+    bottom: 10vh;
+}
+
+.Profil_icon {
+    width: 75%;
+    opacity: 0.5;
+}
+
+.w-30 {
+    width: 30%;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.example-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .example-events {
+    width: 300px;
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #555;
+  }
