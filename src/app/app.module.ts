@@ -7,8 +7,7 @@ import localeFr from '@angular/common/locales/fr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/page/home/home.component';
-import { UserProjectComponent } from './components/page/user-project/user-project.component';
+import { ProjectsComponent } from './components/page/projects/projects.component';
 import { TestComponent } from './components/page/test/test.component';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -48,7 +47,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CustomersComponent, ClientDeleteConfirmationDialog } from './components/page/customers/customers.component';
-import { EditProjectComponent, ProjetDeleteConfirmationDialog } from './components/page/user-project/edit-project/edit-project.component';
+import { EditProjectComponent, ProjetDeleteConfirmationDialog } from './components/page/projects/edit-project/edit-project.component';
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent } from './components/page/create-users/create-users.component';
@@ -59,9 +58,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     NavBarComponent,
-    UserProjectComponent,
+    ProjectsComponent,
     TestComponent,
     CustomersComponent,
     EditProjectComponent,

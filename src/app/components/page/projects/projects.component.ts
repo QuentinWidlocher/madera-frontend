@@ -5,11 +5,11 @@ import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 
 @Component({
-  selector: 'app-user-project',
-  templateUrl: './user-project.component.html',
-  styleUrls: ['./user-project.component.scss']
+  selector: 'app-projects',
+  templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.scss']
 })
-export class UserProjectComponent implements OnInit {
+export class ProjectsComponent implements OnInit {
 
   projets: Projet[] = [];
   projetsOriginal: Projet[] = [];  
