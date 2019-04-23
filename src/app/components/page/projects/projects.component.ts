@@ -3,6 +3,7 @@ import { Projet } from 'src/app/classes/projet';
 import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
 import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-projects',
@@ -27,15 +28,23 @@ export class ProjectsComponent implements OnInit {
   createMode = false;
 
   constructor(private projetSw: ProjetSwService,
-              private clientSw: ClientSwService) {
+              private clientSw: ClientSwService,
+              private connectivity: ConnectivityService) {
   }
 
   ngOnInit() {
+    this.currentProjet = undefined;
     this.refresh();
+
+    // On met à jours la liste quand on retrouve l'internet
+    this.connectivity.event.subscribe(connected => {
+      if (connected && !this.editMode) {
+        this.refresh();
+      }
+    });
   }
 
   refresh() {
-    this.currentProjet = undefined;
     this.projetListLoading = true;
     this.projetSw.getAll().then(projets => {
       this.projets = projets;

@@ -3,6 +3,7 @@ import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-customers',
@@ -27,15 +28,23 @@ export class CustomersComponent implements OnInit {
 
   constructor(private clientSw: ClientSwService,
               private dialog: MatDialog,
-              private fb: FormBuilder) { 
+              private fb: FormBuilder,
+              private connectivity: ConnectivityService) { 
   }
 
   ngOnInit() {
+    this.currentClient = undefined;
     this.refresh();
+
+    // On met à jours la liste quand on retrouve l'internet
+    this.connectivity.event.subscribe(connected => {
+      if (connected && !this.clientForm.dirty) {
+        this.refresh();
+      }
+    });
   }
 
   refresh() {
-    this.currentClient = undefined;
     this.clientListLoading = true;
     this.clientSw.getAll().then(clients => {
       this.clients = clients;
