@@ -13,4 +13,22 @@ export class Unite {
         this.name = name;
         this.caracteristiques = caracteristiques;
     }
+
+    public static newEmpty() {
+        return new Unite(undefined, undefined, undefined, undefined);
+    }
+
+    public toJSON(): string {
+        let plainObject = {
+            id: undefined,
+            code: undefined,
+            name: undefined,
+        }
+
+        plainObject.id = this.id;
+        plainObject.code = this.code;
+        plainObject.name = this.name;
+
+        return JSON.stringify(plainObject);
+    }
 }

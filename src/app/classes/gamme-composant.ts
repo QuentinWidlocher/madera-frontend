@@ -16,4 +16,24 @@ export class GammeComposant {
         this.composants = composants;
     }
 
+    public static newEmpty() {
+        return new GammeComposant(undefined, undefined, undefined, undefined, undefined);
+    }
+
+    public toJSON(): string {
+        let plainObject = {
+            id: undefined,
+            code: undefined,
+            description: undefined,
+            material: undefined,
+        }
+
+        plainObject.id = this.id;
+        plainObject.code = this.code;
+        plainObject.description = this.description;
+        plainObject.material = this.material;
+
+        return JSON.stringify(plainObject);
+    }
+
 }

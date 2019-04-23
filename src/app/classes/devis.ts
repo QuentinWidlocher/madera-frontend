@@ -8,26 +8,37 @@ export class Devis {
     public numero: number;
     public creationDate: Date;
     public editionDate: Date;
-    public dossiersTechniques: DossierTechnique[];
-
     public projet: Projet;
-    public projetId: number;
-
     public lignes: Ligne[];
 
-    constructor(id: number, numero: number, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
+    constructor(id: number, numero: number, creationDate: Date, editionDate: Date,
                 projet: Projet, lignes: Ligne[]) {
         this.id = id;
         this.numero = numero;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
-        this.dossiersTechniques = dossiersTechniques;
         this.projet = projet;
         this.lignes = lignes;
     }
 
     public static newEmpty(): Devis {
-        return new Devis(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+        return new Devis(undefined, undefined, undefined, undefined, undefined, undefined);
+    }
+
+    public toJSON(): string {
+        let plainObject = {
+            id: undefined,
+            numero: undefined,
+            creationDate: undefined,
+            editionDate: undefined
+        }
+
+        plainObject.id = this.id;
+        plainObject.numero = this.numero;
+        plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+        plainObject.editionDate = (this.editionDate !== undefined ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+
+        return JSON.stringify(plainObject);
     }
 
 

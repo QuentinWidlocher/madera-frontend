@@ -12,5 +12,21 @@ export class FamilleComposant {
         this.composants = composants;
     }
 
+    public static newEmpty() {
+        return new FamilleComposant(undefined, undefined, undefined);
+    }
+
+    public toJSON(): string {
+        let plainObject = {
+            id: undefined,
+            nature: undefined,
+        }
+
+        plainObject.id = this.id;
+        plainObject.nature = this.nature;
+
+        return JSON.stringify(plainObject);
+    }
+
 
 }

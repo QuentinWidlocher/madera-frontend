@@ -12,4 +12,20 @@ export class FamilleGamme {
         this.gammes = gammes;
     }
 
+    public static newEmpty() {
+        return new FamilleGamme(undefined, undefined, undefined);
+    }
+
+    public toJSON(): string {
+        let plainObject = {
+            id: undefined,
+            nature: undefined,
+        }
+
+        plainObject.id = this.id;
+        plainObject.nature = this.nature;
+
+        return JSON.stringify(plainObject);
+    }
+
 }
