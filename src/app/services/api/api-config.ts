@@ -32,6 +32,7 @@ export class ApiConfig {
     public static UTILISATEUR_UNIQUE = ApiConfig.UTILISATEUR + '/:id';
     public static UTILISATEUR_EXISTS = ApiConfig.UTILISATEUR_UNIQUE + '/exists';
     public static UTILISATEUR_COUNT = ApiConfig.UTILISATEUR + '/count';
+    public static UTILISATEUR_LOGIN = ApiConfig.UTILISATEUR + '/login';
 
     public static ROLE = ApiConfig.BASE_API + '/roles';
     public static ROLE_UNIQUE = ApiConfig.ROLE + '/:id';

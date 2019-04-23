@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiConfig } from './api-config';
 import { Utilisateur } from 'src/app/classes/utilisateur';
+import { Registration } from '../../classes/registration';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,7 @@ export class UtilisateurApiService {
     return this.http.get(ApiConfig.UTILISATEUR.replace(':id', '' + id));
   }
 
-  add(utilisateur: Utilisateur): Observable<object> {
-    utilisateur.id = undefined;
+  add(utilisateur: Registration): Observable<object> {
     const utilisateurPlain = { ...utilisateur };
 
     return this.http.post(ApiConfig.UTILISATEUR, utilisateurPlain);
@@ -42,5 +42,7 @@ export class UtilisateurApiService {
   exist(id: number): Observable<object> {
     return this.http.get(ApiConfig.UTILISATEUR_EXISTS.replace(':id', '' + id));
   }
+
+
 
 }
