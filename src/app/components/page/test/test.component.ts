@@ -16,12 +16,14 @@ export class TestComponent implements OnInit {
   currentClient: Client = Client.newEmpty();
 
   constructor(private clientSw: ClientSwService) {
+  }
+  
+  ngOnInit() {
     this.clientSw.getAll().then(clients => {
       this.listClient = clients;
+    }).then(() => {
+      console.log(this.listClient);
     });
-  }
-
-  ngOnInit() {
   }
 
   addClient() {

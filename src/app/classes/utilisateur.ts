@@ -1,5 +1,4 @@
 import { DossierTechnique } from './dossier-technique';
-import { Role } from './role';
 
 export class Utilisateur {
 
@@ -8,15 +7,14 @@ export class Utilisateur {
     public password: string;
     public dossiersTechniques: DossierTechnique[];
 
-    public role: Role;
-    public roleId: number;
-
-    constructor(id: number, username: string, password: string, dossiersTechniques: DossierTechnique[], role: Role) {
+    constructor(id: number, username: string, password: string, dossiersTechniques: DossierTechnique[]) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.dossiersTechniques = dossiersTechniques;
-        this.role = role;
     }
 
+    public static newEmpty(): Utilisateur {
+        return new Utilisateur(undefined, undefined, undefined, undefined);
+    }
 }

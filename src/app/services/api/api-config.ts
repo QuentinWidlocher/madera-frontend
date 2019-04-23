@@ -28,7 +28,7 @@ export class ApiConfig {
     public static LIGNE_EXISTS = ApiConfig.LIGNE_UNIQUE + '/exists';
     public static LIGNE_COUNT = ApiConfig.LIGNE + '/count';
 
-    public static UTILISATEUR = ApiConfig.BASE_API + '/utilisateurs';
+    public static UTILISATEUR = ApiConfig.BASE_API + '/users';
     public static UTILISATEUR_UNIQUE = ApiConfig.UTILISATEUR + '/:id';
     public static UTILISATEUR_EXISTS = ApiConfig.UTILISATEUR_UNIQUE + '/exists';
     public static UTILISATEUR_COUNT = ApiConfig.UTILISATEUR + '/count';
@@ -104,5 +104,5 @@ export class ApiConfig {
     public static GAMME_COMPOSANT_EXISTS = ApiConfig.GAMME_COMPOSANT_UNIQUE + '/exists';
     public static GAMME_COMPOSANT_COUNT = ApiConfig.GAMME_COMPOSANT + '/count';
 
-    public static PING = ApiConfig.CARACTERISTIQUE;
+    public static PING = ApiConfig.UTILISATEUR + '/ping';
 }

@@ -11,7 +11,9 @@ import { HomeComponent } from './components/page/home/home.component';
 import { UserProjectComponent } from './components/page/user-project/user-project.component';
 import { TestComponent } from './components/page/test/test.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthInterceptor } from "./auth-interceptor";
 
 // Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -50,6 +52,9 @@ import { EditProjectComponent, DeleteConfirmationDialog } from './components/pag
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent } from './components/page/create-users/create-users.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -63,11 +68,13 @@ import { CreateUsersComponent } from './components/page/create-users/create-user
     DeleteConfirmationDialog,
     DevisComponent,
     LoginComponent,
-    CreateUsersComponent
+    CreateUsersComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MatCheckboxModule,
@@ -106,6 +113,7 @@ import { CreateUsersComponent } from './components/page/create-users/create-user
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "fr" },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   entryComponents: [
     DeleteConfirmationDialog

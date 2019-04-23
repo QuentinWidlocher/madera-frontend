@@ -13,6 +13,8 @@ import { Client } from './classes/client';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  
+  hamburgerOpened: boolean;
 
   // On instancie certains services au démarrage de l'appli
   constructor(private idb: IndexedDbService,
@@ -20,6 +22,10 @@ export class AppComponent {
               private projets: ProjetSwService,
               private clients: ClientSwService) {
     // this.populate();
+  }  
+
+  getComponent(component: any) {
+    component.onHamburger.subscribe(() => this.hamburgerOpened = !this.hamburgerOpened);
   }
 
   populate() {

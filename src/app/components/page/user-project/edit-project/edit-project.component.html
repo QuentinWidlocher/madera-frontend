@@ -6,52 +6,67 @@
   </div>
 
   <div class="infoProjet px-4 pb-3">
-    <div class="row">
 
-     <mat-form-field class="mt-4 col-12">
-       <input type="text" [(ngModel)]="currentProjet.title" matInput placeholder="Nom du Projet">
-     </mat-form-field>
+    <form [formGroup]="projetForm" (ngSubmit)="createMode ? exit('create') : exit('save')">
+      <div class="row">
 
-      <mat-form-field class="mt-2 col-6">
-        <input type="text" [(ngModel)]="currentProjet.version" matInput placeholder="Version">
-      </mat-form-field>
+        <mat-form-field class="mt-4 col-12">
+          <input type="text" matInput placeholder="Nom du Projet" id="title" formControlName="title" required>
+          <mat-error *ngIf="form.title.errors && form.title.errors.required">Le titre du projet est obligatoire
+          </mat-error>
+          <mat-error *ngIf="form.title.errors && form.title.errors.minlength">Le titre du projet doit faire au moins 5
+            lettres</mat-error>
+          <mat-error *ngIf="form.title.errors && form.title.errors.maxlength">Le titre du projet ne doit pas dépasser
+            les 50 lettres</mat-error>
+        </mat-form-field>
 
-      <div class="col-6"></div>
+        <mat-form-field class="mt-2 col-6">
+          <input type="text" matInput placeholder="Version" formControlName="version">
+        </mat-form-field>
 
-      <mat-form-field class="col-6">
-        <mat-label>Client</mat-label>
-        <mat-select [(value)]="selectedClientId" (selectionChange)="updateClient()">
-          <mat-option>None</mat-option>
-          <mat-option *ngFor="let client of listClient" [value]="client.id">{{ client.fullName }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <div class="col-6"></div>
 
-      <div class="col-6"></div>
+        <mat-form-field class="col-6">
+          <mat-label>Client</mat-label>
+          <mat-select required formControlName="client">
+            <mat-option *ngFor="let client of listClient" [value]="client.id">{{ client.fullName }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.client.errors && form.client.errors.required">Le client est obligatoire</mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="col-6">
-        <input matInput [(ngModel)]="currentProjet.creationDate" [matDatepicker]="dateDebutPicker" placeholder="Date de début du projet">
-        <mat-datepicker-toggle matSuffix [for]="dateDebutPicker"></mat-datepicker-toggle>
-        <mat-datepicker touchUi #dateDebutPicker></mat-datepicker>
-      </mat-form-field>
+        <div class="col-6"></div>
 
-      <mat-form-field class="col-6">
-        <input matInput [matDatepicker]="dateFinPicker"
-          placeholder="Date de fin du projet">
-        <mat-datepicker-toggle matSuffix [for]="dateFinPicker"></mat-datepicker-toggle>
-        <mat-datepicker touchUi #dateFinPicker></mat-datepicker>
-      </mat-form-field>
+        <mat-form-field class="col-6">
+          <input matInput formControlName="creationDate" [matDatepicker]="dateDebutPicker"
+            placeholder="Date de début du projet">
+          <mat-datepicker-toggle matSuffix [for]="dateDebutPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #dateDebutPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="col-6">
+          <input matInput [matDatepicker]="dateFinPicker" name="endingDate" placeholder="Date de fin du projet">
+          <mat-datepicker-toggle matSuffix [for]="dateFinPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #dateFinPicker></mat-datepicker>
+        </mat-form-field>
 
 
-      <div class="d-flex col-12 mt-2" *ngIf="createMode">
-        <button mat-stroked-button color="basic" (click)="exit('cancel')" class="ml-auto mr-3">Annuler</button>
-        <button mat-raised-button color="primary" (click)="exit('create')"><mat-icon class="md-18">add</mat-icon>Ajouter</button>
+        <div class="d-flex col-12 mt-2" *ngIf="createMode">
+          <button mat-stroked-button color="basic" type="button" (click)="exit('cancel')"
+            class="ml-auto mr-3">Annuler</button>
+          <button mat-raised-button type="submit" [disabled]="!projetForm.valid" color="primary">
+            <mat-icon class="md-18">add</mat-icon>Ajouter
+          </button>
+        </div>
+
+        <div class="d-flex col-12 mt-2" *ngIf="!createMode">
+          <button mat-button color="warn" type="button" class="mr-auto" (click)="delete()">Supprimer le projet</button>
+          <button mat-stroked-button color="basic" type="button" (click)="exit('cancel')" class="mr-3">Annuler</button>
+          <button mat-raised-button type="submit" [disabled]="!projetForm.valid" color="primary">
+            <mat-icon class="md-18">save</mat-icon>Enregistrer
+          </button>
+        </div>
+
       </div>
-
-      <div class="d-flex col-12 mt-2" *ngIf="!createMode">
-        <button mat-button color="warn" class="mr-auto" (click)="delete()">Supprimer le projet</button>
-        <button mat-stroked-button color="basic" (click)="exit('cancel')" class="mr-3">Annuler</button>
-        <button mat-raised-button color="primary" (click)="exit('save')"><mat-icon class="md-18">save</mat-icon>Enregistrer</button>
-      </div>
-    </div>
+    </form>
   </div>
 </div>

@@ -17,7 +17,6 @@ import { ModuleApiService } from './api/module-api.service';
 import { PlanApiService } from './api/plan-api.service';
 import { ProduitApiService } from './api/produit-api.service';
 import { ProjetApiService } from './api/projet-api.service';
-import { RoleApiService } from './api/role-api.service';
 import { UniteApiService } from './api/unite-api.service';
 import { UtilisateurApiService } from './api/utilisateur-api.service';
 import { IndexedDbService } from './indexed-db.service';
@@ -45,7 +44,6 @@ export class DeferredQueriesService {
               private plan: PlanApiService,
               private produit: ProduitApiService,
               private projet: ProjetApiService,
-              private role: RoleApiService,
               private unite: UniteApiService,
               private utilisateur: UtilisateurApiService,
               private idb: IndexedDbService) { }
