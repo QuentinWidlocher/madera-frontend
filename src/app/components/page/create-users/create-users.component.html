@@ -20,18 +20,17 @@
     
     <!-- Liste des utilisateurs -->
     <div class="colUserList">        
-      <div class="h-100 w-100" *ngIf="projetListLoading">
+      <div class="h-100 w-100" *ngIf="utilisateurListLoading">
         <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
       </div>
-      <mat-action-list class="scroll h-100 mb-3" *ngIf="!projetListLoading">
-        <mat-list-item (click)="selectProjet(projet, index)" *ngFor="let projet of projets; let index = index">
-          <mat-icon mat-list-icon>people</mat-icon>
-          <h4 mat-line>{{ projet.title }}</h4>
-          <span mat-line class="mat-caption"> {{ projet.creationDate | date: 'shortDate' }}</span>
+      <mat-action-list class="scroll h-100 mb-3" *ngIf="!utilisateurListLoading">
+        <mat-list-item (click)="selectUtilisateur(utilisateur, index)" *ngFor="let utilisateur of utilisateurs; let index = index">
+          <mat-icon mat-list-icon>person</mat-icon>
+          <h4 mat-line>{{ utilisateur.username }}</h4>
         </mat-list-item>
       </mat-action-list>        
   
-      <button mat-fab color="accent" (click)="createProjet()">
+      <button mat-fab color="accent" (click)="createUtilisateur()">
           <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -54,8 +53,8 @@
       
       <!-- Mot de passe -->
       <mat-form-field class="col-12 mb-2">
-        <input matInput placeholder="Mot de passe (6 caractères minimum)" [type]="hide ? 'password' : 'text'">
-        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <input matInput placeholder="Mot de passe (6 caractères minimum)" [type]="passwordHide ? 'password' : 'text'">
+        <mat-icon matSuffix (click)="passwordHide = !passwordHide">{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </mat-form-field>
       
       <!-- Administrateur oui/non -->      
