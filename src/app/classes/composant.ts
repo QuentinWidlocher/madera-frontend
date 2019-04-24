@@ -37,6 +37,8 @@ export class Composant {
             name: undefined,
             unitPriceNoTax: undefined,
             unitPriceTax: undefined,
+            modulesIds: [],
+            caracteristiquesIds: [],
             gammeComposantId: undefined,
             familleComposantId: undefined,
         }
@@ -45,6 +47,8 @@ export class Composant {
         plainObject.name = this.name;
         plainObject.unitPriceTax = this.unitPriceTax;
         plainObject.unitPriceNoTax = this.unitPriceNoTax;
+        plainObject.modulesIds = (this.modules !== undefined ? this.modules.map(x => x.id) : undefined);
+        plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
         plainObject.gammeComposantId = (this.gammeComposant !== undefined ? this.gammeComposant.id : undefined);
         plainObject.familleComposantId = (this.familleComposant !== undefined ? this.familleComposant.id : undefined);
 

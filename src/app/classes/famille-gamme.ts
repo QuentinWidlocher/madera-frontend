@@ -20,10 +20,12 @@ export class FamilleGamme {
         let plainObject = {
             id: undefined,
             nature: undefined,
+            gammesIds: [],
         }
 
         plainObject.id = this.id;
         plainObject.nature = this.nature;
+        plainObject.gammesIds = (this.gammes !== undefined ? this.gammes.map(x => x.id) : undefined);
 
         return JSON.stringify(plainObject);
     }

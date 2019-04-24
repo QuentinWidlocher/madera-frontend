@@ -29,12 +29,16 @@ export class Utilisateur {
             id: undefined,
             username: undefined,
             password: undefined,
+            projetsIds: [],
+            modelesIds: [],
             role: undefined
         }
 
         plainObject.id = this.id;
         plainObject.username = this.username;
         plainObject.password = this.password;
+        plainObject.projetsIds = (this.projets !== undefined ? this.projets.map(x => x.id) : undefined);
+        plainObject.modelesIds = (this.modeles !== undefined ? this.modeles.map(x => x.id) : undefined);
         plainObject.role = this.role;
 
         return JSON.stringify(plainObject);

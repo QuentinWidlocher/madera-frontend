@@ -20,10 +20,12 @@ export class FamilleComposant {
         let plainObject = {
             id: undefined,
             nature: undefined,
+            composantsIds: [],
         }
 
         plainObject.id = this.id;
         plainObject.nature = this.nature;
+        plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
 
         return JSON.stringify(plainObject);
     }

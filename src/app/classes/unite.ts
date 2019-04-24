@@ -23,11 +23,13 @@ export class Unite {
             id: undefined,
             code: undefined,
             name: undefined,
+            caracteristiquesIds: [],
         }
 
         plainObject.id = this.id;
         plainObject.code = this.code;
         plainObject.name = this.name;
+        plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
 
         return JSON.stringify(plainObject);
     }

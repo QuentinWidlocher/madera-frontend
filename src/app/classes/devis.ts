@@ -30,13 +30,15 @@ export class Devis {
             id: undefined,
             numero: undefined,
             creationDate: undefined,
-            editionDate: undefined
+            editionDate: undefined,
+            lignesIds: [],
         }
 
         plainObject.id = this.id;
         plainObject.numero = this.numero;
         plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.editionDate = (this.editionDate !== undefined ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+        plainObject.lignesIds = (this.lignes !== undefined ? this.lignes.map(x => x.id) : undefined);
 
         return JSON.stringify(plainObject);
     }

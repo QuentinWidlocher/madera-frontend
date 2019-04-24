@@ -31,12 +31,16 @@ export class DossierTechnique {
             id: undefined,
             creationDate: undefined,
             editionDate: undefined,
+            projetId: undefined,
+            plansIds: [],
             modeleId: undefined,
         }
 
         plainObject.id = this.id;
         plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.editionDate = (this.editionDate !== undefined ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+        plainObject.projetId = (this.projet !== undefined ? this.projet.id : undefined);
+        plainObject.plansIds = (this.plans !== undefined ? this.plans.map(x => x.id) : undefined);
         plainObject.modeleId = (this.modele !== undefined ? this.modele.id : undefined);
 
         return JSON.stringify(plainObject);

@@ -36,6 +36,9 @@ export class Module {
             creationDate: undefined,
             editionDate: undefined,
             produitModule: [],
+            caracteristiquesIds: [],
+            composantsIds: [],
+            coupeDePrincipeId: undefined,
         }
 
         plainObject.id = this.id;
@@ -48,6 +51,9 @@ export class Module {
                 moduleId: this.id
             })
         });
+        plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
+        plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
+        plainObject.coupeDePrincipeId = (this.coupeDePrincipe !== undefined ? this.coupeDePrincipe.id : undefined);
 
         return JSON.stringify(plainObject);
     }

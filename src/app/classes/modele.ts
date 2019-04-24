@@ -32,6 +32,7 @@ export class Modele {
             description: undefined,
             creationDate: undefined,
             editionDate: undefined,
+            dossiersTechniquesIds: [],
             modeleProduit: [],
             userId: undefined,
         }
@@ -40,6 +41,7 @@ export class Modele {
         plainObject.description = this.description;
         plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.editionDate = (this.editionDate !== undefined ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+        plainObject.dossiersTechniquesIds = (this.dossiersTechniques !== undefined ? this.dossiersTechniques.map(x => x.id) : undefined);
         this.produits.forEach(produit => {
             plainObject.modeleProduit.push({ 
                 modeleId: this.id,

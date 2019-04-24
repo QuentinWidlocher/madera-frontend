@@ -34,6 +34,8 @@ export class CoupeDePrincipe {
             name: undefined,
             description: undefined,
             thickness: undefined,
+            modulesIds: [],
+            produitsIds: [],
         }
 
         plainObject.id = this.id;
@@ -41,6 +43,8 @@ export class CoupeDePrincipe {
         plainObject.name = this.name;
         plainObject.description = this.description;
         plainObject.thickness = this.thickness;
+        plainObject.modulesIds = (this.modules !== undefined ? this.modules.map(x => x.id) : undefined);
+        plainObject.produitsIds = (this.produits !== undefined ? this.produits.map(x => x.id) : undefined);
 
         return JSON.stringify(plainObject);
     }

@@ -39,6 +39,7 @@ export class Gamme {
             frame: undefined,
             finishes: undefined,
             cover: undefined,
+            produitsIds: [],
             familleGammeId: undefined,
         }
 
@@ -48,6 +49,7 @@ export class Gamme {
         plainObject.frame = this.frame;
         plainObject.finishes = this.finishes;
         plainObject.cover = this.cover;
+        plainObject.produitsIds = (this.produits !== undefined ? this.produits.map(x => x.id) : undefined);
         plainObject.familleGammeId = (this.familleGamme !== undefined ? this.familleGamme.id : undefined);
 
         return JSON.stringify(plainObject);
