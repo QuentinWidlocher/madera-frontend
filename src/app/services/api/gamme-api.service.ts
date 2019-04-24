@@ -21,9 +21,8 @@ export class GammeApiService {
 
   add(gamme: Gamme): Observable<object> {
     gamme.id = undefined;
-    const gammePlain = { ...gamme };
-
-    return this.http.post(ApiConfig.GAMME, gammePlain);
+    gamme = Object.assign(Gamme.newEmpty(), gamme);
+    return this.http.post(ApiConfig.GAMME, gamme.toJSON());
   }
 
   edit(gamme: Gamme): Observable<object> {

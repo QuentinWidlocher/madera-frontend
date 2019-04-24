@@ -21,9 +21,8 @@ export class CoupeDePrincipeApiService {
 
   add(coupeDePrincipe: CoupeDePrincipe): Observable<object> {
     coupeDePrincipe.id = undefined;
-    const coupeDePrincipePlain = { ...coupeDePrincipe };
-
-    return this.http.post(ApiConfig.COUPE_DE_PRINCIPE, coupeDePrincipePlain);
+    coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), coupeDePrincipe);
+    return this.http.post(ApiConfig.COUPE_DE_PRINCIPE, coupeDePrincipe.toJSON());
   }
 
   edit(coupeDePrincipe: CoupeDePrincipe): Observable<object> {

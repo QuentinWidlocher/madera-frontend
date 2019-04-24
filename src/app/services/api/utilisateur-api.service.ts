@@ -21,9 +21,8 @@ export class UtilisateurApiService {
 
   add(utilisateur: Utilisateur): Observable<object> {
     utilisateur.id = undefined;
-    const utilisateurPlain = { ...utilisateur };
-
-    return this.http.post(ApiConfig.UTILISATEUR, utilisateurPlain);
+    utilisateur = Object.assign(Utilisateur.newEmpty(), utilisateur);
+    return this.http.post(ApiConfig.UTILISATEUR, utilisateur.toJSON());
   }
 
   edit(utilisateur: Utilisateur): Observable<object> {

@@ -21,9 +21,9 @@ export class CctpApiService {
 
   add(cctp: CCTP): Observable<object> {
     cctp.id = undefined;
-    const cctpPlain = { ...cctp };
+    cctp = Object.assign(CCTP.newEmpty(), cctp);
 
-    return this.http.post(ApiConfig.CCTP, cctpPlain);
+    return this.http.post(ApiConfig.CCTP, cctp.toJSON());
   }
 
   edit(cctp: CCTP): Observable<object> {

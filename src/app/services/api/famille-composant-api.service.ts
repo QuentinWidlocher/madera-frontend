@@ -21,9 +21,8 @@ export class FamilleComposantApiService {
 
   add(familleComposant: FamilleComposant): Observable<object> {
     familleComposant.id = undefined;
-    const familleComposantPlain = { ...familleComposant };
-
-    return this.http.post(ApiConfig.FAMILLE_COMPOSANT, familleComposantPlain);
+    familleComposant = Object.assign(FamilleComposant.newEmpty(), familleComposant);
+    return this.http.post(ApiConfig.FAMILLE_COMPOSANT, familleComposant.toJSON());
   }
 
   edit(familleComposant: FamilleComposant): Observable<object> {
