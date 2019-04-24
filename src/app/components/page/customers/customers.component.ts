@@ -4,6 +4,7 @@ import { ClientSwService } from 'src/app/services/service-workers/client-sw.serv
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { ConnectivityService } from 'src/app/services/connectivity.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-customers',
@@ -29,10 +30,12 @@ export class CustomersComponent implements OnInit {
   constructor(private clientSw: ClientSwService,
               private dialog: MatDialog,
               private fb: FormBuilder,
-              private connectivity: ConnectivityService) { 
+              private connectivity: ConnectivityService,
+              private route: ActivatedRoute) { 
   }
 
   ngOnInit() {
+
     this.currentClient = undefined;
     this.refresh();
 
@@ -50,6 +53,13 @@ export class CustomersComponent implements OnInit {
       this.clients = clients;
       this.clientsOriginal = clients;
       this.clientListLoading = false;
+
+      if (this.route.params) {
+        this.route.params.subscribe(params => {
+          this.currentClient = this.clients.find(client => client.id === +params['id']);
+          this.refreshForm();
+        })
+      }
     });
   }
 

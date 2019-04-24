@@ -83,7 +83,9 @@
         </div>
         <div class="row">
           <p class="text-secondary my-1 col-12">Version : <span>{{ currentProjet.version }}</span></p>
-          <p class="text-secondary my-1 col-6">Client : <span>{{ currentProjet.client.fullName }}</span></p>
+          <p class="text-secondary my-1 col-6">Client : <a
+              [routerLink]="['/customers', currentProjet.client.id]"><span>{{ currentProjet.client.fullName }}</span></a>
+          </p>
           <p class="text-secondary my-1 col-6">Total TTC : <span>n/a</span></p>
           <p class="text-secondary my-1 col-6">Projet débuté le :
             <span>{{ currentProjet.creationDate | date: 'fullDate' }}</span></p>
