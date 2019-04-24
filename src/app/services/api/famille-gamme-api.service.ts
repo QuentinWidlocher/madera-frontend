@@ -21,9 +21,8 @@ export class FamilleGammeApiService {
 
   add(familleGamme: FamilleGamme): Observable<object> {
     familleGamme.id = undefined;
-    const familleGammePlain = { ...familleGamme };
-
-    return this.http.post(ApiConfig.FAMILLE_GAMME, familleGammePlain);
+    familleGamme = Object.assign(FamilleGamme.newEmpty(), familleGamme);
+    return this.http.post(ApiConfig.FAMILLE_GAMME, familleGamme.toJSON());
   }
 
   edit(familleGamme: FamilleGamme): Observable<object> {

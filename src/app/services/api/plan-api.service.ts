@@ -21,9 +21,8 @@ export class PlanApiService {
 
   add(plan: Plan): Observable<object> {
     plan.id = undefined;
-    const planPlain = { ...plan };
-
-    return this.http.post(ApiConfig.PLAN, planPlain);
+    plan = Object.assign(Plan.newEmpty(), plan);
+    return this.http.post(ApiConfig.PLAN, plan.toJSON());
   }
 
   edit(plan: Plan): Observable<object> {

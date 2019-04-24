@@ -9,6 +9,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.contentPage {
+  height: calc(100vh - 10rem);
+}
+
 button:focus {
   outline: 0;
 }

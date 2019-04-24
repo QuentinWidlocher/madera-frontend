@@ -21,9 +21,7 @@ export class ProjetApiService {
 
   add(projet: Projet): Observable<object> {
     projet.id = undefined;
-      
-    console.log(projet.toJSON());
-    
+    projet = Object.assign(Projet.newEmpty(), projet);
     return this.http.post(ApiConfig.PROJET, projet.toJSON());
   }
 

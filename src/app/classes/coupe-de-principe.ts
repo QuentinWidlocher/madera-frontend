@@ -1,5 +1,6 @@
 import { Module } from './module';
 import { Composant } from './composant';
+import { Produit } from './produit';
 
 export class CoupeDePrincipe {
 
@@ -9,17 +10,43 @@ export class CoupeDePrincipe {
     public description: string;
     public thickness: number;
     public modules: Module[];
-    public composants: Composant[];
+    public produits: Produit[];
 
     constructor(id: number, code: string, name: string, description: string, thickness: number,
-                modules: Module[], composants: Composant[]) {
+                modules: Module[], produits: Produit[]) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.description = description;
         this.thickness = thickness;
         this.modules = modules;
-        this.composants = composants;
+        this.produits = produits;
+    }
+
+    public static newEmpty() {
+        return new CoupeDePrincipe(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    }
+
+    public toJSON(): string {
+        let plainObject = {
+            id: undefined,
+            code: undefined,
+            name: undefined,
+            description: undefined,
+            thickness: undefined,
+            modulesIds: [],
+            produitsIds: [],
+        }
+
+        plainObject.id = this.id;
+        plainObject.code = this.code;
+        plainObject.name = this.name;
+        plainObject.description = this.description;
+        plainObject.thickness = this.thickness;
+        plainObject.modulesIds = (this.modules !== undefined ? this.modules.map(x => x.id) : undefined);
+        plainObject.produitsIds = (this.produits !== undefined ? this.produits.map(x => x.id) : undefined);
+
+        return JSON.stringify(plainObject);
     }
 
 }

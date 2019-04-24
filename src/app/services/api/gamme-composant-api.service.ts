@@ -21,9 +21,8 @@ export class GammeComposantApiService {
 
   add(gammeComposant: GammeComposant): Observable<object> {
     gammeComposant.id = undefined;
-    const gammeComposantPlain = { ...gammeComposant };
-
-    return this.http.post(ApiConfig.GAMME_COMPOSANT, gammeComposantPlain);
+    gammeComposant = Object.assign(GammeComposant.newEmpty(), gammeComposant);
+    return this.http.post(ApiConfig.GAMME_COMPOSANT, gammeComposant.toJSON());
   }
 
   edit(gammeComposant: GammeComposant): Observable<object> {

@@ -25,7 +25,9 @@ export class AppComponent {
   }  
 
   getComponent(component: any) {
-    component.onHamburger.subscribe(() => this.hamburgerOpened = !this.hamburgerOpened);
+    if (component.onHamburger) {
+      component.onHamburger.subscribe(() => this.hamburgerOpened = !this.hamburgerOpened);
+    }
   }
 
   populate() {
