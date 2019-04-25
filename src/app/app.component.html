@@ -1,6 +1,6 @@
 <mat-sidenav-container class="h-100">
-  <mat-sidenav *ngIf="status"  #sidenav mode="over" [(opened)]="hamburgerOpened" class="content-nav">
-    <app-side-nav></app-side-nav>
+  <mat-sidenav *ngIf="status" #sidenav mode="over" [(opened)]="hamburgerOpened" class="content-nav">
+    <app-side-nav (closed)="hamburgerOpened = false"></app-side-nav>
   </mat-sidenav>
 
   <mat-sidenav-content>

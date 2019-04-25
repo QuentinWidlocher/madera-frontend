@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Projet } from 'src/app/classes/projet';
 import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
 import { Client } from 'src/app/classes/client';
@@ -11,6 +11,8 @@ import { ConnectivityService } from 'src/app/services/connectivity.service';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+
+  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
 
   projets: Projet[] = [];
   projetsOriginal: Projet[] = [];  

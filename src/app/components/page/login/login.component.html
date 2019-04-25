@@ -30,14 +30,20 @@
         </mat-form-field>
       </div>
 
-      <!-- Button de Connexion -->
-      <div class="btn-login pt-2">
-        <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid || isRequesting">Connexion</button>
+      <div class="d-flex">
+
+        <!-- Liste des erreurs -->
+        <mat-error *ngIf="errors" class="my-auto">
+          {{errors}}
+        </mat-error>
+
+        <!-- Button de Connexion -->
+        <div class="btn-login pt-2 ml-auto">
+          <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid || isRequesting">Connexion</button>
+        </div>
+
       </div>
     </form>
-    <mat-error *ngIf="errors">
-     {{errors}}
-    </mat-error>
   </mat-card>
 </div>
 
