@@ -21,7 +21,7 @@ export class ProjectsComponent implements OnInit {
   projetListIndex: number;
   projetListLoading = true;
 
-  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
+
 
   searchTerms: string;
   filterMenu = false;
