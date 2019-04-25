@@ -21,9 +21,8 @@ export class UniteApiService {
 
   add(unite: Unite): Observable<object> {
     unite.id = undefined;
-    const unitePlain = { ...unite };
-
-    return this.http.post(ApiConfig.UNITE, unitePlain);
+    unite = Object.assign(Unite.newEmpty(), unite);
+    return this.http.post(ApiConfig.UNITE, unite.toJSON());
   }
 
   edit(unite: Unite): Observable<object> {

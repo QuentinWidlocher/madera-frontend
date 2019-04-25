@@ -21,9 +21,8 @@ export class ModeleApiService {
 
   add(modele: Modele): Observable<object> {
     modele.id = undefined;
-    const modelePlain = { ...modele };
-
-    return this.http.post(ApiConfig.MODELE, modelePlain);
+    modele = Object.assign(Modele.newEmpty(), modele);
+    return this.http.post(ApiConfig.MODELE, modele.toJSON());
   }
 
   edit(modele: Modele): Observable<object> {

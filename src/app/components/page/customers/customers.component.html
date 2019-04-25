@@ -8,85 +8,120 @@
 
 <!-- Titre Nav -->
 <div class="contentPage row m-3 h-100">
-  <div class="col-sm-4 h-100 overflow-hidden">
+  <div class="col-4 pl-1 h-100 overflow-hidden" [class.locked]="clientForm && clientForm.dirty">
+
     <mat-card class="mb-3 py-2 pb-0">
       <mat-form-field class="w-100">
-        <input type="text" matInput placeholder="Rechercher un client">
-        <mat-icon matSuffix>filter_list</mat-icon>
+        <input [disabled]="clientForm && clientForm.dirty" type="text" [(ngModel)]="searchTerms" (keyup)="filter()"
+          matInput
+          placeholder="Rechercher un Projet">
+        <button matSuffix mat-icon-button (click)="filter()" [disabled]="clientForm && clientForm.dirty">
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-form-field>
     </mat-card>
-    
-    <div class="d-flex flex-column colUserList">
-      
-      <div class="h-100 w-100 d-flex" *ngIf="clientListLoading">
-        <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
-      </div>
-      <mat-action-list class="scroll h-100 mb-3" *ngIf="!clientListLoading">
-        <mat-list-item (click)="selectClient(client, index)" *ngFor="let client of clients; let index = index">
-          <mat-icon mat-list-icon>people</mat-icon>
-          <h4 mat-line>{{ client.fullName }}</h4>
-        </mat-list-item>
-      </mat-action-list>
-      
-      <button mat-raised-button color="primary" class="flex-shrink-1">Ouvrir le plan</button>
+
+    <div class="h-100 w-100 d-flex" *ngIf="clientListLoading">
+      <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
+    <mat-action-list class="scroll mt-3 h-100" *ngIf="!clientListLoading">
+      <mat-list-item (click)="selectClient(client, index)" [class.selected]="currentClient && currentClient.id === client.id"
+        *ngFor="let client of clients; let index = index" [disableRipple]="clientForm && clientForm.dirty">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <h4 mat-line>{{ client.fullName }}</h4>
+      </mat-list-item>
+    </mat-action-list>
+
+    <button mat-fab color="accent" [disabled]="clientForm && clientForm.dirty" (click)="addClient()">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
   
   
   
   
-  
-  
-  
+
   
   <!-- Formulaire -->
-  <div class="col-8 h-100 d-flex flex-column background" >
-    
-    <!-- Info client -->
-    <div class="row">        
-      
-      <!-- Nom & Prenom -->
-      <mat-form-field class="example-full-width text-secondary col-6 mt-3 mb-2">
-        <input matInput placeholder="Prenom" value="">
-      </mat-form-field>
-      <mat-form-field class="example-full-width text-secondary col-6 mt-3 mb-2">
-        <input matInput placeholder="Nom" value="">
-      </mat-form-field>
-      
-      <!-- Adresse -->
-      <mat-form-field class="example-full-width text-secondary col-12 mb-2">
-        <input matInput placeholder="Adresse" value="">
-      </mat-form-field>
-      
-      <!-- Code postal & Ville -->
-      <mat-form-field class="example-full-width text-secondary col-3 mb-2">
-        <input matInput placeholder="Code postal" value="" type="number">
-      </mat-form-field>
-      <mat-form-field class="example-full-width text-secondary col-9 mb-2">
-        <input matInput placeholder="Ville" value="">
-      </mat-form-field>
-      
-      <!-- Telephone fixe & Telephone fixe -->
-      <mat-form-field class="example-full-width text-secondary col-6 mb-2">
-        <input matInput placeholder="Téléphone fixe" value="">
-      </mat-form-field>
-      <mat-form-field class="example-full-width text-secondary col-6 mb-2">
-        <input matInput placeholder="Téléphone portable" value="">
-      </mat-form-field>
-      
-      <!-- Adresse mail -->
-      <mat-form-field class="example-full-width text-secondary col-6 mb-2">
-        <input matInput placeholder="Adresse mail" value="" type="email">
-      </mat-form-field>
-      
-      
+  <div class="col-8 h-100 d-flex flex-column background">
+
+    <div class="emptyState" *ngIf="!currentClient">
+      <img src="../../../../assets/svg/illustrations/people.svg">
+      <div class="subtitle">
+        <h3>Aucun client selectionné.</h3>
+        <button mat-button color="primary" (click)="addClient()">Ajouter un client</button>
+      </div>
     </div>
     
-    <!-- Boutons -->
-    <div class="d-flex w-100 mt-auto mb-3">
-      <button mat-button color="warn" class="mr-auto">Supprimer le projet</button>
-      <button mat-raised-button color="primary">Ouvrir le plan</button>
-    </div>
+    <form [formGroup]="clientForm" *ngIf=(currentClient) (ngSubmit)="createMode ? exit('create') : exit('save')" class="h-100 d-flex flex-column">
+      
+      <!-- Info client -->
+      <div class="row">
+
+        <!-- Nom & Prenom -->
+        <mat-form-field class="col-6 mt-3 mb-2">
+          <input matInput placeholder="Prenom" id="firstName" formControlName="firstName" required>
+          <mat-error *ngIf="form.firstName.errors && form.firstName.errors.required">Le prénom du client est obligatoire</mat-error>
+          <mat-error *ngIf="form.firstName.errors && form.firstName.errors.maxlength">Le prénom ne doit pas dépasser les 20 lettres</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6 mt-3 mb-2">
+          <input matInput placeholder="Nom" id="lastName" formControlName="lastName" required>
+          <mat-error *ngIf="form.lastName.errors && form.lastName.errors.required">Le nom du client est obligatoire</mat-error>
+          <mat-error *ngIf="form.lastName.errors && form.lastName.errors.maxlength">Le nom ne doit pas dépasser les 20 lettres</mat-error>
+        </mat-form-field>
+
+        <!-- Adresse
+        <mat-form-field class="col-12 mb-2">
+          <input matInput placeholder="Adresse">
+        </mat-form-field>
+
+        Code postal & Ville
+        <mat-form-field class="col-3 mb-2">
+          <input matInput placeholder="Code postal" value="" type="number">
+        </mat-form-field>
+        <mat-form-field class="col-9 mb-2">
+          <input matInput placeholder="Ville" value="">
+        </mat-form-field>
+        -->
+
+        <!-- Telephone fixe & Telephone fixe -->
+        <mat-form-field class="col-6 mb-2">
+          <input matInput placeholder="Téléphone fixe" id="phone" formControlName="phone">
+          <mat-error *ngIf="form.phone.errors && form.phone.errors.pattern">Le numero de téléphone fixe est incorrect</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6 mb-2">
+          <input matInput placeholder="Téléphone portable" id="mobile" formControlName="mobile">
+          <mat-error *ngIf="form.mobile.errors && form.mobile.errors.pattern  ">Le numero de téléphone portable est incorrect</mat-error>
+        </mat-form-field>
+
+        <!-- Adresse mail -->
+        <mat-form-field class="col-6 mb-2">
+          <input matInput placeholder="Adresse mail" id="email" formControlName="email" type="email">
+          <mat-error *ngIf="form.email.errors && form.email.errors.email">L'adresse email est incorrecte</mat-error>
+          
+        </mat-form-field>
+
+
+      </div>
+
+      <!-- Boutons -->
+      <div class="d-flex w-100 mt-auto mb-3" *ngIf=(createMode)>
+        <button mat-stroked-button class="ml-auto mr-3" type="button" (click)="exit()">Annuler</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!clientForm.valid">
+          <mat-icon class="md-18">add</mat-icon> Ajouter
+        </button>
+      </div>
+
+      <div class="d-flex w-100 mt-auto mb-3" *ngIf=(!createMode)>
+        <button mat-button color="warn" class="mr-auto" (click)="delete()">Supprimer le client</button>
+        <button mat-stroked-button class="mr-3" type="button" *ngIf=(clientForm.dirty) (click)="exit()">Annuler</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf=(clientForm.dirty) [disabled]="!clientForm.valid">
+          <mat-icon class="md-18">save</mat-icon> Enregister
+        </button>
+      </div>
+
+    </form>
     
   </div>
 </div>

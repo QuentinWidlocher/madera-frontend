@@ -35,7 +35,9 @@ export class AppComponent implements OnInit {
   }
 
   getComponent(component: any) {
-    component.onHamburger.subscribe(() => this.hamburgerOpened = !this.hamburgerOpened);
+    if (component.onHamburger) {
+      component.onHamburger.subscribe(() => this.hamburgerOpened = !this.hamburgerOpened);
+    }
   }
 
   populate() {

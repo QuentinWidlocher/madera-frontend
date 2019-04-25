@@ -153,7 +153,6 @@ export class ProjetSwService {
 
               added.client = projet.client;
               added.devis = projet.devis;
-              added.dossiersTechniques = projet.dossiersTechniques;
               added.utilisateur = projet.utilisateur;
 
               // On résout les données de la Promesse

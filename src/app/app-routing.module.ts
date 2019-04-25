@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './components/page/home/home.component';
-import { UserProjectComponent } from './components/page/user-project/user-project.component';
+import { ProjectsComponent } from './components/page/projects/projects.component';
 import { TestComponent } from './components/page/test/test.component';
 import { CustomersComponent } from './components/page/customers/customers.component';
 import { DevisComponent } from './components/page/devis/devis.component';
@@ -15,6 +14,7 @@ const routes: Routes = [
   { path: 'user-project', component: UserProjectComponent , canActivate: [AuthGuard]},
   { path: 'test', component: TestComponent , canActivate: [AuthGuard]},
   { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
+    { path: 'customers/:id', component: CustomersComponent, canActivate: [AuthGuard]  },
   { path: 'devis', component: DevisComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent},
   { path: 'create-users', component: CreateUsersComponent, canActivate: [AuthGuard]}

@@ -11,10 +11,9 @@ export class NavBarComponent {
 
   // Ici on mets les différents boutons avec leurs routes
   buttons = [
-    { icon: 'bug_report', title: 'test page', route: '/test', active: false },
-    { icon: 'home', title: 'home', route: '/home', active: false },
-    { icon: 'library_books', title: 'Projets', route: '/user-project', active: false },
+    // { icon: 'bug_report', title: 'test page', route: '/test', active: false },
     { icon: 'people', title: 'customers', route: '/customers', active: false },
+    { icon: 'library_books', title: 'Projets', route: '/projects', active: false },
     { icon: 'description', title: 'devis', route: '/devis', active: false },
   ];
 

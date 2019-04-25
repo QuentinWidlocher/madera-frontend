@@ -101,7 +101,7 @@ export class EditProjectComponent implements OnInit {
   }
 
   delete() {
-    this.dialog.open(DeleteConfirmationDialog, {
+    this.dialog.open(ProjetDeleteConfirmationDialog, {
       data: this.currentProjet.title
     }).afterClosed().subscribe(ok => {
       if (ok) {
@@ -122,9 +122,9 @@ export class EditProjectComponent implements OnInit {
   selector: 'delete-confirmation-dialog',
   templateUrl: './delete-confirmation.dialog.html'
 })
-export class DeleteConfirmationDialog {
+export class ProjetDeleteConfirmationDialog {
 
-  constructor(public dialogRef: MatDialogRef<DeleteConfirmationDialog>,
+  constructor(public dialogRef: MatDialogRef<ProjetDeleteConfirmationDialog>,
               @Inject(MAT_DIALOG_DATA) public projectName: string) { }
 
 }

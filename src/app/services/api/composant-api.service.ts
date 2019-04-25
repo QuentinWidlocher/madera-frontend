@@ -21,9 +21,8 @@ export class ComposantApiService {
 
   add(composant: Composant): Observable<object> {
     composant.id = undefined;
-    const composantPlain = { ...composant };
-
-    return this.http.post(ApiConfig.COMPOSANT, composantPlain);
+    composant = Object.assign(Composant.newEmpty(), composant);
+    return this.http.post(ApiConfig.COMPOSANT, composant.toJSON());
   }
 
   edit(composant: Composant): Observable<object> {

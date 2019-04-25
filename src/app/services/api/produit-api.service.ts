@@ -21,9 +21,8 @@ export class ProduitApiService {
 
   add(produit: Produit): Observable<object> {
     produit.id = undefined;
-    const produitPlain = { ...produit };
-
-    return this.http.post(ApiConfig.PRODUIT, produitPlain);
+    produit = Object.assign(Produit.newEmpty(), produit);
+    return this.http.post(ApiConfig.PRODUIT, produit.toJSON());
   }
 
   edit(produit: Produit): Observable<object> {

@@ -21,9 +21,8 @@ export class ModuleApiService {
 
   add(module: Module): Observable<object> {
     module.id = undefined;
-    const modulePlain = { ...module };
-
-    return this.http.post(ApiConfig.MODULE, modulePlain);
+    module = Object.assign(Module.newEmpty(), module);
+    return this.http.post(ApiConfig.MODULE, module.toJSON());
   }
 
   edit(module: Module): Observable<object> {

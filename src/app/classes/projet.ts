@@ -14,12 +14,12 @@ export class Projet {
     public endDate: Date;
     public version: string;
     public client: Client;
-    public dossiersTechniques: DossierTechnique[];
+    public dossierTechnique: DossierTechnique;
     public utilisateur: Utilisateur;
     public devis: Devis;
 
     constructor(id: number, title: string, creationDate: Date, editionDate: Date, endDate: Date, version: string, client: Client,
-        dossiersTechniques: DossierTechnique[], devis: Devis, utilisateur: Utilisateur) {
+        dossierTechnique: DossierTechnique, devis: Devis, utilisateur: Utilisateur) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
@@ -27,7 +27,7 @@ export class Projet {
         this.endDate = endDate;
         this.version = version;
         this.client = client;
-        this.dossiersTechniques = dossiersTechniques;
+        this.dossierTechnique = dossierTechnique;
         this.devis = devis;
         this.utilisateur = utilisateur;
     }
@@ -49,7 +49,7 @@ export class Projet {
             endDate : undefined,
             version: undefined,
             clientId : undefined,
-            dossiersTechniquesIds : [],
+            dossierTechniqueId : undefined,
             devisId : undefined,
             userId: undefined
         }
@@ -61,7 +61,7 @@ export class Projet {
         plainObject.endDate = (this.endDate !== undefined ? this.endDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.version = this.version;
         plainObject.clientId = (this.client !== undefined ? this.client.id : undefined);
-        plainObject.dossiersTechniquesIds = (this.dossiersTechniques !== undefined ? this.dossiersTechniques.map(x => x.id) : undefined);
+        plainObject.dossierTechniqueId = (this.dossierTechnique !== undefined ? this.dossierTechnique.id : undefined);
         plainObject.userId = (this.utilisateur !== undefined ? this.utilisateur.id : undefined);
 
         return JSON.stringify(plainObject);
