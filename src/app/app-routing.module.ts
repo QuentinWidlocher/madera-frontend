@@ -6,16 +6,17 @@ import { CustomersComponent } from './components/page/customers/customers.compon
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent } from './components/page/create-users/create-users.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/projects', pathMatch: 'full' },
-  { path: 'projects', component: ProjectsComponent },
-  { path: 'test', component: TestComponent },
-  { path: 'customers', component: CustomersComponent },
-  { path: 'customers/:id', component: CustomersComponent },
-  { path: 'devis', component: DevisComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'create-users', component: CreateUsersComponent }
+  { path: '',   redirectTo: '/projects', pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: 'projects', component: ProjectsComponent  , canActivate: [AuthGuard]},
+  { path: 'test', component: TestComponent , canActivate: [AuthGuard]},
+  { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
+  { path: 'customers/:id', component: CustomersComponent, canActivate: [AuthGuard]  },
+  { path: 'devis', component: DevisComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent},
+  { path: 'create-users', component: CreateUsersComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
