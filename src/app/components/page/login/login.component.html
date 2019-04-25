@@ -1,31 +1,43 @@
 <div class="d-flex h-100 background">
   <mat-card class="m-auto p-5 w-30">
 
-      <!-- Profil icon -->
-      <div class="text-align-center">
-        <img src="../assets/svg/illustrations/Profil_icon.svg" class="Profil_icon">
-      </div>
-
+    <!-- Profil icon -->
+    <div class="text-align-center">
+      <img src="../assets/svg/illustrations/Profil_icon_black.svg" class="Profil_icon">
+    </div>
+    <form #f="ngForm" [formGroup]="loginForm" (ngSubmit)="login(f)">
       <!-- Champ Nom Utilisateur -->
       <div>
-        <mat-form-field class="w-100"> 
-          <input matInput placeholder="Nom d'utilisateur">
+        <mat-form-field class="w-100">
+          <input required formControlName="userName" matInput placeholder="Nom d'utilisateur">
+          <mat-error *ngIf="form.userName.errors && form.userName.errors.required">
+            Le nom d'utilisateur est obligatoire
+          </mat-error>
         </mat-form-field>
       </div>
 
       <!-- Champ Mot de passe -->
       <div>
         <mat-form-field class="w-100">
-          <input matInput placeholder="Mot de passe" [type]="hide ? 'password' : 'text'">
+          <input required matInput formControlName="password" placeholder="Mot de passe" [type]="hide ? 'password' : 'text'">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="form.password.errors && form.password.errors.required">
+            Le mot de passe est obligatoire
+          </mat-error>
+          <mat-error *ngIf="form.password.errors && form.password.errors.minlength">
+            Le mot de passe doit contenir au moins 6 caractères
+          </mat-error>
         </mat-form-field>
-      </div> 
-      
+      </div>
+
       <!-- Button de Connexion -->
       <div class="btn-login pt-2">
-        <button mat-raised-button color="primary">Connexion</button>
-      </div>    
-
+        <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid || isRequesting">Connexion</button>
+      </div>
+    </form>
+    <mat-error *ngIf="errors">
+     {{errors}}
+    </mat-error>
   </mat-card>
 </div>
 

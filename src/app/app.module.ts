@@ -14,7 +14,7 @@ import { TestComponent } from './components/page/test/test.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthInterceptor } from "./auth-interceptor";
-
+import { AuthGuard } from './auth.guard';
 // Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule, MatButtonModule, MatNativeDateModule } from '@angular/material';
@@ -52,7 +52,7 @@ import { EditProjectComponent, DeleteConfirmationDialog } from './components/pag
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent } from './components/page/create-users/create-users.component';
-import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { SideNavComponent, LogoutConfirmationDialog } from './components/side-nav/side-nav.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -69,7 +69,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DevisComponent,
     LoginComponent,
     CreateUsersComponent,
-    SideNavComponent
+    SideNavComponent,
+    LogoutConfirmationDialog
   ],
   imports: [
     BrowserModule,
@@ -114,9 +115,11 @@ import { ReactiveFormsModule } from '@angular/forms';
   providers: [
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthGuard
   ],
   entryComponents: [
-    DeleteConfirmationDialog
+    DeleteConfirmationDialog,
+    LogoutConfirmationDialog
   ],
   bootstrap: [AppComponent]
 })

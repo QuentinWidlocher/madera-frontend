@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Attention !</h1>
+<div mat-dialog-content>
+  Êtes vous certain de vouloir vous déconnecter ?
+</div>
+<div mat-dialog-actions class="d-flex mt-3 justify-content-between">
+  <button mat-button [mat-dialog-close]="false" cdkFocusInitial>Annuler</button>
+  <button mat-flat-button color="warn" [mat-dialog-close]="true">Confirmer</button>
+</div>
