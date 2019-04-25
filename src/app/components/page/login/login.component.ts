@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   isRequesting: boolean;
   submitted: boolean = false;
   errors: string;
+  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
+
   get form() { return this.loginForm.controls; }
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
     this.createForm();
@@ -44,7 +46,8 @@ export class LoginComponent implements OnInit {
         .pipe(finalize(() => this.isRequesting = false))
         .subscribe(
         (res) => {
-          this.router.navigate(['create-users']);
+          this.onHamburger.emit();
+          this.router.navigate(['projects']);
         }, err => this.errors= err);
         
        

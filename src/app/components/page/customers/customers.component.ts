@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -19,7 +19,7 @@ export class CustomersComponent implements OnInit {
 
   clientListLoading = true;
   clientListIndex: number;
-
+  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
   createMode = false;
   searchTerms: string;
 
