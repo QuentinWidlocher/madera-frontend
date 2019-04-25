@@ -48,39 +48,4 @@ export class AppComponent implements OnInit {
     }
   }
 
-  populate() {
-    const clientList: Client[] = [];
-
-    this.clients.count().then(count => {
-      if (count < 15) {
-        for (let i = 1; i < 15; i++) {
-          this.clients.add(Object.assign(Client.newEmpty(), { 
-            code: 'CLIENT' + i,
-            firstName: 'Client',
-            lastName: i,
-            email: 'client' + i + '@test.com'
-          })).then(client => clientList.push(client));
-        }
-      }
-    }).then(() => {
-      
-      this.projets.count().then(count => {
-        if (count < 15) {
-          for (let i = 1; i < 15; i++) {
-            this.projets.add(Object.assign(Projet.newEmpty(), {
-              title: 'Projet ' +i,
-              creationDate: new Date(Date.now()),
-              editionDate: new Date(Date.now()),
-              version: '1',
-              client: clientList[i]
-            }));
-          }
-        }
-      });
-
-    });
-
-
-  }
-
 }

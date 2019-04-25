@@ -1,13 +1,25 @@
-<div id="headline1">
-    <img src="../assets/svg/illustrations/Profil_icon_white.svg" class="Profil_icon">
+<div class="d-flex flex-column h-100">
+    <div class="headline">
+        <img src="../assets/svg/illustrations/Profil_icon_white.svg" class="profil-icon">
+    </div>
+
+    <div class="username">{{userName}}</div>
+    <mat-action-list class="pt-0" *ngIf="status">
+        <div *ngIf="isAdmin">
+            <mat-list-item [routerLink]="['/create-users']" (click)="closed.emit()">
+                <mat-icon matListIcon class="pr-2">supervisor_account</mat-icon> Gérer les utilisateurs
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+        </div>
+
+        <mat-list-item (click)="logout()">
+            <mat-icon matListIcon class="pr-2">exit_to_app</mat-icon> Se deconnecter
+        </mat-list-item>
+    </mat-action-list>
+
+    <button mat-icon-button color="warn" class="mt-auto mb-2 ml-auto mr-2">
+      <mat-icon class="md-24">power_settings_new</mat-icon>
+    </button>
 </div>
 
-<div class="UserName">{{userName}}</div>
-
-<mat-action-list class="pt-0" >
-    <button *ngIf="status" mat-list-item  (click)="logout()"><mat-icon matListIcon class="pr-2">exit_to_app</mat-icon> Se Déconnecter </button>
-</mat-action-list>
-
-<div  class="div-exit">
-<button mat-button color="warn" class="btn-exit">Warn</button>
-</div>
