@@ -8,6 +8,8 @@ import { ClientSwService } from './services/service-workers/client-sw.service';
 import { Client } from './classes/client';
 import { Observable, Subscription } from "rxjs";
 import { UserService } from './services/user.service';
+import { LoginComponent } from './components/page/login/login.component';
+import { DevisComponent } from './components/page/devis/devis.component';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +38,13 @@ export class AppComponent implements OnInit {
 
   getComponent(component: any) {
     if (component.onHamburger) {
-      component.onHamburger.subscribe(() => this.hamburgerOpened = !this.hamburgerOpened);
+
+      if (component instanceof LoginComponent) {
+        component.onHamburger.subscribe(() => this.hamburgerOpened = false);
+      } else {
+        component.onHamburger.subscribe(() => this.hamburgerOpened = !this.hamburgerOpened);
+      }
+     
     }
   }
 

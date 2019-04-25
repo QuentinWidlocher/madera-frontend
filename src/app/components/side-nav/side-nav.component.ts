@@ -13,7 +13,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
   status: boolean;
   subscription: Subscription;
   userName: string;
-  constructor(private userService: UserService, private dialog: MatDialog,) { }
+  constructor(private userService: UserService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.subscription = this.userService.authNavStatus$.subscribe(status => {

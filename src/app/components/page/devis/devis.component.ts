@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 export interface PeriodicElement {
   name: string;
@@ -29,6 +29,8 @@ export class DevisComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
+
+  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() { }
 

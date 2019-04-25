@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Projet } from 'src/app/classes/projet';
 import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
 import { Client } from 'src/app/classes/client';
@@ -18,6 +18,8 @@ export class ProjectsComponent implements OnInit {
 
   projetListIndex: number;
   projetListLoading = true;
+
+  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
 
   searchTerms: string;
   filterMenu = false;
