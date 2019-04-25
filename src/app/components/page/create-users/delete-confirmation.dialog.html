@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Attention !</h1>
+<div mat-dialog-content>
+    Vous allez supprimer l'utilisateur {{ utilisateurName }}. <br>
+    Êtes vous certain de vouloir le supprimer ?
+</div>
+<div mat-dialog-actions class="d-flex mt-3 justify-content-between">
+  <button mat-button [mat-dialog-close]="false" cdkFocusInitial>Annuler et revenir</button>
+  <button mat-flat-button color="warn" [mat-dialog-close]="true">Supprimer l'utilisateur</button>
+</div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,28 +20,20 @@ export class NavBarComponent {
   constructor(private router: Router) {
     router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
-        this.highlightTab();
+        this.highlightTab(e.urlAfterRedirects);
       }
     });
   }
 
   // Lance la navigation vers la route selectionnée
   navigate(url: string) {
-    this.router.navigateByUrl(url).then(x => this.highlightTab());
+    this.router.navigateByUrl(url);
   }
 
   // Met en surbrillance le bouton de la route
-  highlightTab(url: string = '') {
-    if (url === '') {
-      url = this.router.url;
-    }
-
+  highlightTab(url: string = this.router.url) {
     this.buttons.forEach(button => {
-      if (url === button.route) {
-        button.active = true;
-      } else {
-        button.active = false;
-      }
+      button.active = (url.startsWith(button.route));
     });
   }
 

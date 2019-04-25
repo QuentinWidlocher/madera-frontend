@@ -50,7 +50,7 @@ import { CustomersComponent, ClientDeleteConfirmationDialog } from './components
 import { EditProjectComponent, ProjetDeleteConfirmationDialog } from './components/page/projects/edit-project/edit-project.component';
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
-import { CreateUsersComponent } from './components/page/create-users/create-users.component';
+import { CreateUsersComponent, UtilisateurDeleteConfirmationDialog } from './components/page/create-users/create-users.component';
 import { SideNavComponent, LogoutConfirmationDialog } from './components/side-nav/side-nav.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -65,6 +65,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     EditProjectComponent,
     ProjetDeleteConfirmationDialog,
     ClientDeleteConfirmationDialog,
+    UtilisateurDeleteConfirmationDialog,
     DevisComponent,
     LoginComponent,
     CreateUsersComponent,
@@ -119,7 +120,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   entryComponents: [
     LogoutConfirmationDialog,
     ProjetDeleteConfirmationDialog,
-    ClientDeleteConfirmationDialog
+    ClientDeleteConfirmationDialog,
+    UtilisateurDeleteConfirmationDialog
   ],
   bootstrap: [AppComponent]
 })
