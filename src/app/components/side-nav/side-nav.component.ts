@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Observable, Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
@@ -10,9 +10,12 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 })
 export class SideNavComponent implements OnInit, OnDestroy {
 
+  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
+
   status: boolean;
   subscription: Subscription;
   userName: string;
+  isAdmin: boolean
   constructor(private userService: UserService, private dialog: MatDialog,) { }
 
   ngOnInit() {
@@ -20,6 +23,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
       this.status = status;
       if (this.status) {
         this.userName = this.userService.getUserName();
+        this.isAdmin = this.userService.getRole() === 'Admin'
       }
     });
     
