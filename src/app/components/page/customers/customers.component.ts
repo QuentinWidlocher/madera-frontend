@@ -54,12 +54,13 @@ export class CustomersComponent implements OnInit {
       this.clientsOriginal = clients;
       this.clientListLoading = false;
 
-      if (this.route.params) {
-        this.route.params.subscribe(params => {
+      this.route.params.subscribe(params => {
+        if (params.length > 0)
+        {
           this.currentClient = this.clients.find(client => client.id === +params['id']);
           this.refreshForm();
-        })
-      }
+        }
+      })
     });
   }
 
