@@ -16,7 +16,7 @@ export class DevisApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.DEVIS.replace(':id', '' + id));
+    return this.http.get(ApiConfig.DEVIS_UNIQUE.replace(':id', '' + id));
   }
 
   add(devis: Devis): Observable<object> {

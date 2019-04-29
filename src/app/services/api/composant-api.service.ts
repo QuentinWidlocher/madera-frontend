@@ -16,7 +16,7 @@ export class ComposantApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.COMPOSANT.replace(':id', '' + id));
+    return this.http.get(ApiConfig.COMPOSANT_UNIQUE.replace(':id', '' + id));
   }
 
   add(composant: Composant): Observable<object> {

@@ -16,7 +16,7 @@ export class CctpApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.CCTP.replace(':id', '' + id));
+    return this.http.get(ApiConfig.CCTP_UNIQUE.replace(':id', '' + id));
   }
 
   add(cctp: CCTP): Observable<object> {

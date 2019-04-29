@@ -1,5 +1,6 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { Utilisateur } from 'src/app/classes/utilisateur';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { ConnectivityService } from '../../../services/connectivity.service';
 import { UtilisateurSwService } from '../../../services/service-workers/utilisateur-sw.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
@@ -10,8 +11,11 @@ import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms"
   styleUrls: ['./create-users.component.scss']
 })
 export class CreateUsersComponent implements OnInit {
+  
+  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
 
   utilisateurs: Utilisateur[] = [];
+  utilisateursOriginal: Utilisateur[] = [];
   currentUtilisateur: Utilisateur;
   userForm: FormGroup;
   isRequesting: boolean;
@@ -19,6 +23,10 @@ export class CreateUsersComponent implements OnInit {
   errors: string;
   utilisateurListLoading: boolean = true;
   utilisateurListIndex: number;
+
+  createMode = false;
+
+  searchTerms: string;
 
   passwordHide: boolean;
 
@@ -144,4 +152,16 @@ export class CreateUsersComponent implements OnInit {
 
 
 }
+
+@Component({
+  selector: 'delete-confirmation-dialog',
+  templateUrl: './delete-confirmation.dialog.html'
+})
+export class UtilisateurDeleteConfirmationDialog {
+
+  constructor(public dialogRef: MatDialogRef<UtilisateurDeleteConfirmationDialog>,
+    @Inject(MAT_DIALOG_DATA) public utilisateurName: string) { }
+
+}
+
 

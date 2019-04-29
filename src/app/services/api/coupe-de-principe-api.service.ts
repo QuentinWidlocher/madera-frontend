@@ -16,7 +16,7 @@ export class CoupeDePrincipeApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.COUPE_DE_PRINCIPE.replace(':id', '' + id));
+    return this.http.get(ApiConfig.COUPE_DE_PRINCIPE_UNIQUE.replace(':id', '' + id));
   }
 
   add(coupeDePrincipe: CoupeDePrincipe): Observable<object> {

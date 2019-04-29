@@ -8,7 +8,7 @@
 
 
 
-<!-- Bar de Recherche -->
+<!-- Barre de Recherche -->
 <div class="contentPage row m-3 h-100">
   <div class="col-sm-4 pl-1 h-100 overflow-hidden">
     <mat-card class="mb-3 py-2 pb-0">
@@ -17,30 +17,27 @@
         <mat-icon matSuffix>filter_list</mat-icon>
       </mat-form-field>
     </mat-card>
-
-    <!-- Liste des utilisateurs -->
-    <div class="colUserList">
-      <div class="h-100 w-100" *ngIf="utilisateurListLoading">
-        <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
-      </div>
-      <mat-action-list class="scroll h-100 mb-3" *ngIf="!utilisateurListLoading">
-        <mat-list-item (click)="selectUtilisateur(utilisateur, index)" *ngFor="let utilisateur of utilisateurs; let index = index">
-          <mat-icon mat-list-icon>person</mat-icon>
-          <h4 mat-line>{{ utilisateur.username }}</h4>
-        </mat-list-item>
-      </mat-action-list>
-
-      <button mat-fab color="accent" (click)="createUtilisateur()">
-        <mat-icon>add</mat-icon>
-      </button>
+    
+    <!-- Liste des utilisateurs -->      
+    <div class="h-100 w-100 d-flex" *ngIf="utilisateurListLoading">
+      <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
+    <mat-action-list class="scroll h-100 mb-3" *ngIf="!utilisateurListLoading">
+      <mat-list-item (click)="selectUtilisateur(utilisateur, index)" *ngFor="let utilisateur of utilisateurs; let index = index">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <h4 mat-line>{{ utilisateur.username | titlecase }}</h4>
+      </mat-list-item>
+    </mat-action-list>        
+
+    <button mat-fab color="accent" (click)="addUtilisateur()">
+        <mat-icon>add</mat-icon>
+    </button>
   </div>
 
 
   <!-- Formulaire Ajout utilisateur -->
-  <div class="col-8 h-100 d-flex flex-column background">
+  <div class="col-8 h-100 d-flex flex-column">
     <form #f="ngForm" [formGroup]="userForm" (ngSubmit)="user(f)">
-      <div class="row">
         <!-- Profil icon -->
         <div class="text-align-center w-30 m-auto pt-3">
           <img src="../assets/svg/illustrations/Profil_icon_black.svg" class="Profil_icon">
@@ -69,6 +66,8 @@
         <!-- Administrateur oui/non -->
         <mat-slide-toggle formControlName="role" class="col-12 mb-2 mt-2">Administrateur</mat-slide-toggle>
       </div>
+    </div>
+      <div class="row m-0">               
       <!-- Liste des erreurs -->
       <mat-error *ngIf="errors" class="my-auto">
         {{errors}}

@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent implements OnInit {
+  
+  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
 
   clients: Client[] = [];
   clientsOriginal : Client[] = [];
@@ -19,12 +21,10 @@ export class CustomersComponent implements OnInit {
 
   clientListLoading = true;
   clientListIndex: number;
-  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
   createMode = false;
   searchTerms: string;
 
   clientForm: FormGroup = undefined;
-  ref: any;
   get form() { return this.clientForm.controls; }
 
   constructor(private clientSw: ClientSwService,
@@ -54,12 +54,13 @@ export class CustomersComponent implements OnInit {
       this.clientsOriginal = clients;
       this.clientListLoading = false;
 
-      if (this.route.params) {
-        this.route.params.subscribe(params => {
+      this.route.params.subscribe(params => {
+        if (params)
+        {
           this.currentClient = this.clients.find(client => client.id === +params['id']);
           this.refreshForm();
-        })
-      }
+        }
+      });
     });
   }
 
@@ -95,12 +96,11 @@ export class CustomersComponent implements OnInit {
   }
 
   exit(action = 'cancel') {
-    this.formToClient();
-
     action = (this.createMode && action !== 'cancel' ? 'create' : action);
 
     switch (action) {
       case 'save':
+        this.formToClient();
         this.clientSw.edit(this.currentClient).then(() => {
           this.refreshForm();
           this.createMode = false;
@@ -108,6 +108,7 @@ export class CustomersComponent implements OnInit {
         break;
 
       case 'create':
+        this.formToClient();
         this.clientSw.add(this.currentClient).then(client => {
           this.currentClient = Object.assign(Client.newEmpty(), client);
 

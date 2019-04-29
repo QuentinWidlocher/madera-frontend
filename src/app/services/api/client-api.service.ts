@@ -16,7 +16,7 @@ export class ClientApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.CLIENT.replace(':id', '' + id));
+    return this.http.get(ApiConfig.CLIENT_UNIQUE.replace(':id', '' + id));
   }
 
   add(client: Client): Observable<object> {

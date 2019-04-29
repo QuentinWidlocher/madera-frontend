@@ -16,7 +16,7 @@ export class ProjetApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.PROJET.replace(':id', '' + id));
+    return this.http.get(ApiConfig.PROJET_UNIQUE.replace(':id', '' + id));
   }
 
   add(projet: Projet): Observable<object> {
@@ -26,9 +26,8 @@ export class ProjetApiService {
   }
 
   edit(projet: Projet): Observable<object> {
-    const projetPlain = { ...projet };
-    console.log(projetPlain);
-    return this.http.put(ApiConfig.PROJET_UNIQUE.replace(':id', '' + projet.id), projetPlain);
+    projet = Object.assign(Projet.newEmpty(), projet)
+    return this.http.put(ApiConfig.PROJET_UNIQUE.replace(':id', '' + projet.id), projet.toJSON());
   }
 
   delete(projet: Projet): Observable<object> {

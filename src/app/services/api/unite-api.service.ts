@@ -16,7 +16,7 @@ export class UniteApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.UNITE.replace(':id', '' + id));
+    return this.http.get(ApiConfig.UNITE_UNIQUE.replace(':id', '' + id));
   }
 
   add(unite: Unite): Observable<object> {

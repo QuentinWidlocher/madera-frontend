@@ -48,7 +48,8 @@ export class EditProjectComponent implements OnInit {
       title: [this.currentProjet.title, [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       version: [this.currentProjet.version],
       client: [this.selectedClientId, [Validators.required]],
-      creationDate: [this.currentProjet.creationDate]
+      creationDate: [this.currentProjet.creationDate],
+      endDate: [this.currentProjet.endDate]
     });
     
     this.clientSw.getAll().then(clients => {

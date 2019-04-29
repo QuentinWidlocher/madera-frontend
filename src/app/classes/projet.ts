@@ -60,8 +60,8 @@ export class Projet {
         plainObject.editionDate = (this.editionDate !== undefined ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.endDate = (this.endDate !== undefined ? this.endDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.version = this.version;
-        plainObject.clientId = (this.client !== undefined ? this.client.id : undefined);
-        plainObject.dossierTechniqueId = (this.dossierTechnique !== undefined ? this.dossierTechnique.id : undefined);
+        plainObject.clientId = (this.client !== undefined && this.client !== null ? this.client.id : undefined);
+        plainObject.dossierTechniqueId = (this.dossierTechnique !== undefined && this.dossierTechnique !== null ? this.dossierTechnique.id : undefined);
         plainObject.userId = (this.utilisateur !== undefined ? this.utilisateur.id : undefined);
 
         return JSON.stringify(plainObject);

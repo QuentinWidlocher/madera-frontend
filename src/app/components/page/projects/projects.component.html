@@ -86,13 +86,17 @@
           <p class="text-secondary my-1 col-6">Client : <a
               [routerLink]="['/customers', currentProjet.client.id]"><span>{{ currentProjet.client.fullName }}</span></a>
           </p>
-          <p class="text-secondary my-1 col-6">Total TTC : <span>n/a</span></p>
+          <p class="text-secondary my-1 col-6">Total TTC : <span>{{ totalTTC | number:'1.2-2':'fr' }} €</span></p>
           <p class="text-secondary my-1 col-6">Projet débuté le :
             <span>{{ currentProjet.creationDate | date: 'fullDate' }}</span></p>
-          <p class="text-secondary my-1 col-6">Projet terminé le : <span>Pas encore terminé</span></p>
+          <p class="text-secondary my-1 col-6">
+            Projet terminé le :
+            <span *ngIf="currentProjet.endDate.getFullYear() !== 1">{{ currentProjet.endDate | date: 'fullDate' }}</span>
+            <span *ngIf="currentProjet.endDate.getFullYear() === 1">en cours</span>
+          </p>
     
           <div class="d-flex col-12 mt-4 justify-content-end">
-            <button mat-raised-button color="primary" class="mr-3">Ouvrir le devis</button>
+            <button mat-raised-button color="primary" [routerLink]="['/devis', currentProjet.id]" class="mr-3">Ouvrir le devis</button>
             <button mat-raised-button color="primary">Ouvrir le plan</button>
           </div>
         </div>

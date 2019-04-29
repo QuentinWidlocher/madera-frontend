@@ -16,7 +16,7 @@ export class CaracteristiqueApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.CARACTERISTIQUE.replace(':id', '' + id));
+    return this.http.get(ApiConfig.CARACTERISTIQUE_UNIQUE.replace(':id', '' + id));
   }
 
   add(caracteristique: Caracteristique): Observable<object> {
