@@ -22,3 +22,42 @@ table {
 a.mat-raised-button {
   color: white;
 }
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .subtitle {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    h5 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    button {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

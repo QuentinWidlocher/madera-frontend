@@ -57,16 +57,16 @@ export class DevisComponent implements OnInit {
       }).then(() => {
         this.devisSw.get(this.devis.id).then(devis => {
 
-          if (devis.lignes) {
+          if (devis.lignes && devis.lignes.length > 0) {
             let lignes: LigneFormat[] = [];
 
             devis.lignes.forEach(ligne => {
               lignes.push({
-                designation: "<DESIGNATION>",
-                gamme: "<GAMME>",
+                designation: ligne.designation,
+                gamme: ligne.gamme,
                 quantite: ligne.quantite,
-                puht: 99.99,
-                puttc: 99.99,
+                puht: ligne.unitPriceNoTax,
+                puttc: ligne.unitPriceTax,
                 total: ligne.quantite * 99.99
               });
             });

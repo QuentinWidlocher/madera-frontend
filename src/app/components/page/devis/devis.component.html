@@ -38,8 +38,8 @@
 
 
   <div class="d-flex flex-column h-100">
-    <mat-card class="p-0 flex-grow-1 overflow-y-scroll">
-      <table mat-table [dataSource]="dataSource" matSort *ngIf=(ready)>
+    <mat-card class="p-0 flex-grow-1 overflow-y-scroll" *ngIf="dataSource">
+      <table mat-table [dataSource]="dataSource" matSort>
 
         <!-- Designation Column -->
         <ng-container matColumnDef="designation">
@@ -89,6 +89,14 @@
       </table>
     </mat-card>
 
+    <div class="emptyState" *ngIf="!dataSource">
+      <img src="../../../../assets/svg/illustrations/devis.svg">
+      <div class="subtitle">
+        <h3>Ce devis est vide...</h3>
+        <h5>Pour l'instant !</h5>
+      </div>
+    </div>
+
     <!-- Card total projet -->
     <div class="row my-2" *ngIf="ready">
       <div class="col-7">
@@ -97,7 +105,7 @@
             <div class="col-5 mt-auto">
                <mat-form-field>
                  <mat-label>Temps estimé</mat-label>
-                 <input [(ngModel)]="estimatedTime" matInput type="number" placeholder="42.5" class="text-align-right">
+                 <input [(ngModel)]="devis.estimatedTime" matInput type="number" placeholder="42.5" class="text-align-right">
                  <span matSuffix> {{ estimatedTime >= 2 ? 'heures' : 'heure' }}</span>
                </mat-form-field>
             </div>

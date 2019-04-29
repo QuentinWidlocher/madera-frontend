@@ -8,17 +8,19 @@ export class Module {
     public description: string;
     public creationDate: Date;
     public editionDate: Date;
+    public quantity: number;
     public produits: Produit[];
     public caracteristiques: Caracteristique[];
     public composants: Composant[];
     public coupeDePrincipe: CoupeDePrincipe;
 
-    constructor(id: number, description: string, creationDate: Date, editionDate: Date, produits: Produit[],
+    constructor(id: number, description: string, creationDate: Date, editionDate: Date, quantity: number, produits: Produit[],
                 caracteristiques: Caracteristique[], composants: Composant[], coupeDePrincipe: CoupeDePrincipe) {
         this.id = id;
         this.description = description;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
+        this.quantity = quantity;
         this.produits = produits;
         this.caracteristiques = caracteristiques;
         this.composants = composants;
@@ -26,7 +28,7 @@ export class Module {
     }
 
     public static newEmpty() {
-        return new Module(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+        return new Module(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }
 
     public toJSON(): string {
@@ -35,6 +37,7 @@ export class Module {
             description: undefined,
             creationDate: undefined,
             editionDate: undefined,
+            quantity: undefined,
             produitModule: [],
             caracteristiquesIds: [],
             composantsIds: [],
@@ -51,6 +54,7 @@ export class Module {
                 moduleId: this.id
             })
         });
+        plainObject.quantity = this.quantity;
         plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
         plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
         plainObject.coupeDePrincipeId = (this.coupeDePrincipe !== undefined ? this.coupeDePrincipe.id : undefined);
