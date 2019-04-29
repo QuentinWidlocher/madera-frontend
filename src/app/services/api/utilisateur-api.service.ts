@@ -17,7 +17,7 @@ export class UtilisateurApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.UTILISATEUR.replace(':id', '' + id));
+    return this.http.get(ApiConfig.UTILISATEUR_UNIQUE.replace(':id', '' + id));
   }
 
   add(utilisateur: Registration): Observable<object> {
