@@ -53,6 +53,9 @@ export class ProjetSwService {
               projets.forEach((projet, index) => {
                 this.idb.add(projet);
                 projets[index].client = Object.assign(Client.newEmpty(), projet.client);
+                projets[index].creationDate = new Date(projets[index].creationDate)
+                projets[index].editionDate = new Date(projets[index].editionDate)
+                projets[index].endDate = new Date(projets[index].endDate)
               });
 
               // On résout les données de la Promesse
