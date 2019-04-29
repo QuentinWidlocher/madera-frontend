@@ -16,7 +16,7 @@ export class GammeComposantApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.GAMME_COMPOSANT.replace(':id', '' + id));
+    return this.http.get(ApiConfig.GAMME_COMPOSANT_UNIQUE.replace(':id', '' + id));
   }
 
   add(gammeComposant: GammeComposant): Observable<object> {

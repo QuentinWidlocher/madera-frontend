@@ -16,7 +16,7 @@ export class FamilleComposantApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.FAMILLE_COMPOSANT.replace(':id', '' + id));
+    return this.http.get(ApiConfig.FAMILLE_COMPOSANT_UNIQUE.replace(':id', '' + id));
   }
 
   add(familleComposant: FamilleComposant): Observable<object> {

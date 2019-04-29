@@ -16,7 +16,7 @@ export class DossierTechniqueApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.DOSSIER_TECHNIQUE.replace(':id', '' + id));
+    return this.http.get(ApiConfig.DOSSIER_TECHNIQUE_UNIQUE.replace(':id', '' + id));
   }
 
   add(dossierTechnique: DossierTechnique): Observable<object> {

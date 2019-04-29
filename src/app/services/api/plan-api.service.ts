@@ -16,7 +16,7 @@ export class PlanApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.PLAN.replace(':id', '' + id));
+    return this.http.get(ApiConfig.PLAN_UNIQUE.replace(':id', '' + id));
   }
 
   add(plan: Plan): Observable<object> {

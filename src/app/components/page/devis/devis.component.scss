@@ -1,20 +1,24 @@
-.flex-column{
-    height: calc(100vh - 17rem);
+.content-page {
+  height: calc(100vh - 8rem);
 }
+
 .text-align-right {
-    text-align: right;
+  text-align: right;
 }
 
-
-.example-container {
-    overflow: auto;
+p.text-muted>span {
+  color: black !important;
 }
-  
+
 table {
-    width: 100%;
+  width: 100%;
+
+  tr.mat-footer-row {
+    border-top: 1px solid #e0e0e0;
+    font-weight: bold;
+  }
 }
 
-.text-transform {
-    text-transform: uppercase;
-    color: black;
+a.mat-raised-button {
+  color: white;
 }

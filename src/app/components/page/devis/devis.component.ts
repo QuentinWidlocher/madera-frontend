@@ -1,24 +1,22 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
+import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
+import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
+import { Devis } from 'src/app/classes/devis';
+import { Client } from 'src/app/classes/client';
+import { Projet } from 'src/app/classes/projet';
+import { DevisSwService } from 'src/app/services/service-workers/devis-sw.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { DataSource } from '@angular/cdk/table';
+import { MatSort, MatTableDataSource } from '@angular/material';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export interface LigneFormat {
+  designation: string;
+  gamme: string;
+  quantite: number;
+  puht: number;
+  puttc: number;
+  total: number;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
 
 @Component({
   selector: 'app-devis',
@@ -27,14 +25,76 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class DevisComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
-
   @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
+  
+  displayedColumns: string[] = ['designation', 'gamme', 'quantite', 'puht', 'puttc', 'total'];
+  dataSource;
+  totalHT: number;
+  totalTTC: number;
+  totalQte: number;
 
-  constructor() { }
+  footers: LigneFormat;
+
+  @ViewChild(MatSort) sort: MatSort;
+
+  devis: Devis;
+  projet: Projet;
+  client: Client;
+  ready: boolean = false;
+
+  estimatedTime: number;
+
+  constructor(private projetSw: ProjetSwService,
+              private devisSw: DevisSwService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.projetSw.get(+params['id']).then(projet => {
+        this.projet = projet;
+        this.devis = projet.devis;
+        this.client = projet.client; 
+      }).then(() => {
+        this.devisSw.get(this.devis.id).then(devis => {
+
+          if (devis.lignes) {
+            let lignes: LigneFormat[] = [];
+
+            devis.lignes.forEach(ligne => {
+              lignes.push({
+                designation: "<DESIGNATION>",
+                gamme: "<GAMME>",
+                quantite: ligne.quantite,
+                puht: 99.99,
+                puttc: 99.99,
+                total: ligne.quantite * 99.99
+              });
+            });
+
+            this.totalQte = lignes.map(item => item.quantite).reduce((prev, next) => prev + next);
+            this.totalHT = lignes.map(item => item.puht).reduce((prev, next) => prev + next);
+            this.totalTTC = lignes.map(item => item.puttc).reduce((prev, next) => prev + next);
+
+            this.footers = {
+              designation: 'Total',
+              gamme: '',
+              quantite: this.totalQte,
+              puht: this.totalHT,
+              puttc: this.totalTTC,
+              total: this.totalQte * this.totalHT
+            };
+
+            this.dataSource = new MatTableDataSource(lignes);
+            this.dataSource.sort = this.sort;
+
+          }
+
+          this.ready = true;
+
+        });
+      });
+    });
+
   }
 
 }

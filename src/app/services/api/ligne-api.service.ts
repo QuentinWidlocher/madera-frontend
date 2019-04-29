@@ -16,7 +16,7 @@ export class LigneApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.LIGNE.replace(':id', '' + id));
+    return this.http.get(ApiConfig.LIGNE_UNIQUE.replace(':id', '' + id));
   }
 
   add(ligne: Ligne): Observable<object> {

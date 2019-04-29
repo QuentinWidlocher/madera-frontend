@@ -1,77 +1,117 @@
 <!-- Titre Nav -->
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-icon-button (click)="onHamburger.emit()"><mat-icon>menu</mat-icon></button> <span class="ml-2">Devis n° ...</span>
+    <button mat-icon-button (click)="onHamburger.emit()">
+      <mat-icon>menu</mat-icon>
+    </button> <span class="ml-2" *ngIf="ready">Devis n° {{ devis.id }} - {{ projet.title }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
 
-
-
-  
-  <div class="row mt-3 mb-3 justify-content-around">
-    <!-- Card Info Client / projet-->
-    <mat-card class="col-7">
-        <div class="row">
-        <p class="text-muted col-12 mt-0 mb-4">Client : <span> Robert LANGLOIS</span></p>
-        <p class="text-muted col-6 mt-0 mb-0">Projet débutée le : <span> 18/06/2018</span></p>
-        <p class="text-muted col-6 mt-0 mb-0">Projet terminée le : <span>en cour</span></p>
+<div class="content-page d-flex flex-column px-2">
+  <div id="info-row" class="row my-3" *ngIf="ready">
+    <div class="col-8">
+      <!-- Card Info Client / projet-->
+      <mat-card class="h-100">
+        <div class="row h-100 align-content-around">
+          <div class="col-12"><span class="text-muted">Client : </span>{{ client.fullName }}</div>
+          <div class="col"><span class="text-muted">Projet débuté le :
+            </span>{{ projet.creationDate | date: 'fullDate' }}</div>
+          <div class="col-6"><span class="text-muted">Projet terminé le : </span>en cours</div>
         </div>
-    </mat-card>
-    <!-- Card Coût du projet-->
-    <mat-card class="col-4">
-        <div class="row pl-5 pr-5">
-        <p class="col-6 text-muted mt-0 mb-2 text-align-right">Total HT :</p><span class="col-6 text-align-right"> prout</span>
-        <p class="col-6 text-muted mt-0 mb-2 text-align-right">TVA : </p><span class="col-6 text-align-right"> prout</span>
-        <p class="col-6 text-muted mt-0 mb-2 text-align-right">Total TTC : </p><span class="col-6 text-align-right"> pd n/a</span>
+      </mat-card>
+    </div>
+    <div class="col-4">
+      <!-- Card Coût du projet-->
+      <mat-card>
+        <div class="row h-100 align-content-around">
+          <p class="col-6 m-0 text-muted">Total HT :</p><span
+            class="col-6 text-align-right">{{ totalHT * totalQte | number: '1.2-2':'fr'}} €</span>
+          <p class="col-6 m-0 text-muted">TVA : </p><span
+            class="col-6 text-align-right">{{ (totalTTC * totalQte) - (totalHT * totalQte) | number: '1.2-2':'fr'}} €</span>
+          <p class="col-6 m-0 text-muted">Total TTC : </p><span
+            class="col-6 text-align-right">{{ totalTTC * totalQte | number: '1.2-2':'fr'}} €</span>
         </div>
-    </mat-card>
+      </mat-card>
+    </div>
   </div>
 
 
 
-  <div class="d-flex flex-column">
-    <mat-card class="example-container m-2">
-      <table mat-table [dataSource]="dataSource">
-      
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef class="text-transform"> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+  <div class="d-flex flex-column h-100">
+    <mat-card class="p-0 flex-grow-1 overflow-y-scroll">
+      <table mat-table [dataSource]="dataSource" matSort *ngIf=(ready)>
+
+        <!-- Designation Column -->
+        <ng-container matColumnDef="designation">
+          <th mat-header-cell *matHeaderCellDef>Désignation</th>
+          <td mat-cell *matCellDef="let element"> {{element.designation}} </td>
+          <td mat-footer-cell *matFooterCellDef>{{ footers.designation }}</td>
         </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="text-transform"> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+
+        <!-- Gamme Column -->
+        <ng-container matColumnDef="gamme">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Gamme</th>
+          <td mat-cell *matCellDef="let element"> {{element.gamme}} </td>
+          <td mat-footer-cell *matFooterCellDef>{{ footers.gamme }}</td>
         </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef class="text-transform"> Weight </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+
+        <!-- Quantité Column -->
+        <ng-container matColumnDef="quantite">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantité</th>
+          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.quantite}} </td>
+          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.quantite }}</td>
         </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef class="text-transform"> Symbol </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+
+        <!-- PU HT Column -->
+        <ng-container matColumnDef="puht">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>PU Brut</th>
+          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.puht | number: '1.2-2':'fr'}} €</td>
+          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puht | number: '1.2-2':'fr' }} €</td>
         </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <!-- PU TTC Column -->
+        <ng-container matColumnDef="puttc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>PU Net</th>
+          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.puttc | number: '1.2-2':'fr'}} €</td>
+          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puttc | number: '1.2-2':'fr' }} €</td>
+        </ng-container>
+
+        <!-- Total Ligne Column -->
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total HT</th>
+          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.puht * element.quantite | number: '1.2-2':'fr'}} €</td>
+          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.total | number: '1.2-2':'fr' }} €</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
       </table>
     </mat-card>
 
     <!-- Card total projet -->
-    <div class="row m-2">
-        <mat-card class="col-7">
-            <div class="row">
-              <p class="col-5">Temps estimé : <span> 150 </span></p><p class="col-7 text-align-right"> Main d'oeuvre horaire : <span class="text-muted"> 45 € / heure</span> <br> <span> Main d'oeuvre estimée : </span> <span class="text-muted"> 45 € / heure</span></p>
-            </div>          
+    <div class="row my-2" *ngIf="ready">
+      <div class="col-7">
+        <mat-card class="py-0">
+          <div class="row">
+            <div class="col-5 mt-auto">
+               <mat-form-field>
+                 <mat-label>Temps estimé</mat-label>
+                 <input [(ngModel)]="estimatedTime" matInput type="number" placeholder="42.5" class="text-align-right">
+                 <span matSuffix> {{ estimatedTime >= 2 ? 'heures' : 'heure' }}</span>
+               </mat-form-field>
+            </div>
+            <div class="col-7 text-align-right">
+              <p> <span class="text-muted">Main d'oeuvre horaire :</span> {{ totalHT / estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
+              <p> <span class="text-muted">Main d'oeuvre estimée :</span> {{ totalHT / estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
+            </div>
+          </div>
         </mat-card>
-        <div class="col-auto ml-auto mt-auto">
-          <button mat-raised-button color="primary">Envoyer le devis par mail</button>
-        </div>
+      </div>
+      <div class="col-auto ml-auto mt-auto">
+        <a href="mailto:{{client.email}}" mat-stroked-button color="primary">Envoyer le devis par mail</a>
+      </div>
     </div>
-    
+
   </div>
+</div>

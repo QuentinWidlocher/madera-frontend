@@ -7,6 +7,8 @@ import Dexie from 'dexie';
 import { DeferredQuery } from 'src/app/classes/deferred-query';
 import { DeferredQueriesService } from '../deferred-queries.service';
 import { Client } from 'src/app/classes/client';
+import { DossierTechnique } from 'src/app/classes/dossier-technique';
+import { Devis } from 'src/app/classes/devis';
 
 @Injectable({
   providedIn: 'root'
@@ -104,9 +106,13 @@ export class ProjetSwService {
           // Si on touche l'API, on la call, on ajoute/modifie l'enregistrement local et on retourne
           result = new Promise(rslv => {
             this.api.get(id).subscribe((projet: Projet) => {
-
+              
+              projet.client = Object.assign(Client.newEmpty(), projet.client);
+              projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
+              projet.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
+              
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
-              this.idb.put(projet, projet.id);
+              this.idb.put(projet);
 
               // On résout les données de la Promesse
               rslv(projet);

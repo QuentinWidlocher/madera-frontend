@@ -105,7 +105,7 @@ export class UtilisateurSwService {
             this.api.get(id).subscribe((utilisateur: Utilisateur) => {
 
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
-              this.idb.put(utilisateur, utilisateur.id);
+              this.idb.put(utilisateur);
 
               // On résout les données de la Promesse
               rslv(utilisateur);

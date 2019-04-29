@@ -16,7 +16,7 @@ export class ModuleApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.MODULE.replace(':id', '' + id));
+    return this.http.get(ApiConfig.MODULE_UNIQUE.replace(':id', '' + id));
   }
 
   add(module: Module): Observable<object> {

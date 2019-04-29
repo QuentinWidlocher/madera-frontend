@@ -92,7 +92,7 @@
           <p class="text-secondary my-1 col-6">Projet terminé le : <span>Pas encore terminé</span></p>
     
           <div class="d-flex col-12 mt-4 justify-content-end">
-            <button mat-raised-button color="primary" class="mr-3">Ouvrir le devis</button>
+            <button mat-raised-button color="primary" [routerLink]="['/devis', currentProjet.id]" class="mr-3">Ouvrir le devis</button>
             <button mat-raised-button color="primary">Ouvrir le plan</button>
           </div>
         </div>

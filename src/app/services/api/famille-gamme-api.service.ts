@@ -16,7 +16,7 @@ export class FamilleGammeApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.FAMILLE_GAMME.replace(':id', '' + id));
+    return this.http.get(ApiConfig.FAMILLE_GAMME_UNIQUE.replace(':id', '' + id));
   }
 
   add(familleGamme: FamilleGamme): Observable<object> {

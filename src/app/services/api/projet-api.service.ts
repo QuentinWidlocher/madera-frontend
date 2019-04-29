@@ -16,7 +16,7 @@ export class ProjetApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.PROJET.replace(':id', '' + id));
+    return this.http.get(ApiConfig.PROJET_UNIQUE.replace(':id', '' + id));
   }
 
   add(projet: Projet): Observable<object> {

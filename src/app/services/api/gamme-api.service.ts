@@ -16,7 +16,7 @@ export class GammeApiService {
   }
 
   get(id: number): Observable<object> {
-    return this.http.get(ApiConfig.GAMME.replace(':id', '' + id));
+    return this.http.get(ApiConfig.GAMME_UNIQUE.replace(':id', '' + id));
   }
 
   add(gamme: Gamme): Observable<object> {

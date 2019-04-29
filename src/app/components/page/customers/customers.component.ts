@@ -60,7 +60,7 @@ export class CustomersComponent implements OnInit {
           this.currentClient = this.clients.find(client => client.id === +params['id']);
           this.refreshForm();
         }
-      })
+      });
     });
   }
 
