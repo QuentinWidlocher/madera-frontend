@@ -44,7 +44,7 @@
         </mat-form-field>
 
         <mat-form-field class="col-6">
-          <input matInput [matDatepicker]="dateFinPicker" name="endingDate" placeholder="Date de fin du projet">
+          <input matInput [matDatepicker]="dateFinPicker" formControlName="endDate" placeholder="Date de fin du projet">
           <mat-datepicker-toggle matSuffix [for]="dateFinPicker"></mat-datepicker-toggle>
           <mat-datepicker touchUi #dateFinPicker></mat-datepicker>
         </mat-form-field>

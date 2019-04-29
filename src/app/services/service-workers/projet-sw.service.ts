@@ -144,6 +144,8 @@ export class ProjetSwService {
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
 
+    projet.editionDate = new Date(Date.now());
+
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
 
@@ -209,6 +211,8 @@ export class ProjetSwService {
 
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
+
+    projet.editionDate = new Date(Date.now());
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {

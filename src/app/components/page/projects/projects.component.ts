@@ -1,11 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Location } from '@angular/common';
 import { Projet } from 'src/app/classes/projet';
 import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
 import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 import { ConnectivityService } from 'src/app/services/connectivity.service';
 import { DevisSwService } from 'src/app/services/service-workers/devis-sw.service';
-
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -35,7 +36,9 @@ export class ProjectsComponent implements OnInit {
   constructor(private projetSw: ProjetSwService,
               private clientSw: ClientSwService,
               private devisSw: DevisSwService,
-              private connectivity: ConnectivityService) {
+              private connectivity: ConnectivityService,
+              private location: Location,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -60,6 +63,12 @@ export class ProjectsComponent implements OnInit {
       if (this.projetListIndex > 0) {
         this.currentProjet = this.projetsOriginal[this.projetListIndex];        
       }
+
+      this.route.params.subscribe(params => {
+        if (params) {
+          this.currentProjet = this.projets.find(projet => projet.id === +params['id']);
+        }
+      });
     });
 
     this.clientSw.getAll().then(clients => {
@@ -74,6 +83,8 @@ export class ProjectsComponent implements OnInit {
     this.currentProjet = projet;
     this.projetListIndex = index;
 
+    this.location.replaceState('/projects/' + projet.id);
+
     if (projet.devis) {
       this.devisSw.get(projet.devis.id).then(devis => {
         if (devis.lignes && devis.lignes.length > 0) {
@@ -82,11 +93,11 @@ export class ProjectsComponent implements OnInit {
   
           this.totalTTC = qte * total;
         } else {
-          this.totalTTC = 0
+          this.totalTTC = 0;
         }
       });
     } else {
-      this.totalTTC = 0
+      this.totalTTC = 0;
     }
   }
 
