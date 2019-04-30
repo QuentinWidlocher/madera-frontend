@@ -29,7 +29,7 @@ export class Produit {
     }
 
     public static newEmpty() {
-        return new Modele(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+        return new Produit(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }
 
     public toJSON(): string {
