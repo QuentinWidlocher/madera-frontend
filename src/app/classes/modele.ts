@@ -1,6 +1,6 @@
 import { DossierTechnique } from './dossier-technique';
 import { Utilisateur } from './utilisateur';
-import { Produit } from './produit';
+import { ModeleProduit } from './modeleProduit';
 
 export class Modele {
     public id: number;
@@ -8,17 +8,17 @@ export class Modele {
     public creationDate: Date;
     public editionDate: Date;
     public dossiersTechniques: DossierTechnique[];
-    public produits: Produit[];
+    public modeleProduit: ModeleProduit[];
     public utilisateur: Utilisateur;
 
     constructor(id: number, description: string, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
-                produits: Produit[], utilisateur: Utilisateur) {
+      modeleProduit: ModeleProduit[], utilisateur: Utilisateur) {
         this.id = id;
         this.description = description;
         this.creationDate = creationDate;
         this.editionDate = editionDate;
         this.dossiersTechniques = dossiersTechniques;
-        this.produits = produits;
+        this.modeleProduit = modeleProduit;
         this.utilisateur = utilisateur;
     }
 
@@ -37,19 +37,19 @@ export class Modele {
             userId: undefined,
         }
 
-        plainObject.id = this.id;
+    /*  plainObject.id = this.id;
         plainObject.description = this.description;
         plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.editionDate = (this.editionDate !== undefined ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.dossiersTechniquesIds = (this.dossiersTechniques !== undefined ? this.dossiersTechniques.map(x => x.id) : undefined);
-        this.produits.forEach(produit => {
+        this.modeleProduit.forEach(produit => {
             plainObject.modeleProduit.push({ 
                 modeleId: this.id,
                 produitId: produit.id
              })
         });
         plainObject.userId = (this.utilisateur !== undefined ? this.utilisateur.id : undefined);
-
+        */
         return JSON.stringify(plainObject);
     }
 

@@ -54,6 +54,7 @@ import { CreateUsersComponent, UtilisateurDeleteConfirmationDialog } from './com
 import { SideNavComponent, LogoutConfirmationDialog } from './components/side-nav/side-nav.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { DossierTechniqueComponent } from './components/page/dossier-technique/dossier-technique.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     CreateUsersComponent,
     SideNavComponent,
-    LogoutConfirmationDialog
+    LogoutConfirmationDialog,
+    DossierTechniqueComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { CustomersComponent } from './components/page/customers/customers.compon
 import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent } from './components/page/create-users/create-users.component';
+import {DossierTechniqueComponent } from './components/page/dossier-technique/dossier-technique.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'customers/:id', component: CustomersComponent, canActivate: [AuthGuard]  },
   { path: 'devis/:id', component: DevisComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent},
-  { path: 'create-users', component: CreateUsersComponent, canActivate: [AuthGuard]}
+  { path: 'create-users', component: CreateUsersComponent, canActivate: [AuthGuard] },
+  { path: 'dossier', component: DossierTechniqueComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

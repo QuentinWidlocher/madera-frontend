@@ -24,7 +24,6 @@ export class CreateUsersComponent implements OnInit {
   utilisateurListLoading: boolean = true;
   utilisateurListIndex: number;
 
-  createMode = false;
 
   searchTerms: string;
 
@@ -32,7 +31,6 @@ export class CreateUsersComponent implements OnInit {
 
   editMode: boolean = false;
 
-  @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
   get form() { return this.userForm.controls; }
   constructor(
     private utilisateurSw: UtilisateurSwService,
@@ -42,6 +40,7 @@ export class CreateUsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isRequesting = false;
     this.currentUtilisateur = Utilisateur.newEmpty();
     this.refresh();
 

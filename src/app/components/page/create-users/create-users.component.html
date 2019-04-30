@@ -17,8 +17,8 @@
         <mat-icon matSuffix>filter_list</mat-icon>
       </mat-form-field>
     </mat-card>
-    
-    <!-- Liste des utilisateurs -->      
+
+    <!-- Liste des utilisateurs -->
     <div class="h-100 w-100 d-flex" *ngIf="utilisateurListLoading">
       <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
@@ -27,10 +27,10 @@
         <mat-icon mat-list-icon>person</mat-icon>
         <h4 mat-line>{{ utilisateur.username | titlecase }}</h4>
       </mat-list-item>
-    </mat-action-list>        
+    </mat-action-list>
 
-    <button mat-fab color="accent" (click)="addUtilisateur()">
-        <mat-icon>add</mat-icon>
+    <button mat-fab color="accent" (click)="createUtilisateur()">
+      <mat-icon>add</mat-icon>
     </button>
   </div>
 
@@ -38,43 +38,42 @@
   <!-- Formulaire Ajout utilisateur -->
   <div class="col-8 h-100 d-flex flex-column">
     <form #f="ngForm" [formGroup]="userForm" (ngSubmit)="user(f)">
-        <!-- Profil icon -->
-        <div class="text-align-center w-30 m-auto pt-3">
-          <img src="../assets/svg/illustrations/Profil_icon_black.svg" class="Profil_icon">
-        </div>
-
-        <!-- Identifiant utilisateur -->
-        <mat-form-field class="col-12 mt-2 mb-2">
-          <input matInput required formControlName="username" placeholder="Identifiant utilisateur">
-          <mat-error *ngIf="form.username.errors && form.username.errors.required">
-            Le nom d'utilisateur est obligatoire
-          </mat-error>
-        </mat-form-field>
-
-        <!-- Mot de passe -->
-        <mat-form-field class="col-12 mb-2">
-          <input matInput required formControlName="password" placeholder="Mot de passe (6 caractères minimum)" [type]="passwordHide ? 'password' : 'text'">
-          <mat-icon matSuffix (click)="passwordHide = !passwordHide">{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          <mat-error *ngIf="form.password.errors && form.password.errors.required">
-            Le mot de passe est obligatoire
-          </mat-error>
-          <mat-error *ngIf="form.password.errors && form.password.errors.minlength">
-            Le mot de passe doit contenir au moins 6 caractères
-          </mat-error>
-        </mat-form-field>
-
-        <!-- Administrateur oui/non -->
-        <mat-slide-toggle formControlName="role" class="col-12 mb-2 mt-2">Administrateur</mat-slide-toggle>
+      <!-- Profil icon -->
+      <div class="text-align-center w-30 m-auto pt-3">
+        <img src="../assets/svg/illustrations/Profil_icon_black.svg" class="Profil_icon">
       </div>
-    </div>
-      <div class="row m-0">               
+
+      <!-- Identifiant utilisateur -->
+      <mat-form-field class="col-12 mt-2 mb-2">
+        <input matInput required formControlName="username" placeholder="Identifiant utilisateur">
+        <mat-error *ngIf="form.username.errors && form.username.errors.required">
+          Le nom d'utilisateur est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Mot de passe -->
+      <mat-form-field class="col-12 mb-2">
+        <input matInput required formControlName="password" placeholder="Mot de passe (6 caractères minimum)" [type]="passwordHide ? 'password' : 'text'">
+        <mat-icon matSuffix (click)="passwordHide = !passwordHide">{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="form.password.errors && form.password.errors.required">
+          Le mot de passe est obligatoire
+        </mat-error>
+        <mat-error *ngIf="form.password.errors && form.password.errors.minlength">
+          Le mot de passe doit contenir au moins 6 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Administrateur oui/non -->
+      <mat-slide-toggle formControlName="role" class="col-12 mb-2 mt-2">Administrateur</mat-slide-toggle>
+
+
       <!-- Liste des erreurs -->
       <mat-error *ngIf="errors" class="my-auto">
         {{errors}}
       </mat-error>
       <!-- Boutons -->
       <div class="d-flex w-100 mt-auto mb-3">
-        
+
         <button *ngIf="!editMode; else edit" type="submit" mat-raised-button color="primary" [disabled]="f.invalid || isRequesting">Ajouter l'utilisateur</button>
         <ng-template #edit>
           <button (click)="delete()" mat-button color="warn" class="mr-auto">Supprimer l'utilisateur</button>

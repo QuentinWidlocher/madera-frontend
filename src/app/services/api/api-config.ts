@@ -13,7 +13,7 @@ export class ApiConfig {
     public static PROJET_EXISTS = ApiConfig.PROJET_UNIQUE + '/exists';
     public static PROJET_COUNT = ApiConfig.PROJET + '/count';
 
-    public static DOSSIER_TECHNIQUE = ApiConfig.BASE_API + '/dossier-techniques';
+    public static DOSSIER_TECHNIQUE = ApiConfig.BASE_API + '/dossiersTechnique';
     public static DOSSIER_TECHNIQUE_UNIQUE = ApiConfig.DOSSIER_TECHNIQUE + '/:id';
     public static DOSSIER_TECHNIQUE_EXISTS = ApiConfig.DOSSIER_TECHNIQUE_UNIQUE + '/exists';
     public static DOSSIER_TECHNIQUE_COUNT = ApiConfig.DOSSIER_TECHNIQUE + '/count';
