@@ -106,7 +106,7 @@ export class EditProjectComponent implements OnInit {
       data: this.currentProjet.title
     }).afterClosed().subscribe(ok => {
       if (ok) {
-        this.projetSw.delete(this.currentProjet.id);
+        this.projetSw.delete(this.currentProjet);
         this.isDone('delete');
       }
     });
