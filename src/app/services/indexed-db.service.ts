@@ -29,7 +29,7 @@ export class IndexedDbService extends Dexie {
 
   // Les tables sont publiques
   public caracteristiques: Dexie.Table<Caracteristique, number>;
-  public cctp: Dexie.Table<CCTP, number>;
+  public cctps: Dexie.Table<CCTP, number>;
   public clients: Dexie.Table<Client, number>;
   public composants: Dexie.Table<Composant, number>;
   public coupesDePrincipe: Dexie.Table<CoupeDePrincipe, number>;
@@ -91,7 +91,7 @@ export class IndexedDbService extends Dexie {
 
     // On lie les structures aux propriétés
     this.caracteristiques = this.table('caracteristiques');
-    this.cctp = this.table('cctp');
+    this.cctps = this.table('cctps');
     this.clients = this.table('clients');
     this.composants = this.table('composants');
     this.coupesDePrincipe = this.table('coupesDePrincipe');
@@ -114,7 +114,7 @@ export class IndexedDbService extends Dexie {
 
     // On lie les tables aux classes
     this.caracteristiques.mapToClass(Caracteristique);
-    this.cctp.mapToClass(CCTP);
+    this.cctps.mapToClass(CCTP);
     this.clients.mapToClass(Client);
     this.composants.mapToClass(Composant);
     this.coupesDePrincipe.mapToClass(CoupeDePrincipe);
