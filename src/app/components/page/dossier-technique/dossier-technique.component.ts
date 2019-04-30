@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { DossierTechniqueApiService } from '../../../services/api/dossier-technique-api.service';
-import { DossierTechnique } from '../../../classes/dossier-technique';
-import { ModeleApiService } from '../../../services/api/modele-api.service';
-import { Modele } from '../../../classes/modele';
-import { ProduitApiService } from '../../../services/api/produit-api.service';
-import { Produit } from '../../../classes/produit';
-import { ModuleApiService } from '../../../services/api/module-api.service';
-import { Module } from '../../../classes/module';
-import { ComposantApiService } from '../../../services/api/composant-api.service';
 import { Composant } from '../../../classes/composant';
+import { DossierTechnique } from '../../../classes/dossier-technique';
+import { Modele } from '../../../classes/modele';
 import { ModeleProduit } from '../../../classes/modeleProduit';
+import { Module } from '../../../classes/module';
+import { Produit } from '../../../classes/produit';
 import { ProduitModule } from '../../../classes/produitModule';
+import { ComposantApiService } from '../../../services/api/composant-api.service';
+import { DossierTechniqueApiService } from '../../../services/api/dossier-technique-api.service';
+import { ModeleApiService } from '../../../services/api/modele-api.service';
+import { ModuleApiService } from '../../../services/api/module-api.service';
+import { ProduitApiService } from '../../../services/api/produit-api.service';
 
 @Component({
   selector: 'app-dossier-technique',
@@ -30,7 +30,7 @@ export class DossierTechniqueComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-   /* this.loadComplete = false;
+    this.loadComplete = false;
     this.dossierTechnique = DossierTechnique.newEmpty();
 
     // on rempli le dossier
@@ -54,7 +54,7 @@ export class DossierTechniqueComponent implements OnInit {
                 p.module = module;
 
                 // on rempli les composants pour chaque ComposantModule
-                p.module.composantModule.forEach(c => {
+                p.module.moduleBase.composantModule.forEach(c => {
                   this.composantApi.get(c.composant.id).subscribe((composant: Composant) => {
                     c.composant = composant;
                     this.loadComplete = true;
@@ -78,8 +78,7 @@ export class DossierTechniqueComponent implements OnInit {
         , err => { console.log(err) });
     }
       , err => { console.log(err) });
-      */
- 
+
   }
 
   post() {
@@ -99,7 +98,7 @@ export class DossierTechniqueComponent implements OnInit {
     this.produitPost1.creationDate = new Date();
     this.produitPost1.editionDate = new Date();
     this.produitPost1.description = "prout";
-    this.produitPost1.produitModule.push(new ProduitModule(1,null,null,null))
+    this.produitPost1.produitModule.push(new ProduitModule(1, null, null, null))
     ///////////////////////////////////////
     this.produitPost2.cctpId = 1;
     this.produitPost2.coupeDePrincipeId = 1;

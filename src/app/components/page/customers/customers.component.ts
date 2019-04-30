@@ -55,8 +55,7 @@ export class CustomersComponent implements OnInit {
       this.clientListLoading = false;
 
       this.route.params.subscribe(params => {
-        if (params)
-        {
+        if (params['id']) {
           this.currentClient = this.clients.find(client => client.id === +params['id']);
           this.refreshForm();
         }

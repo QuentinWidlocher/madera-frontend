@@ -6,16 +6,23 @@
     <h3>Modèle choisi</h3>
       <p> numéro: {{dossierTechnique.modele.id}} </p>
       <p> desc: {{dossierTechnique.modele.description}} </p>
-      <div *ngFor="let modeleProduit of dossierTechnique.modele.modeleProduit">
+      <div *ngFor="let modeleProduit of dossierTechnique.modele.modeleProduit" class="ml-2">
         <h3>Produit num:{{modeleProduit.produit.id}}</h3>
           <p> desc: {{modeleProduit.produit.description}} </p>
           <p> coupe de principe: {{modeleProduit.produit.coupeDePrincipe.name}} </p>
-          <div *ngFor="let produitModule of modeleProduit.produit.produitModule">
+          <div *ngFor="let produitModule of modeleProduit.produit.produitModule" class="ml-4">
             <h3>Module num:{{produitModule.module.id}}</h3>
               <p> desc: {{produitModule.module.description}} </p>
               <p> cout de main d'oeuvre: {{produitModule.module.labourCosts}} </p>
-              <div *ngFor="let carac of produitModule.module.caracteristiques">
-                <p>caracteristique: {{carac.description}} : {{carac.value}} {{carac.unite.code}} ({{carac.unite.name}}) </p>
+              <div *ngFor="let carac of produitModule.module.caracteristiques" class="ml-5">
+                <h3>Caracteristique n° {{carac.id}}</h3>
+                <p>Caracteristique: {{carac.description}} : {{carac.value}} {{carac.unite.code}} ({{carac.unite.name}})
+                </p>
+              </div>
+              <div *ngFor="let comp of produitModule.module.moduleBase.composantModule" class="ml-5">
+                  <h3>Composant n° {{comp.composant.id}}</h3>
+                  <p>Composant: {{comp.composant.name}} (x {{comp.quantity}})
+                  </p>
               </div>
           </div>
       </div>
