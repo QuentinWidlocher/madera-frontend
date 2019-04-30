@@ -1,8 +1,8 @@
 <!-- Titre Nav -->
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-icon-button (click)="onHamburger.emit()">
-      <mat-icon>menu</mat-icon>
+    <button *ngIf="projet" mat-icon-button [routerLink]="['/projects', projet.id]">
+      <mat-icon>arrow_back</mat-icon>
     </button> <span class="ml-2" *ngIf="ready">Devis n° {{ devis.id }} - {{ projet.title }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -106,18 +106,18 @@
                <mat-form-field>
                  <mat-label>Temps estimé</mat-label>
                  <input [(ngModel)]="devis.estimatedTime" matInput type="number" placeholder="42.5" class="text-align-right">
-                 <span matSuffix> {{ estimatedTime >= 2 ? 'heures' : 'heure' }}</span>
+                 <span matSuffix> {{ devis.estimatedTime >= 2 ? 'heures' : 'heure' }}</span>
                </mat-form-field>
             </div>
             <div class="col-7 text-align-right">
-              <p> <span class="text-muted">Main d'oeuvre horaire :</span> {{ totalHT / estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
-              <p> <span class="text-muted">Main d'oeuvre estimée :</span> {{ totalHT / estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
+              <p> <span class="text-muted">Main d'oeuvre horaire :</span> {{ totalHT / devis.estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
+              <p> <span class="text-muted">Main d'oeuvre estimée :</span> {{ totalHT / devis.estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
             </div>
           </div>
         </mat-card>
       </div>
       <div class="col-auto ml-auto mt-auto">
-        <a href="mailto:{{client.email}}" mat-stroked-button color="primary">Envoyer le devis par mail</a>
+        <a *ngIf="client && client.email" href="mailto:{{client.email}}" mat-stroked-button color="primary">Envoyer le devis par mail</a>
       </div>
     </div>
 

@@ -5,7 +5,7 @@ import { Devis } from 'src/app/classes/devis';
 import { Client } from 'src/app/classes/client';
 import { Projet } from 'src/app/classes/projet';
 import { DevisSwService } from 'src/app/services/service-workers/devis-sw.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { DataSource } from '@angular/cdk/table';
 import { MatSort, MatTableDataSource } from '@angular/material';
 
@@ -42,13 +42,19 @@ export class DevisComponent implements OnInit {
   client: Client;
   ready: boolean = false;
 
-  estimatedTime: number;
-
   constructor(private projetSw: ProjetSwService,
               private devisSw: DevisSwService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
+    // Met à jour le temps estimé quand on quitte la page
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        this.devisSw.edit(this.devis);
+      }
+    });
+
     this.route.params.subscribe(params => {
       this.projetSw.get(+params['id']).then(projet => {
         this.projet = projet;
