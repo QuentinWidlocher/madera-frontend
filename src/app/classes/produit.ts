@@ -15,9 +15,12 @@ export class Produit {
   public produitModule: ProduitModule[];
   public gamme: Gamme;
   public coupeDePrincipe: CoupeDePrincipe;
+  public cctpId: number;
+  public gammeId: number;
+  public coupeDePrincipeId: number;
 
   constructor(id: number, description: string, creationDate: Date, editionDate: Date, modeleProduit: ModeleProduit[],
-    cctp: CCTP, produitModule: ProduitModule[], gamme: Gamme, coupeDePrincipe: CoupeDePrincipe) {
+    cctp: CCTP, produitModule: ProduitModule[], gamme: Gamme, coupeDePrincipe: CoupeDePrincipe, cctpId: number, gammeId: number, coupeDePrincipeId: number) {
     this.id = id;
     this.description = description;
     this.creationDate = creationDate;
@@ -27,10 +30,13 @@ export class Produit {
     this.produitModule = produitModule;
     this.gamme = gamme;
     this.coupeDePrincipe = coupeDePrincipe;
+    this.cctpId = cctpId;
+    this.gammeId = gammeId;
+    this.coupeDePrincipeId = coupeDePrincipeId;
   }
 
   public static newEmpty() {
-    return new Produit(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    return new Produit(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
   }
 
   public toJSON(): string {

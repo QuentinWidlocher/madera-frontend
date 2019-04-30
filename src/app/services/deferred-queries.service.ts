@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DeferredQuery } from '../classes/deferred-query';
 import { CaracteristiqueApiService } from './api/caracteristique-api.service';
-import { CctpApiService } from './api/cctp-api.service';
+import { CCTPApiService } from './api/cctp-api.service';
 import { ClientApiService } from './api/client-api.service';
 import { ComposantApiService } from './api/composant-api.service';
 import { CoupeDePrincipeApiService } from './api/coupe-de-principe-api.service';
@@ -28,25 +28,25 @@ import { zip, Observable, forkJoin } from 'rxjs';
 export class DeferredQueriesService {
 
   constructor(private caracteristique: CaracteristiqueApiService,
-              private cctp: CctpApiService,
-              private client: ClientApiService,
-              private composant: ComposantApiService,
-              private coupeDePrincipe: CoupeDePrincipeApiService,
-              private devis: DevisApiService,
-              private dossierTechnique: DossierTechniqueApiService,
-              private familleComposant: FamilleComposantApiService,
-              private familleGamme: FamilleGammeApiService,
-              private gamme: GammeApiService,
-              private gammeComposant: GammeComposantApiService,
-              private ligne: LigneApiService,
-              private modele: ModeleApiService,
-              private module: ModuleApiService,
-              private plan: PlanApiService,
-              private produit: ProduitApiService,
-              private projet: ProjetApiService,
-              private unite: UniteApiService,
-              private utilisateur: UtilisateurApiService,
-              private idb: IndexedDbService) { }
+    private cctp: CCTPApiService,
+    private client: ClientApiService,
+    private composant: ComposantApiService,
+    private coupeDePrincipe: CoupeDePrincipeApiService,
+    private devis: DevisApiService,
+    private dossierTechnique: DossierTechniqueApiService,
+    private familleComposant: FamilleComposantApiService,
+    private familleGamme: FamilleGammeApiService,
+    private gamme: GammeApiService,
+    private gammeComposant: GammeComposantApiService,
+    private ligne: LigneApiService,
+    private modele: ModeleApiService,
+    private module: ModuleApiService,
+    private plan: PlanApiService,
+    private produit: ProduitApiService,
+    private projet: ProjetApiService,
+    private unite: UniteApiService,
+    private utilisateur: UtilisateurApiService,
+    private idb: IndexedDbService) { }
 
   // On passe par cette fonction pour alléger les requêtes faites à la base lors de la reconnexion
   add(query: DeferredQuery) {
@@ -78,16 +78,16 @@ export class DeferredQueriesService {
             }
 
             deferredQueriesIdToDelete.push(key.primaryKey);
-        }).then(() => {
-          // On supprime les requêtes inutiles
-          this.idb.deferredQueries.bulkDelete(deferredQueriesIdToDelete);
+          }).then(() => {
+            // On supprime les requêtes inutiles
+            this.idb.deferredQueries.bulkDelete(deferredQueriesIdToDelete);
 
-          // Si l'objet était déjà en base avant d'être en HL, il faut quand même le supprimer à la reconnexion
-          if (stillAddQuery) {
-            // On ajoute une requête différée pour supprimer l'enregistrement dans la base plus tard
-            this.idb.deferredQueries.add(query);
-          }
-         });
+            // Si l'objet était déjà en base avant d'être en HL, il faut quand même le supprimer à la reconnexion
+            if (stillAddQuery) {
+              // On ajoute une requête différée pour supprimer l'enregistrement dans la base plus tard
+              this.idb.deferredQueries.add(query);
+            }
+          });
         break;
 
 

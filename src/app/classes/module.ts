@@ -1,7 +1,7 @@
 import { Caracteristique } from './caracteristique';
 import { CoupeDePrincipe } from './coupe-de-principe';
 import { ProduitModule } from './produitModule';
-import { ComposantModule } from './composantModule';
+import { ModuleBase } from './moduleBase';
 
 export class Module {
   public id: number;
@@ -11,11 +11,12 @@ export class Module {
   public labourCost: number;
   public produitModule: ProduitModule[];
   public caracteristiques: Caracteristique[];
-  public composantModule: ComposantModule[];
+  public moduleBase: ModuleBase;
+  public moduleBaseId: number;
   public coupeDePrincipe: CoupeDePrincipe;
 
   constructor(id: number, description: string, creationDate: Date, editionDate: Date, labourCost: number, produitModule: ProduitModule[],
-    caracteristiques: Caracteristique[], composantModule: ComposantModule[], coupeDePrincipe: CoupeDePrincipe) {
+    caracteristiques: Caracteristique[], moduleBase: ModuleBase, coupeDePrincipe: CoupeDePrincipe, moduleBaseId: number) {
     this.id = id;
     this.description = description;
     this.creationDate = creationDate;
@@ -23,12 +24,13 @@ export class Module {
     this.labourCost = labourCost;
     this.produitModule = produitModule;
     this.caracteristiques = caracteristiques;
-    this.composantModule = composantModule;
+    this.moduleBase = moduleBase;
+    this.moduleBaseId = moduleBaseId;
     this.coupeDePrincipe = coupeDePrincipe;
   }
 
   public static newEmpty() {
-    return new Module(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    return new Module(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
   }
 
   public toJSON(): string {
@@ -40,7 +42,8 @@ export class Module {
       labourCost: undefined,
       produitModule: [],
       caracteristiquesIds: [],
-      composantModule: [],
+      moduleBase: undefined,
+      moduleBaseId: undefined,
       coupeDePrincipeId: undefined,
     }
 

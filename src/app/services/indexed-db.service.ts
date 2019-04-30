@@ -68,7 +68,7 @@ export class IndexedDbService extends Dexie {
     // On déclare la structure des tables
     this.version(1).stores({
       caracteristiques: '++id, value, unite',
-      cctp: '++id, &code',
+      cctps: '++id, &code',
       clients: '++id, &code, creationDate',
       composants: '++id',
       coupesDePrincipe: '++id, &code',

@@ -1,3 +1,23 @@
-<p>
-  dossier-technique works!
-</p>
+
+<div *ngIf="loadComplete">
+  <h2>dossier technique</h2>
+    <p> numéro: {{dossierTechnique.id}} </p>
+    <p> créé le {{dossierTechnique.creationDate}} </p>
+    <h3>Modèle choisi</h3>
+      <p> numéro: {{dossierTechnique.modele.id}} </p>
+      <p> desc: {{dossierTechnique.modele.description}} </p>
+      <div *ngFor="let modeleProduit of dossierTechnique.modele.modeleProduit">
+        <h3>Produit num:{{modeleProduit.produit.id}}</h3>
+          <p> desc: {{modeleProduit.produit.description}} </p>
+          <p> coupe de principe: {{modeleProduit.produit.coupeDePrincipe.name}} </p>
+          <div *ngFor="let produitModule of modeleProduit.produit.produitModule">
+            <h3>Module num:{{produitModule.module.id}}</h3>
+              <p> desc: {{produitModule.module.description}} </p>
+              <p> cout de main d'oeuvre: {{produitModule.module.labourCosts}} </p>
+              <div *ngFor="let carac of produitModule.module.caracteristiques">
+                <p>caracteristique: {{carac.description}} : {{carac.value}} {{carac.unite.code}} ({{carac.unite.name}}) </p>
+              </div>
+          </div>
+      </div>
+</div>
+<button (click)="post()" mat-raised-button color="primary" class="mr-auto">poster le dossier</button>

@@ -3,39 +3,42 @@ import { Utilisateur } from './utilisateur';
 import { ModeleProduit } from './modeleProduit';
 
 export class Modele {
-    public id: number;
-    public description: string;
-    public creationDate: Date;
-    public editionDate: Date;
-    public dossiersTechniques: DossierTechnique[];
-    public modeleProduit: ModeleProduit[];
-    public utilisateur: Utilisateur;
+  public id: number;
+  public description: string;
+  public creationDate: Date;
+  public editionDate: Date;
+  public dossiersTechniques: DossierTechnique[];
+  public modeleProduit: ModeleProduit[];
+  public utilisateur: Utilisateur;
+  public userId: number;
 
-    constructor(id: number, description: string, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
-      modeleProduit: ModeleProduit[], utilisateur: Utilisateur) {
-        this.id = id;
-        this.description = description;
-        this.creationDate = creationDate;
-        this.editionDate = editionDate;
-        this.dossiersTechniques = dossiersTechniques;
-        this.modeleProduit = modeleProduit;
-        this.utilisateur = utilisateur;
+  constructor(id: number, description: string, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
+    modeleProduit: ModeleProduit[], utilisateur: Utilisateur, userId :number) {
+    this.id = id;
+    this.description = description;
+    this.creationDate = creationDate;
+    this.editionDate = editionDate;
+    this.dossiersTechniques = dossiersTechniques;
+    this.modeleProduit = modeleProduit;
+    this.utilisateur = utilisateur;
+    this.userId = userId;
+
+  }
+
+  public static newEmpty() {
+    return new Modele(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+  }
+
+  public toJSON(): string {
+    let plainObject = {
+      id: undefined,
+      description: undefined,
+      creationDate: undefined,
+      editionDate: undefined,
+      dossiersTechniquesIds: [],
+      modeleProduit: [],
+      userId: undefined,
     }
-
-    public static newEmpty() {
-        return new Modele(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
-    }
-
-    public toJSON(): string {
-        let plainObject = {
-            id: undefined,
-            description: undefined,
-            creationDate: undefined,
-            editionDate: undefined,
-            dossiersTechniquesIds: [],
-            modeleProduit: [],
-            userId: undefined,
-        }
 
     /*  plainObject.id = this.id;
         plainObject.description = this.description;
@@ -50,7 +53,7 @@ export class Modele {
         });
         plainObject.userId = (this.utilisateur !== undefined ? this.utilisateur.id : undefined);
         */
-        return JSON.stringify(plainObject);
-    }
+    return JSON.stringify(plainObject);
+  }
 
 }

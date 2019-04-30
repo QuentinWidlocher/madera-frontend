@@ -38,13 +38,14 @@ import { Unite } from 'src/app/classes/unite';
 import { Caracteristique } from 'src/app/classes/caracteristique';
 import { FamilleComposant } from 'src/app/classes/famille-composant';
 import { GammeComposant } from 'src/app/classes/gamme-composant';
+import { ComposantModule } from '../../classes/composantModule';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComposantSwService {
 
-  idb: Dexie.Table < Composant, number > ;
+  idb: Dexie.Table<Composant, number>;
 
   constructor(private connectivity: ConnectivityService,
     private api: ComposantApiService,
@@ -57,10 +58,10 @@ export class ComposantSwService {
   ///
   /// GET ALL
   ///
-  getAll(): Promise < Composant[] > {
+  getAll(): Promise<Composant[]> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < Composant[] > ;
+    let result: Promise<Composant[]>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -81,10 +82,10 @@ export class ComposantSwService {
               // On ajoute à l'IDB les données obtenue
               composants.forEach((composant, index) => {
                 this.idb.add(composant);
-                  composants[index].caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Composant.newEmpty(), caracteristique));
-                    composants[index].familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
-                  composants[index].gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
-                  composants[index].modules = composant.modules.map(module => Object.assign(Module.newEmpty(), module));
+                composants[index].caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Composant.newEmpty(), caracteristique));
+                composants[index].familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
+                composants[index].gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
+                composants[index].composantModule = composant.composantModule.map(composantModule => Object.assign(ComposantModule.newEmpty(), composantModule));
               });
 
               // On résout les données de la Promesse
@@ -105,10 +106,10 @@ export class ComposantSwService {
             this.idb.toArray().then(composants => {
               composants.forEach((composant, index) => {
                 this.idb.add(composant);
-                  composants[index].caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Composant.newEmpty(), caracteristique));
-                  composants[index].familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
-                  composants[index].gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
-                  composants[index].modules = composant.modules.map(module => Object.assign(Module.newEmpty(), module));
+                composants[index].caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Composant.newEmpty(), caracteristique));
+                composants[index].familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
+                composants[index].gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
+                composants[index].composantModule = composant.composantModule.map(composantModule => Object.assign(ComposantModule.newEmpty(), composantModule));
               });
 
               // On résout les données de la Promesse
@@ -128,10 +129,10 @@ export class ComposantSwService {
   ///
   /// GET ONE
   ///
-  get(id: number): Promise < Composant > {
+  get(id: number): Promise<Composant> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < Composant > ;
+    let result: Promise<Composant>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -144,10 +145,10 @@ export class ComposantSwService {
           result = new Promise(rslv => {
             this.api.get(id).subscribe((composant: Composant) => {
 
-                composant.caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique));
-                composant.familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
-                composant.gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
-                composant.modules = composant.modules.map(module => Object.assign(Module.newEmpty(), module));
+              composant.caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique));
+              composant.familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
+              composant.gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
+              composant.composantModule = composant.composantModule.map(composantModule => Object.assign(ComposantModule.newEmpty(), composantModule));
 
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
               this.idb.put(composant);
@@ -163,17 +164,17 @@ export class ComposantSwService {
           });
         } else {
 
-            result = new Promise(rslv => {
-                // Si on ne peux pas toucher l'API on call simplement l'IDB
-                this.idb.get(id).then(composant => {
-                    composant.caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Composant.newEmpty(), caracteristique));
-                    composant.familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
-                    composant.gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
-                    composant.modules = composant.modules.map(module => Object.assign(Module.newEmpty(), module));
+          result = new Promise(rslv => {
+            // Si on ne peux pas toucher l'API on call simplement l'IDB
+            this.idb.get(id).then(composant => {
+              composant.caracteristiques = composant.caracteristiques.map(caracteristique => Object.assign(Composant.newEmpty(), caracteristique));
+              composant.familleComposant = Object.assign(FamilleComposant.newEmpty(), composant.familleComposant);
+              composant.gammeComposant = Object.assign(GammeComposant.newEmpty(), composant.gammeComposant);
+              composant.composantModule = composant.composantModule.map(composantModule => Object.assign(ComposantModule.newEmpty(), composantModule));
 
-                    rslv(composant);
-                });
+              rslv(composant);
             });
+          });
 
         }
       }).finally(() => {
@@ -186,10 +187,10 @@ export class ComposantSwService {
   ///
   /// ADD
   ///
-  add(composant: Composant): Promise < Composant > {
+  add(composant: Composant): Promise<Composant> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -207,10 +208,10 @@ export class ComposantSwService {
               // On ajoute aussi à l'IDB
               this.idb.add(added);
 
-                added.caracteristiques = composant.caracteristiques
-                added.familleComposant = composant.familleComposant
-                added.gammeComposant = composant.gammeComposant
-                added.modules = composant.modules
+              added.caracteristiques = composant.caracteristiques
+              added.familleComposant = composant.familleComposant
+              added.gammeComposant = composant.gammeComposant
+              added.composantModule = composant.composantModule
 
               // On résout les données de la Promesse
               rslv(added);
@@ -255,10 +256,10 @@ export class ComposantSwService {
   ///
   /// EDIT
   ///
-  edit(composant: Composant): Promise < any > {
+  edit(composant: Composant): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -309,10 +310,10 @@ export class ComposantSwService {
   ///
   /// DELETE
   ///
-  delete(id: number): Promise < any > {
+  delete(id: number): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -364,10 +365,10 @@ export class ComposantSwService {
   ///
   /// COUNT
   ///
-  count(): Promise < number > {
+  count(): Promise<number> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < number > ;
+    let result: Promise<number>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
