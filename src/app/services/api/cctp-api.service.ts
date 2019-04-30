@@ -7,7 +7,7 @@ import { CCTP } from 'src/app/classes/cctp';
 @Injectable({
   providedIn: 'root'
 })
-export class CctpApiService {
+export class CCTPApiService {
 
   constructor(private http: HttpClient) { }
 
