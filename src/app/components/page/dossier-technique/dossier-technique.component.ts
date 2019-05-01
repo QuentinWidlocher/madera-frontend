@@ -7,7 +7,7 @@ import { Module } from '../../../classes/module';
 import { Produit } from '../../../classes/produit';
 import { ProduitModule } from '../../../classes/produitModule';
 import { Projet } from 'src/app/classes/projet';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DossierTechniqueSwService } from 'src/app/services/service-workers/dossier-technique-sw.service';
 import { ModuleSwService } from 'src/app/services/service-workers/module-sw.service';
 import { ComposantSwService } from 'src/app/services/service-workers/composant-sw.service';
@@ -54,14 +54,15 @@ export class DossierTechniqueComponent implements OnInit {
   dossierTechniquePost: DossierTechnique;
   loadComplete: boolean = false;
 
-  constructor(private dossierSw: DossierTechniqueSwService, 
-              private modeleSw: ModeleSwService,
-              private produitSw: ProduitSwService,
-              private moduleSw: ModuleSwService, 
-              private composantSw: ComposantSwService,
-              private projetSw: ProjetSwService,
-              private route: ActivatedRoute
-              ) { }
+  constructor(private dossierSw: DossierTechniqueSwService,
+    private modeleSw: ModeleSwService,
+    private produitSw: ProduitSwService,
+    private moduleSw: ModuleSwService,
+    private composantSw: ComposantSwService,
+    private projetSw: ProjetSwService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.modeleListLoading = true;
@@ -75,10 +76,17 @@ export class DossierTechniqueComponent implements OnInit {
         this.loadDossier(+params['id']);
       }
     });
+
+    // Met à jour le temps estimé quand on quitte la page
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        this.dossierSw.edit(this.dossierTechnique);
+      }
+    });
   }
 
   loadDossier(idProjet: number) {
-    
+
     // On charge le projet
     this.projetSw.get(idProjet).then((projet: Projet) => {
 
@@ -102,12 +110,12 @@ export class DossierTechniqueComponent implements OnInit {
 
             this.produitSw.get(m.produit.id).then((produit: Produit) => {
               m.produit = produit;
-              
+
               lignes.push({
-                produit : produit.description,
-                modulesSize : produit.produitModule.length,
+                produit: produit.description,
+                modulesSize: produit.produitModule.length,
                 modules: produit.produitModule.map(pm => pm.module),
-                gamme : produit.gamme.code
+                gamme: produit.gamme.code
               });
 
               // on rempli les modules pour chaque ProduitModule
@@ -135,8 +143,52 @@ export class DossierTechniqueComponent implements OnInit {
 
         });
 
-      }); 
+      });
 
+    });
+
+  }
+
+  selectModele(modele: Modele) {
+    this.currentModele = modele;
+    this.dossierTechnique.modele = modele;
+
+    let lignes: LigneFormat[] = [];
+
+    this.modeleSw.get(modele.id).then(modele => {
+      // on rempli les produits pour chaque modeleProduit
+      modele.modeleProduit.forEach(m => {
+
+        this.produitSw.get(m.produit.id).then((produit: Produit) => {
+          m.produit = produit;
+
+          lignes.push({
+            produit: produit.description,
+            modulesSize: produit.produitModule.length,
+            modules: produit.produitModule.map(pm => pm.module),
+            gamme: produit.gamme.code
+          });
+
+          // on rempli les modules pour chaque ProduitModule
+          m.produit.produitModule.forEach(p => {
+            this.moduleSw.get(p.module.id).then((module: Module) => {
+              p.module = module;
+
+              // on rempli les composants pour chaque ComposantModule
+              p.module.moduleBase.composantModule.forEach(c => {
+                this.composantSw.get(c.composant.id).then((composant: Composant) => {
+                  c.composant = composant;
+                });
+
+              });
+
+            });
+
+          });
+
+          this.dataSource = new MatTableDataSource(lignes);
+        });
+      });
     });
 
   }

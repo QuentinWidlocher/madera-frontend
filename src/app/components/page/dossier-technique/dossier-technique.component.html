@@ -25,6 +25,7 @@
     </div>
     <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading">
       <mat-list-item *ngFor="let modele of modeles; let index = index"
+        (click)="selectModele(modele)"
         [class.selected]="dossierTechnique.modele && dossierTechnique.modele.id === modele.id">
         <mat-icon mat-list-icon class="selected" *ngIf="!dossierTechnique.modele || dossierTechnique.modele.id !== modele.id">
           radio_button_unchecked</mat-icon>
