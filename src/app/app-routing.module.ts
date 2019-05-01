@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'devis/:id', component: DevisComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent},
   { path: 'create-users', component: CreateUsersComponent, canActivate: [AuthGuard] },
-  { path: 'dossier', component: DossierTechniqueComponent, canActivate: [AuthGuard] }
+  { path: 'dossier/:id', component: DossierTechniqueComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

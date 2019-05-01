@@ -55,9 +55,9 @@ export class ProjetSwService {
               projets.forEach((projet, index) => {
                 this.idb.add(projet);
                 projets[index].client = Object.assign(Client.newEmpty(), projet.client);
-                projets[index].creationDate = new Date(projets[index].creationDate)
-                projets[index].editionDate = new Date(projets[index].editionDate)
-                projets[index].endDate = new Date(projets[index].endDate)
+                projets[index].creationDate = new Date(projets[index].creationDate);
+                projets[index].editionDate = new Date(projets[index].editionDate);
+                projets[index].endDate = new Date(projets[index].endDate);
               });
 
               // On résout les données de la Promesse
@@ -115,6 +115,9 @@ export class ProjetSwService {
               projet.client = Object.assign(Client.newEmpty(), projet.client);
               projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
               projet.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
+              projet.creationDate = new Date(projet.creationDate);
+              projet.editionDate = new Date(projet.editionDate);
+              projet.endDate = new Date(projet.endDate);
               
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
               this.idb.put(projet);

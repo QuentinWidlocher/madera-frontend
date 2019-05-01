@@ -16,7 +16,11 @@
           <div class="col-12"><span class="text-muted">Client : </span>{{ client.fullName }}</div>
           <div class="col"><span class="text-muted">Projet débuté le :
             </span>{{ projet.creationDate | date: 'fullDate' }}</div>
-          <div class="col-6"><span class="text-muted">Projet terminé le : </span>en cours</div>
+          <div class="col-6">
+            <span class="text-muted">Projet terminé le : </span>
+            <span *ngIf="!projet.endDate || projet.endDate.getFullYear() !== 1">{{ projet.endDate | date: 'fullDate' }}</span>
+            <span *ngIf="projet.endDate && projet.endDate.getFullYear() === 1">en cours</span>
+          </div>
         </div>
       </mat-card>
     </div>
