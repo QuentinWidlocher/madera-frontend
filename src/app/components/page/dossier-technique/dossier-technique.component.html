@@ -1,38 +1,148 @@
 <!-- Titre Nav -->
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
+  <mat-toolbar-row *ngIf="dossierTechnique">
     <button mat-icon-button [routerLink]="['/projects', projet.id]">
       <mat-icon>arrow_back</mat-icon>
     </button> <span class="ml-2">Dossier Technique n° {{dossierTechnique.id}} - {{ projet.title }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div *ngIf="loadComplete">
-  <h2>dossier technique</h2>
-    <p> numéro: {{dossierTechnique.id}} </p>
-    <p> créé le {{dossierTechnique.creationDate}} </p>
-    <h3>Modèle choisi</h3>
-      <p> numéro: {{dossierTechnique.modele.id}} </p>
-      <p> desc: {{dossierTechnique.modele.description}} </p>
-      <div *ngFor="let modeleProduit of dossierTechnique.modele.modeleProduit" class="ml-2">
-        <h3>Produit num:{{modeleProduit.produit.id}}</h3>
-          <p> desc: {{modeleProduit.produit.description}} </p>
-          <p> coupe de principe: {{modeleProduit.produit.coupeDePrincipe.name}} </p>
+<!-- Titre Nav -->
+<div class="contentPage row m-3 h-100">
+  <div class="col-4 pl-1 h-100 overflow-hidden">
+
+    <mat-card class="mb-3 py-2 pb-0">
+      <mat-form-field class="w-100">
+        <input type="text" matInput placeholder="Rechercher un modèle">
+        <button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-card>
+
+    <div class="h-100 w-100 d-flex" *ngIf="modeleListLoading">
+      <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
+    </div>
+    <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading">
+      <mat-list-item *ngFor="let modele of modeles; let index = index"
+        [class.selected]="dossierTechnique.modele && dossierTechnique.modele.id === modele.id">
+        <mat-icon mat-list-icon class="selected" *ngIf="!dossierTechnique.modele || dossierTechnique.modele.id !== modele.id">
+          radio_button_unchecked</mat-icon>
+        <mat-icon mat-list-icon *ngIf="dossierTechnique.modele && dossierTechnique.modele.id === modele.id" [color]="'accent'">
+          radio_button_checked</mat-icon>
+        <h4 mat-line>{{ modele.description }}</h4>
+        <span mat-line class="mat-caption">Modèle du {{ modele.editionDate | date:'shortDate' }}</span>
+      </mat-list-item>
+    </mat-action-list>
+
+    <button mat-fab color="accent">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+
+  <!-- Formulaire -->
+  <div class="col-8 h-100 d-flex flex-column background">
+
+    <div class="emptyState" *ngIf="!dossierTechnique || !dossierTechnique.modele">
+      <img src="../../../../assets/svg/illustrations/dossier.svg">
+      <div class="subtitle">
+        <h3>Aucun modèle selectionné.</h3>
+        <button mat-button color="primary">Ajouter un modèle</button>
+      </div>
+    </div>
+
+    <div class="h-100 d-flex flex-column" *ngIf="currentModele && dossierTechnique && dossierTechnique.modele">
+      <div class="d-flex">
+        <div>
+          <h3 class="my-0">{{ currentModele.description }}</h3>
+          <span mat-line class="mat-caption">Modèle du {{ currentModele.editionDate | date:'shortDate' }}</span>
+        </div>
+        <button mat-raised-button color="primary" class="ml-auto my-auto"><mat-icon class="md-18">edit</mat-icon>Modifier le modèle</button>
+      </div>
+
+      <mat-card class="p-0 mt-2 flex-grow-1 overflow-y-scroll" *ngIf="dataSource">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+
+          <!-- Produit Column -->
+          <ng-container matColumnDef="produit">
+            <th mat-header-cell *matHeaderCellDef>Produit</th>
+            <td mat-cell *matCellDef="let element">
+              <mat-icon>apps</mat-icon> <span class="my-auto ml-2">{{element.produit}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Modules Column -->
+          <ng-container matColumnDef="modules">
+            <th mat-header-cell *matHeaderCellDef>Modules</th>
+            <td mat-cell *matCellDef="let element"> {{element.modulesSize}} </td>
+          </ng-container>
+
+          <!-- Gamme Column -->
+          <ng-container matColumnDef="gamme">
+            <th mat-header-cell *matHeaderCellDef>Gamme</th>
+            <td mat-cell *matCellDef="let element"> {{element.gamme}} </td>
+          </ng-container>
+
+          <!-- Liste des modules -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+              <div [@detailExpand]="element == expandedLine ? 'expanded' : 'collapsed'">
+
+                  <mat-list class="">
+                    <mat-list-item *ngFor="let module of element.modules">
+                      <mat-icon mat-list-icon>stop</mat-icon>
+                      {{ module.description }}
+                    </mat-list-item>
+                  </mat-list>
+
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+          (click)="expandedLine = (expandedLine === element ? null : element)"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+        </table>
+      </mat-card>
+    </div>
+    
+    <!-- Test de projet -> Composants -->
+    <div *ngIf="false && dossierTechnique">
+      <h2>dossier technique</h2>
+      <p>Numéro: {{dossierTechnique.id}} </p>
+      <p>Créé le {{dossierTechnique.creationDate}} </p>
+      <div *ngIf="dossierTechnique.modele">
+        <h3>Modèle choisi</h3>
+        <p>Numéro: {{dossierTechnique.modele.id}} </p>
+        <p>Desc: {{dossierTechnique.modele.description}} </p>
+        <div *ngFor="let modeleProduit of dossierTechnique.modele.modeleProduit" class="ml-2">
+          <h3>Produit num:{{modeleProduit.produit.id}}</h3>
+          <p>Desc: {{modeleProduit.produit.description}} </p>
+          <p>Coupe de principe: {{modeleProduit.produit.coupeDePrincipe.name}} </p>
           <div *ngFor="let produitModule of modeleProduit.produit.produitModule" class="ml-4">
             <h3>Module num:{{produitModule.module.id}}</h3>
-              <p> desc: {{produitModule.module.description}} </p>
-              <p> cout de main d'oeuvre: {{produitModule.module.labourCosts}} </p>
-              <div *ngFor="let carac of produitModule.module.caracteristiques" class="ml-5">
-                <h3>Caracteristique n° {{carac.id}}</h3>
-                <p>Caracteristique: {{carac.description}} : {{carac.value}} {{carac.unite.code}} ({{carac.unite.name}})
-                </p>
-              </div>
-              <div *ngFor="let comp of produitModule.module.moduleBase.composantModule" class="ml-5">
-                  <h3>Composant n° {{comp.composant.id}}</h3>
-                  <p>Composant: {{comp.composant.name}} (x {{comp.quantity}})
-                  </p>
-              </div>
+            <p>Desc: {{produitModule.module.description}} </p>
+            <p>Cout de main d'oeuvre: {{produitModule.module.labourCosts}} </p>
+            <div *ngFor="let carac of produitModule.module.caracteristiques" class="ml-5">
+              <h3>Caracteristique n° {{carac.id}}</h3>
+              <p>Caracteristique: {{carac.description}} : {{ carac.toString() }} ({{carac.unite.name}})
+              </p>
+            </div>
+            <div *ngFor="let comp of produitModule.module.moduleBase.composantModule" class="ml-5">
+              <h3>Composant n° {{comp.composant.id}}</h3>
+              <p>Composant: {{comp.composant.name}} (x {{comp.quantity}})
+              </p>
+            </div>
           </div>
+        </div>
       </div>
+    </div>
+    
+    <button *ngIf="false" (click)="post()" mat-raised-button color="primary" class="mr-auto">poster le dossier</button>
+
+  </div>
 </div>
-<button (click)="post()" mat-raised-button color="primary" class="mr-auto">poster le dossier</button>
+
+
