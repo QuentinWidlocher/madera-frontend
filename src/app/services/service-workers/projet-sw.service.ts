@@ -9,6 +9,9 @@ import { DeferredQueriesService } from '../deferred-queries.service';
 import { Client } from 'src/app/classes/client';
 import { DossierTechnique } from 'src/app/classes/dossier-technique';
 import { Devis } from 'src/app/classes/devis';
+import { DevisSwService } from './devis-sw.service';
+import { Utilisateur } from 'src/app/classes/utilisateur';
+import { DossierTechniqueSwService } from './dossier-technique-sw.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +23,9 @@ export class ProjetSwService {
   constructor(private connectivity: ConnectivityService,
               private api: ProjetApiService,
               private idbService: IndexedDbService,
-              private deferredQueries: DeferredQueriesService) {
+              private deferredQueries: DeferredQueriesService,
+              private devisSw: DevisSwService,
+              private dossierTechniqueSw: DossierTechniqueSwService) {
     this.idb = this.idbService.projets;
   }
 
@@ -53,9 +58,12 @@ export class ProjetSwService {
               projets.forEach((projet, index) => {
                 this.idb.add(projet);
                 projets[index].client = Object.assign(Client.newEmpty(), projet.client);
-                projets[index].creationDate = new Date(projets[index].creationDate)
-                projets[index].editionDate = new Date(projets[index].editionDate)
-                projets[index].endDate = new Date(projets[index].endDate)
+                projets[index].dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
+                projets[index].utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+                projets[index].devis = Object.assign(Devis.newEmpty(), projet.devis);
+                projets[index].creationDate = new Date(projets[index].creationDate);
+                projets[index].editionDate = new Date(projets[index].editionDate);
+                projets[index].endDate = new Date(projets[index].endDate);
               });
 
               // On résout les données de la Promesse
@@ -76,7 +84,13 @@ export class ProjetSwService {
             this.idb.toArray().then(projets => {
               projets.forEach((projet, index) => {
                 this.idb.add(projet);
-                projets[index].loadClient();
+                projets[index].client = Object.assign(Client.newEmpty(), projet.client);
+                projets[index].dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
+                projets[index].utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+                projets[index].devis = Object.assign(Devis.newEmpty(), projet.devis);
+                projets[index].creationDate = new Date(projets[index].creationDate);
+                projets[index].editionDate = new Date(projets[index].editionDate);
+                projets[index].endDate = new Date(projets[index].endDate);
               });
 
               // On résout les données de la Promesse
@@ -111,8 +125,12 @@ export class ProjetSwService {
             this.api.get(id).subscribe((projet: Projet) => {
               
               projet.client = Object.assign(Client.newEmpty(), projet.client);
-              projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
               projet.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
+              projet.utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+              projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
+              projet.creationDate = new Date(projet.creationDate);
+              projet.editionDate = new Date(projet.editionDate);
+              projet.endDate = new Date(projet.endDate);
               
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
               this.idb.put(projet);
@@ -129,7 +147,21 @@ export class ProjetSwService {
         } else {
 
           // Si on ne peux pas toucher l'API on call simplement l'IDB
-          result = this.idb.get(id);
+          result = new Promise(rslv => {
+            // Si on ne peux pas toucher l'API on call simplement l'IDB
+            this.idb.get(id).then(projet => {
+              
+              projet.client = Object.assign(Client.newEmpty(), projet.client);
+              projet.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
+              projet.utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+              projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
+              projet.creationDate = new Date(projet.creationDate);
+              projet.editionDate = new Date(projet.editionDate);
+              projet.endDate = new Date(projet.endDate);
+
+              rslv(projet);
+            });
+          });
         }
       }).finally(() => { rtrn(result); });
     });
@@ -157,24 +189,42 @@ export class ProjetSwService {
           // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
           result = new Promise(rslv => {
 
-            this.api.add(projet).subscribe((added: Projet) => {
+            // On crée un nouveau Devis vide
+            this.devisSw.add(Devis.newEmpty()).then(devis => {
 
-              // On ajoute aussi à l'IDB
-              this.idb.add(added);
+              projet.devis = devis;
 
-              added.client = projet.client;
-              added.devis = projet.devis;
-              added.utilisateur = projet.utilisateur;
+              this.dossierTechniqueSw.add(DossierTechnique.newEmpty()).then(dossierTechnique => {
 
-              // On résout les données de la Promesse
-              rslv(added);
+                projet.dossierTechnique = dossierTechnique;
 
-            }, error => {
+                this.api.add(projet).subscribe((added: Projet) => {
 
-              // Si on détecte une erreur, on attend un changement de connexion et on réessaye
-              this.connectivity.event.subscribe(connected => rslv(this.add(projet)));
+                  added.client = projet.client;
+                  added.devis = projet.devis;
+                  added.dossierTechnique = projet.dossierTechnique;
+                  added.utilisateur = projet.utilisateur;
+                  added.creationDate = projet.creationDate;
+                  added.editionDate = projet.editionDate;
+                  added.endDate = projet.endDate
 
+                  // On ajoute aussi à l'IDB
+                  this.idb.add(added);
+
+                  // On résout les données de la Promesse
+                  rslv(added);
+
+                }, error => {
+
+                  // Si on détecte une erreur, on attend un changement de connexion et on réessaye
+                  this.connectivity.event.subscribe(connected => rslv(this.add(projet)));
+
+                });
+
+              });
+              
             });
+
           });
         } else {
 
@@ -257,7 +307,7 @@ export class ProjetSwService {
   ///
   /// DELETE
   ///
-  delete(id: number): Promise<any> {
+  delete(projet: Projet): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
@@ -273,17 +323,20 @@ export class ProjetSwService {
           result = new Promise(rslv => {
 
             // On delete en base
-            this.api.delete(Object.assign(Projet.newEmpty(), {id})).subscribe(() => {
+            this.api.delete(projet).subscribe(() => {
 
               // Et on delete dans l'idb
-              this.idb.delete(id);
+              this.idb.delete(projet.id);
+
+              // On supprime les devis ratachés
+              this.devisSw.delete(projet.devis.id);
 
               // On résout vide, histoire de dire que c'est fini
               rslv();
             }, error => {
 
               // Si on détecte une erreur, on attend un changement de connexion et on réessaye
-              this.connectivity.event.subscribe(connected => rslv(this.delete(id)));
+              this.connectivity.event.subscribe(connected => rslv(this.delete(projet)));
 
             });
           });
@@ -291,10 +344,10 @@ export class ProjetSwService {
         } else {
 
           // Si on ne peux pas toucher l'API, on delete simplement dans l'IDB
-          result = this.idb.delete(id);
+          result = this.idb.delete(projet.id);
 
           // On ajoute une requête différée pour update la base plus tard
-          this.deferredQueries.add(new DeferredQuery({ id }, 'delete', 'projet'));
+          this.deferredQueries.add(new DeferredQuery(projet, 'delete', 'projet'));
         }
       }).finally(() => { rtrn(result); });
 

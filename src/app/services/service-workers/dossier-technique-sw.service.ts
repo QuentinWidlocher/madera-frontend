@@ -41,7 +41,7 @@ import {
 })
 export class DossierTechniqueSwService {
 
-  idb: Dexie.Table < DossierTechnique, number > ;
+  idb: Dexie.Table<DossierTechnique, number>;
 
   constructor(private connectivity: ConnectivityService,
     private api: DossierTechniqueApiService,
@@ -54,10 +54,10 @@ export class DossierTechniqueSwService {
   ///
   /// GET ALL
   ///
-  getAll(): Promise < DossierTechnique[] > {
+  getAll(): Promise<DossierTechnique[]> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < DossierTechnique[] > ;
+    let result: Promise<DossierTechnique[]>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -127,10 +127,10 @@ export class DossierTechniqueSwService {
   ///
   /// GET ONE
   ///
-  get(id: number): Promise < DossierTechnique > {
+  get(id: number): Promise<DossierTechnique> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < DossierTechnique > ;
+    let result: Promise<DossierTechnique>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -163,18 +163,18 @@ export class DossierTechniqueSwService {
           });
         } else {
 
-            result = new Promise(rslv => {
-                // Si on ne peux pas toucher l'API on call simplement l'IDB
-                this.idb.get(id).then(dossierTechnique => {
-                    dossierTechnique.modele = Object.assign(Modele.newEmpty(), dossierTechnique.modele);
-                    dossierTechnique.creationDate = new Date(dossierTechnique.creationDate)
-                    dossierTechnique.editionDate = new Date(dossierTechnique.editionDate)
-                    dossierTechnique.plans = dossierTechnique.plans.map(plan => Object.assign(Plan.newEmpty(), plan));
-                    dossierTechnique.projet = Object.assign(Projet.newEmpty(), dossierTechnique.projet);
+          result = new Promise(rslv => {
+            // Si on ne peux pas toucher l'API on call simplement l'IDB
+            this.idb.get(id).then(dossierTechnique => {
+              dossierTechnique.modele = Object.assign(Modele.newEmpty(), dossierTechnique.modele);
+              dossierTechnique.creationDate = new Date(dossierTechnique.creationDate)
+              dossierTechnique.editionDate = new Date(dossierTechnique.editionDate)
+              dossierTechnique.plans = dossierTechnique.plans.map(plan => Object.assign(Plan.newEmpty(), plan));
+              dossierTechnique.projet = Object.assign(Projet.newEmpty(), dossierTechnique.projet);
 
-                    rslv(dossierTechnique);
-                });
+              rslv(dossierTechnique);
             });
+          });
 
         }
       }).finally(() => {
@@ -187,10 +187,10 @@ export class DossierTechniqueSwService {
   ///
   /// ADD
   ///
-  add(dossierTechnique: DossierTechnique): Promise < DossierTechnique > {
+  add(dossierTechnique: DossierTechnique): Promise<DossierTechnique> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     dossierTechnique.editionDate = new Date(Date.now());
 
@@ -257,10 +257,10 @@ export class DossierTechniqueSwService {
   ///
   /// EDIT
   ///
-  edit(dossierTechnique: DossierTechnique): Promise < any > {
+  edit(dossierTechnique: DossierTechnique): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     dossierTechnique.editionDate = new Date(Date.now());
 
@@ -278,9 +278,7 @@ export class DossierTechniqueSwService {
             this.api.edit(dossierTechnique).subscribe(() => {
 
               // On met à jour l'enregistrement dans l'IDB
-              this.idb.update(dossierTechnique.id, {
-                ...dossierTechnique
-              });
+              this.idb.update(dossierTechnique.id, {...dossierTechnique});
 
               // On résout vide, histoire de dire que c'est fini
               rslv();
@@ -313,10 +311,10 @@ export class DossierTechniqueSwService {
   ///
   /// DELETE
   ///
-  delete(id: number): Promise < any > {
+  delete(id: number): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -368,10 +366,10 @@ export class DossierTechniqueSwService {
   ///
   /// COUNT
   ///
-  count(): Promise < number > {
+  count(): Promise<number> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < number > ;
+    let result: Promise<number>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {

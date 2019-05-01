@@ -56,13 +56,14 @@ export class Projet {
 
         plainObject.id = this.id;
         plainObject.title = this.title;
-        plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
-        plainObject.editionDate = (this.editionDate !== undefined ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
-        plainObject.endDate = (this.endDate !== undefined ? this.endDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+        plainObject.creationDate = (this.creationDate !== undefined && this.creationDate !== null ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+        plainObject.editionDate = (this.editionDate !== undefined && this.editionDate !== null ? this.editionDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+        plainObject.endDate = (this.endDate !== undefined && this.endDate !== null ? this.endDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
         plainObject.version = this.version;
+        plainObject.devisId = (this.devis !== undefined && this.devis !== null ? this.devis.id : undefined);
         plainObject.clientId = (this.client !== undefined && this.client !== null ? this.client.id : undefined);
         plainObject.dossierTechniqueId = (this.dossierTechnique !== undefined && this.dossierTechnique !== null ? this.dossierTechnique.id : undefined);
-        plainObject.userId = (this.utilisateur !== undefined ? this.utilisateur.id : undefined);
+        plainObject.userId = (this.utilisateur !== undefined && this.utilisateur !== null ? this.utilisateur.id : undefined);
 
         return JSON.stringify(plainObject);
     }

@@ -19,7 +19,8 @@ export class DevisSwService {
     private api: DevisApiService,
     private idbService: IndexedDbService,
     private deferredQueries: DeferredQueriesService,
-    private projetSw: ProjetSwService) {
+    // private projetSw: ProjetSwService
+    ) {
     this.idb = this.idbService.devis;
   }
 
@@ -223,7 +224,7 @@ export class DevisSwService {
           result = this.idb.update(unDevis.id, { ...unDevis });
 
           unDevis.projet.devis = unDevis;
-          this.projetSw.edit(unDevis.projet);
+          // this.projetSw.edit(unDevis.projet);
 
           unDevis.lignes.forEach(ligne => {
             ligne.devis = unDevis;

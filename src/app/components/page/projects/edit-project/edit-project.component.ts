@@ -49,7 +49,7 @@ export class EditProjectComponent implements OnInit {
       version: [this.currentProjet.version],
       client: [this.selectedClientId, [Validators.required]],
       creationDate: [this.currentProjet.creationDate],
-      endDate: [this.currentProjet.endDate]
+      endDate: [this.currentProjet.endDate && this.currentProjet.endDate.getFullYear() === 1 ? undefined : this.currentProjet.endDate]
     });
     
     this.clientSw.getAll().then(clients => {
@@ -106,7 +106,7 @@ export class EditProjectComponent implements OnInit {
       data: this.currentProjet.title
     }).afterClosed().subscribe(ok => {
       if (ok) {
-        this.projetSw.delete(this.currentProjet.id);
+        this.projetSw.delete(this.currentProjet);
         this.isDone('delete');
       }
     });
