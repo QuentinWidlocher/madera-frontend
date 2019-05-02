@@ -43,54 +43,33 @@
 
   <div class="d-flex flex-column h-100">
     <mat-card class="p-0 flex-grow-1 overflow-y-scroll" *ngIf="dataSource">
-      <table mat-table [dataSource]="dataSource" matSort>
+      <mat-table [dataSource]="dataSource" matSort>
 
         <!-- Designation Column -->
         <ng-container matColumnDef="designation">
-          <th mat-header-cell *matHeaderCellDef>Désignation</th>
-          <td mat-cell *matCellDef="let element"> {{element.designation}} </td>
-          <td mat-footer-cell *matFooterCellDef>{{ footers.designation }}</td>
-        </ng-container>
-
-        <!-- Gamme Column -->
-        <ng-container matColumnDef="gamme">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Gamme</th>
-          <td mat-cell *matCellDef="let element"> {{element.gamme}} </td>
-          <td mat-footer-cell *matFooterCellDef>{{ footers.gamme }}</td>
-        </ng-container>
-
-        <!-- Quantité Column -->
-        <ng-container matColumnDef="quantite">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantité</th>
-          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.quantite}} </td>
-          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.quantite }}</td>
+          <mat-header-cell *matHeaderCellDef>Désignation</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.designation}} </mat-cell>
+          <mat-footer-cell *matFooterCellDef>{{ footers.designation }}</mat-footer-cell>
         </ng-container>
 
         <!-- PU HT Column -->
         <ng-container matColumnDef="puht">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>PU Brut</th>
-          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.puht | number: '1.2-2':'fr'}} €</td>
-          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puht | number: '1.2-2':'fr' }} €</td>
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Brut</span></mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-align-right"> {{element.puht | number: '1.2-2':'fr'}} €</mat-cell>
+          <mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puht | number: '1.2-2':'fr' }} €</mat-footer-cell>
         </ng-container>
 
         <!-- PU TTC Column -->
         <ng-container matColumnDef="puttc">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>PU Net</th>
-          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.puttc | number: '1.2-2':'fr'}} €</td>
-          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puttc | number: '1.2-2':'fr' }} €</td>
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Net</span></mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-align-right"> {{element.puttc | number: '1.2-2':'fr'}} €</mat-cell>
+          <mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puttc | number: '1.2-2':'fr' }} €</mat-footer-cell>
         </ng-container>
 
-        <!-- Total Ligne Column -->
-        <ng-container matColumnDef="total">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total HT</th>
-          <td mat-cell *matCellDef="let element" class="text-align-right"> {{element.puht * element.quantite | number: '1.2-2':'fr'}} €</td>
-          <td mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.total | number: '1.2-2':'fr' }} €</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
-      </table>
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
+      </mat-table>
     </mat-card>
 
     <div class="emptyState" *ngIf="!dataSource">

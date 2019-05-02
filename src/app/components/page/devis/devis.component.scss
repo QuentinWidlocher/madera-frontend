@@ -17,7 +17,27 @@ table {
     border-top: 1px solid #e0e0e0;
     font-weight: bold;
   }
+
+  // th {
+  //   &.align-right {
+  //     display: flex;
+  //     justify-content: flex-end;
+  //     height: 3.5rem;
+  //   }
+  // }
 }
+
+mat-cell {
+  display: flex !important;
+  justify-content: flex-end !important; // or flex-end
+
+}
+
+mat-header-cell {
+  display: flex;
+  justify-content: flex-end; // or flex-end
+}
+
 
 a.mat-raised-button {
   color: white;

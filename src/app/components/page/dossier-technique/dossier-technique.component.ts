@@ -14,9 +14,11 @@ import { ComposantSwService } from 'src/app/services/service-workers/composant-s
 import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.service';
 import { ModeleSwService } from 'src/app/services/service-workers/modele-sw.service';
 import { ProduitSwService } from 'src/app/services/service-workers/produit-sw.service';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSnackBar } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DossierTechniqueApiService } from '../../../services/api/dossier-technique-api.service';
+import { LigneSwService } from 'src/app/services/service-workers/ligne-sw.service';
+import { Ligne } from 'src/app/classes/ligne';
 
 export interface LigneFormat {
   produit: string;
@@ -63,7 +65,9 @@ export class DossierTechniqueComponent implements OnInit {
     private projetSw: ProjetSwService,
     private route: ActivatedRoute,
     private router: Router,
-    private dossierApi: DossierTechniqueApiService
+    private dossierApi: DossierTechniqueApiService,
+    private ligneSw: LigneSwService,
+    private snackbar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -257,22 +261,36 @@ export class DossierTechniqueComponent implements OnInit {
 
   generationDevis() {
 
-    //juste a crée des lignes a chaque fois au lieu de faire augmenter le prix  et ca construit le devis tout seul
-    var prix =0;
-    console.log(this.dossierTechnique);
-    this.currentModele.modeleProduit.forEach(p => {
-      console.log(p.produit);
-      p.produit.produitModule.forEach(m => {
-        
-        prix = prix + m.module.moduleBase.labourCosts;
+    this.ligneSw.getAll().then(lignes => {
+      console.log(lignes);
+      lignes.forEach(ligne => {
+        if (ligne.devisId == this.projet.devis.id) {
+          this.ligneSw.delete(ligne.id);
+        }
+      })
+    }).then(() =>{
 
-        m.module.moduleBase.composantModule.forEach(c => {
+      let nbLignes = 0;
 
-          prix = prix + (c.quantity * c.composant.unitPriceTax);
+      this.currentModele.modeleProduit.forEach(p => {
+
+        p.produit.produitModule.forEach(m => {
+          let prix = m.module.moduleBase.labourCosts;
+
+          m.module.moduleBase.composantModule.forEach(c => {
+
+            prix = prix + (c.quantity * c.composant.unitPriceTax);
+          });
+
+          this.ligneSw.add(new Ligne(undefined, m.module.description, '', 1, prix, prix * 1.2, 0, '', this.projet.devis));
+          nbLignes++;
         });
+
       });
+
+      this.snackbar.open(`Devis généré ! (${nbLignes} lignes)`, '', { duration:1000 });
+      
     });
-    console.log(prix);
   }
 
 }

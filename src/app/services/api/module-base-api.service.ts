@@ -22,7 +22,7 @@ export class ModuleBaseApiService {
   add(module: Module): Observable<object> {
     module.id = undefined;
     module = Object.assign(Module.newEmpty(), module);
-    return this.http.post(ApiConfig.MODULE, module.toJSON());
+    return this.http.post(ApiConfig.MODULE, module);
   }
 
   edit(module: Module): Observable<object> {

@@ -22,12 +22,12 @@ export class ProjetApiService {
   add(projet: Projet): Observable<object> {
     projet.id = undefined;
     projet = Object.assign(Projet.newEmpty(), projet);
-    return this.http.post(ApiConfig.PROJET, projet.toJSON());
+    return this.http.post(ApiConfig.PROJET, projet);
   }
 
   edit(projet: Projet): Observable<object> {
     projet = Object.assign(Projet.newEmpty(), projet)
-    return this.http.put(ApiConfig.PROJET_UNIQUE.replace(':id', '' + projet.id), projet.toJSON());
+    return this.http.put(ApiConfig.PROJET_UNIQUE.replace(':id', '' + projet.id), projet);
   }
 
   delete(projet: Projet): Observable<object> {

@@ -22,7 +22,7 @@ export class GammeComposantApiService {
   add(gammeComposant: GammeComposant): Observable<object> {
     gammeComposant.id = undefined;
     gammeComposant = Object.assign(GammeComposant.newEmpty(), gammeComposant);
-    return this.http.post(ApiConfig.GAMME_COMPOSANT, gammeComposant.toJSON());
+    return this.http.post(ApiConfig.GAMME_COMPOSANT, gammeComposant);
   }
 
   edit(gammeComposant: GammeComposant): Observable<object> {
