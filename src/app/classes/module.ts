@@ -8,20 +8,20 @@ export class Module {
   public description: string;
   public creationDate: Date;
   public editionDate: Date;
-  public labourCost: number;
+  public labourCosts: number;
   public produitModule: ProduitModule[];
   public caracteristiques: Caracteristique[];
   public moduleBase: ModuleBase;
   public moduleBaseId: number;
   public coupeDePrincipe: CoupeDePrincipe;
 
-  constructor(id: number, description: string, creationDate: Date, editionDate: Date, labourCost: number, produitModule: ProduitModule[],
+  constructor(id: number, description: string, creationDate: Date, editionDate: Date, labourCosts: number, produitModule: ProduitModule[],
     caracteristiques: Caracteristique[], moduleBase: ModuleBase, coupeDePrincipe: CoupeDePrincipe, moduleBaseId: number) {
     this.id = id;
     this.description = description;
     this.creationDate = creationDate;
     this.editionDate = editionDate;
-    this.labourCost = labourCost;
+    this.labourCosts = labourCosts;
     this.produitModule = produitModule;
     this.caracteristiques = caracteristiques;
     this.moduleBase = moduleBase;
@@ -39,7 +39,7 @@ export class Module {
       description: undefined,
       creationDate: undefined,
       editionDate: undefined,
-      labourCost: undefined,
+      labourCosts: undefined,
       produitModule: [],
       caracteristiquesIds: [],
       moduleBase: undefined,
@@ -57,7 +57,7 @@ export class Module {
              moduleId: this.id
          })
      });
-     plainObject.labourCost = this.labourCost;
+     plainObject.labourCosts = this.labourCosts;
      plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
      plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
      plainObject.coupeDePrincipeId = (this.coupeDePrincipe !== undefined ? this.coupeDePrincipe.id : undefined);

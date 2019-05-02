@@ -5,15 +5,15 @@ import { Module } from './module';
 export class ModuleBase {
   public id: number;
   public description: string;
-  public labourCost: number;
+  public labourCosts: number;
   public composantModule: ComposantModule[];
   public modules: Module[];
 
 
-  constructor(id: number, description: string, labourCost: number, composantModule: ComposantModule[], modules: Module[]) {
+  constructor(id: number, description: string, labourCosts: number, composantModule: ComposantModule[], modules: Module[]) {
     this.id = id;
     this.description = description;
-    this.labourCost = labourCost;
+    this.labourCosts = labourCosts;
     this.modules = modules;
     this.composantModule = composantModule;
   }
@@ -26,7 +26,7 @@ export class ModuleBase {
     let plainObject = {
       id: undefined,
       description: undefined,
-      labourCost: undefined,
+      labourCosts: undefined,
       modules: [],
       composantModule: [],
     }
@@ -35,7 +35,7 @@ export class ModuleBase {
      plainObject.description = this.description;
  
 
-     plainObject.labourCost = this.labourCost;
+     plainObject.labourCosts = this.labourCosts;
      plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
      
     return JSON.stringify(plainObject);

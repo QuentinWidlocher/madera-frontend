@@ -90,12 +90,12 @@
             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
               <div [@detailExpand]="element == expandedLine ? 'expanded' : 'collapsed'">
 
-                  <mat-list class="">
-                    <mat-list-item *ngFor="let module of element.modules">
-                      <mat-icon mat-list-icon>stop</mat-icon>
-                      {{ module.description }}
-                    </mat-list-item>
-                  </mat-list>
+                <mat-list class="">
+                  <mat-list-item *ngFor="let module of element.modules">
+                    <mat-icon mat-list-icon>stop</mat-icon>
+                    {{ module.description }}
+                  </mat-list-item>
+                </mat-list>
 
               </div>
             </td>
@@ -103,12 +103,12 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-          (click)="expandedLine = (expandedLine === element ? null : element)"></tr>
+              (click)="expandedLine = (expandedLine === element ? null : element)"></tr>
           <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
         </table>
       </mat-card>
     </div>
-    
+
     <!-- Test de projet -> Composants -->
     <div *ngIf="false && dossierTechnique">
       <h2>dossier technique</h2>
@@ -128,20 +128,23 @@
             <p>Cout de main d'oeuvre: {{produitModule.module.labourCosts}} </p>
             <div *ngFor="let carac of produitModule.module.caracteristiques" class="ml-5">
               <h3>Caracteristique n° {{carac.id}}</h3>
-              <p>Caracteristique: {{carac.description}} : {{ carac.toString() }} ({{carac.unite.name}})
+              <p>
+                Caracteristique: {{carac.description}} : {{ carac.toString() }} ({{carac.unite.name}})
               </p>
             </div>
             <div *ngFor="let comp of produitModule.module.moduleBase.composantModule" class="ml-5">
               <h3>Composant n° {{comp.composant.id}}</h3>
-              <p>Composant: {{comp.composant.name}} (x {{comp.quantity}})
+              <p>
+                Composant: {{comp.composant.name}} (x {{comp.quantity}})
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    
-    <button  (click)="post()" mat-raised-button color="primary" class="mr-auto">poster le dossier</button>
+
+    <button (click)="post()" mat-raised-button color="primary" class="mr-auto">poster le dossier</button>
+    <button (click)="generationDevis()" mat-raised-button color="primary" class="mr-auto">generer devis</button>
 
   </div>
 </div>

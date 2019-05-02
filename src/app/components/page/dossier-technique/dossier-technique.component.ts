@@ -17,7 +17,6 @@ import { ProduitSwService } from 'src/app/services/service-workers/produit-sw.se
 import { MatTableDataSource } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DossierTechniqueApiService } from '../../../services/api/dossier-technique-api.service';
-import { formatDate } from '@angular/common';
 
 export interface LigneFormat {
   produit: string;
@@ -125,6 +124,7 @@ export class DossierTechniqueComponent implements OnInit {
               m.produit.produitModule.forEach(p => {
                 this.moduleSw.get(p.module.id).then((module: Module) => {
                   p.module = module;
+                 
 
                   // on rempli les composants pour chaque ComposantModule
                   p.module.moduleBase.composantModule.forEach(c => {
@@ -149,6 +149,7 @@ export class DossierTechniqueComponent implements OnInit {
       });
 
     });
+   
 
   }
 
@@ -160,8 +161,8 @@ export class DossierTechniqueComponent implements OnInit {
 
     this.modeleSw.get(modele.id).then(modele => {
       // on rempli les produits pour chaque modeleProduit
-      modele.modeleProduit.forEach(m => {
-
+      this.currentModele = modele;
+      this.currentModele.modeleProduit.forEach(m => {
         this.produitSw.get(m.produit.id).then((produit: Produit) => {
           m.produit = produit;
 
@@ -171,7 +172,6 @@ export class DossierTechniqueComponent implements OnInit {
             modules: produit.produitModule.map(pm => pm.module),
             gamme: produit.gamme.code
           });
-
           // on rempli les modules pour chaque ProduitModule
           m.produit.produitModule.forEach(p => {
             this.moduleSw.get(p.module.id).then((module: Module) => {
@@ -181,6 +181,7 @@ export class DossierTechniqueComponent implements OnInit {
               p.module.moduleBase.composantModule.forEach(c => {
                 this.composantSw.get(c.composant.id).then((composant: Composant) => {
                   c.composant = composant;
+           
                 });
 
               });
@@ -212,7 +213,7 @@ export class DossierTechniqueComponent implements OnInit {
     this.dossierTechniquePost.modele.editionDate = new Date();
     this.dossierTechniquePost.modele.userId = 1;
 
-    
+
     this.produitPost1 = Produit.newEmpty();
     this.produitPost2 = Produit.newEmpty();
     this.produitPost1.produitModule = [ProduitModule.newEmpty()];
@@ -254,5 +255,24 @@ export class DossierTechniqueComponent implements OnInit {
       , err => { console.log(err) });
   }
 
+  generationDevis() {
+
+    //juste a crée des lignes a chaque fois au lieu de faire augmenter le prix  et ca construit le devis tout seul
+    var prix =0;
+    console.log(this.dossierTechnique);
+    this.currentModele.modeleProduit.forEach(p => {
+      console.log(p.produit);
+      p.produit.produitModule.forEach(m => {
+        
+        prix = prix + m.module.moduleBase.labourCosts;
+
+        m.module.moduleBase.composantModule.forEach(c => {
+
+          prix = prix + (c.quantity * c.composant.unitPriceTax);
+        });
+      });
+    });
+    console.log(prix);
+  }
 
 }
