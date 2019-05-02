@@ -33,7 +33,7 @@ export class Module {
     return new Module(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
   }
 
-  public toJSON(): string {
+ /* public toJSON(): string {
     let plainObject = {
       id: undefined,
       description: undefined,
@@ -61,8 +61,8 @@ export class Module {
      plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
      plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
      plainObject.coupeDePrincipeId = (this.coupeDePrincipe !== undefined ? this.coupeDePrincipe.id : undefined);
-     */
+     
     return JSON.stringify(plainObject);
-  }
+  }*/
 
 }

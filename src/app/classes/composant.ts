@@ -31,7 +31,7 @@ export class Composant {
     return new Composant(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
   }
 
-  public toJSON(): string {
+ /* public toJSON(): string {
     let plainObject = {
       id: undefined,
       name: undefined,
@@ -50,9 +50,9 @@ export class Composant {
     plainObject.modulesIds = (this.modules !== undefined ? this.modules.map(x => x.id) : undefined);
     plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
     plainObject.gammeComposantId = (this.gammeComposant !== undefined ? this.gammeComposant.id : undefined);
-    plainObject.familleComposantId = (this.familleComposant !== undefined ? this.familleComposant.id : undefined);*/
+    plainObject.familleComposantId = (this.familleComposant !== undefined ? this.familleComposant.id : undefined);
 
     return JSON.stringify(plainObject);
-  }
+  }*/
 
 }

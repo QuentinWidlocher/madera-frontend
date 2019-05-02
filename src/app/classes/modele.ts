@@ -29,7 +29,7 @@ export class Modele {
     return new Modele(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
   }
 
-  public toJSON(): string {
+/*  public toJSON(): string {
     let plainObject = {
       id: undefined,
       description: undefined,
@@ -52,8 +52,8 @@ export class Modele {
              })
         });
         plainObject.userId = (this.utilisateur !== undefined ? this.utilisateur.id : undefined);
-        */
+        
     return JSON.stringify(plainObject);
-  }
+  }*/
 
 }

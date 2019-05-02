@@ -40,7 +40,7 @@ export class Projet {
         this.client = Object.assign(Client.newEmpty(), this.client);
     }
 
-    public toJSON(): string {
+/*    public toJSON(): string {
         let plainObject = {
             id : undefined,
             title : undefined,
@@ -67,5 +67,5 @@ export class Projet {
 
         return JSON.stringify(plainObject);
     }
-
+    */
 }

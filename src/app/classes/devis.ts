@@ -27,7 +27,7 @@ export class Devis {
         return new Devis(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): string {
+  /*  public toJSON(): string {
         let plainObject = {
             id: undefined,
             numero: undefined,
@@ -45,7 +45,7 @@ export class Devis {
         plainObject.lignesIds = (this.lignes !== undefined ? this.lignes.map(x => x.id) : undefined);
 
         return JSON.stringify(plainObject);
-    }
+    }*/
 
 
 }

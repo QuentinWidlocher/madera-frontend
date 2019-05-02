@@ -24,7 +24,7 @@ export class ComposantModule {
     return new ComposantModule(undefined, undefined, undefined, undefined, undefined);
   }
 
-  public toJSON(): string {
+ /* public toJSON(): string {
     let plainObject = {
       moduleId: undefined,
       produitId: undefined,
@@ -36,9 +36,9 @@ export class ComposantModule {
     /* plainObject.modeleId = (this.modele !== undefined ? this.modele.id : undefined);
      plainObject.moduleBaseId = (this.moduleBase !== undefined ? this.moduleBase.id : undefined);
      plainObject.composantId = (this.composant !== undefined ? this.composant.id : undefined);
-     plainObject.uniteId = (this.unite !== undefined ? this.unite.id : undefined);*/
+     plainObject.uniteId = (this.unite !== undefined ? this.unite.id : undefined);
 
     return JSON.stringify(plainObject);
   }
-
+  */
 }

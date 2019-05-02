@@ -22,7 +22,7 @@ export class ModuleBase {
     return new ModuleBase(undefined,undefined, undefined, undefined, undefined);
   }
 
-  public toJSON(): string {
+/*  public toJSON(): string {
     let plainObject = {
       id: undefined,
       description: undefined,
@@ -37,8 +37,8 @@ export class ModuleBase {
 
      plainObject.labourCost = this.labourCost;
      plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
-     */
+     
     return JSON.stringify(plainObject);
-  }
+  }*/
 
 }

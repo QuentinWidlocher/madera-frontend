@@ -16,6 +16,8 @@ import { ModeleSwService } from 'src/app/services/service-workers/modele-sw.serv
 import { ProduitSwService } from 'src/app/services/service-workers/produit-sw.service';
 import { MatTableDataSource } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { DossierTechniqueApiService } from '../../../services/api/dossier-technique-api.service';
+import { formatDate } from '@angular/common';
 
 export interface LigneFormat {
   produit: string;
@@ -62,6 +64,7 @@ export class DossierTechniqueComponent implements OnInit {
     private projetSw: ProjetSwService,
     private route: ActivatedRoute,
     private router: Router,
+    private dossierApi: DossierTechniqueApiService
   ) { }
 
   ngOnInit() {
@@ -195,14 +198,25 @@ export class DossierTechniqueComponent implements OnInit {
 
   post() {
     //création dossier
+    this.dossierTechniquePost = DossierTechnique.newEmpty();
+    this.dossierTechniquePost.modele = Modele.newEmpty();
+    this.dossierTechniquePost.plans = undefined;
+    this.dossierTechniquePost.projet = undefined;
+    this.dossierTechniquePost.modeleId = undefined;
+
     this.dossierTechniquePost.creationDate = new Date();
     this.dossierTechniquePost.editionDate = new Date();
     //création modele avec assignation a un user
-    this.dossierTechnique.modele.description = "prout";
+    this.dossierTechniquePost.modele.description = "prout";
     this.dossierTechniquePost.modele.creationDate = new Date();
     this.dossierTechniquePost.modele.editionDate = new Date();
     this.dossierTechniquePost.modele.userId = 1;
 
+    
+    this.produitPost1 = Produit.newEmpty();
+    this.produitPost2 = Produit.newEmpty();
+    this.produitPost1.produitModule = [ProduitModule.newEmpty()];
+    this.produitPost2.produitModule = [ProduitModule.newEmpty()];
     //création de deux produitavec assignation a des gammes etc
     this.produitPost1.cctpId = 1;
     this.produitPost1.coupeDePrincipeId = 1;
@@ -210,7 +224,7 @@ export class DossierTechniqueComponent implements OnInit {
     this.produitPost1.creationDate = new Date();
     this.produitPost1.editionDate = new Date();
     this.produitPost1.description = "prout";
-    this.produitPost1.produitModule.push(new ProduitModule(1, null, null, null))
+    this.produitPost1.produitModule.push(new ProduitModule(undefined, undefined, new Module(undefined, "prout 1", new Date(), new Date(), 10, undefined, undefined, undefined, undefined, 1), undefined))
     ///////////////////////////////////////
     this.produitPost2.cctpId = 1;
     this.produitPost2.coupeDePrincipeId = 1;
@@ -218,13 +232,27 @@ export class DossierTechniqueComponent implements OnInit {
     this.produitPost2.creationDate = new Date();
     this.produitPost2.editionDate = new Date();
     this.produitPost2.description = "prout2";
-    this.produitPost2.produitModule.push(new ProduitModule(1, null, null, null))
+    this.produitPost2.produitModule.push(new ProduitModule(undefined, undefined, new Module(undefined, "prout 2", new Date(), new Date(), 15, undefined, undefined, undefined, undefined, 2), undefined))
 
+    //splice car a linitialisation il y en a un vide et ca plante l'api (mais obligé d'initialiser le tab sinon on peut pas attribuer)
+    this.produitPost1.produitModule.splice(0, 1);
+    this.produitPost2.produitModule.splice(0, 1);
 
-
+    this.dossierTechniquePost.modele.modeleProduit = [ModeleProduit.newEmpty()];
     //push des produit dans modeleProduit
-    this.dossierTechniquePost.modele.modeleProduit.push(new ModeleProduit(null, null, null, this.produitPost1));
-    this.dossierTechniquePost.modele.modeleProduit.push(new ModeleProduit(null, null, null, this.produitPost2));
+    this.dossierTechniquePost.modele.modeleProduit.push(new ModeleProduit(undefined, undefined, undefined, this.produitPost1));
+    this.dossierTechniquePost.modele.modeleProduit.push(new ModeleProduit(undefined, undefined, undefined, this.produitPost2));
+    this.dossierTechniquePost.modele.modeleProduit.splice(0, 1);
+
+    console.log(this.dossierTechniquePost);
+
+    this.dossierApi.add(this.dossierTechniquePost).subscribe((res) => {
+
+      console.log(res);
+    }
+
+      , err => { console.log(err) });
   }
+
 
 }

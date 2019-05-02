@@ -29,7 +29,7 @@ export class Ligne {
         return new Ligne(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): string {
+   /* public toJSON(): string {
         let plainObject = {
             id: undefined,
             designation: undefined,
@@ -53,6 +53,6 @@ export class Ligne {
         plainObject.devisId = (this.devis !== undefined ? this.devis.id : undefined);
 
         return JSON.stringify(plainObject);
-    }
+    }*/
 
 }

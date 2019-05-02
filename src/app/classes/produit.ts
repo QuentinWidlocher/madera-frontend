@@ -39,7 +39,7 @@ export class Produit {
     return new Produit(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
   }
 
-  public toJSON(): string {
+/*  public toJSON(): string {
     let plainObject = {
       id: undefined,
       description: undefined,
@@ -70,9 +70,9 @@ export class Produit {
           })
       });
       plainObject.gammeId = (this.gamme !== undefined ? this.gamme.id : undefined);
-      plainObject.coupeDePrincipeId = (this.coupeDePrincipe !== undefined ? this.coupeDePrincipe.id : undefined);*/
+      plainObject.coupeDePrincipeId = (this.coupeDePrincipe !== undefined ? this.coupeDePrincipe.id : undefined);
 
     return JSON.stringify(plainObject);
-  }
+  }*/
 
 }
