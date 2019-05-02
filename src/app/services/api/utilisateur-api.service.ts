@@ -21,7 +21,7 @@ export class UtilisateurApiService {
   }
 
   add(utilisateur: Registration): Observable<object> {
-    return this.http.post(ApiConfig.UTILISATEUR, utilisateur.toJSON());
+    return this.http.post(ApiConfig.UTILISATEUR, utilisateur);
   }
 
   edit(utilisateur: Utilisateur): Observable<object> {

@@ -22,7 +22,7 @@ export class LigneApiService {
   add(ligne: Ligne): Observable<object> {
     ligne.id = undefined;
     ligne = Object.assign(Ligne.newEmpty(), ligne);
-    return this.http.post(ApiConfig.LIGNE, ligne.toJSON());
+    return this.http.post(ApiConfig.LIGNE, ligne);
   }
 
   edit(ligne: Ligne): Observable<object> {

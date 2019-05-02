@@ -23,7 +23,7 @@ export class DossierTechniqueApiService {
     console.log(dossierTechnique);
    /* dossierTechnique.id = undefined;
     dossierTechnique = Object.assign(DossierTechnique.newEmpty(), dossierTechnique);
-     return this.http.post(ApiConfig.DOSSIER_TECHNIQUE, dossierTechnique/*.toJSON());*/
+     return this.http.post(ApiConfig.DOSSIER_TECHNIQUE, dossierTechnique/*);*/
     return this.http.post(ApiConfig.DOSSIER_TECHNIQUE, dossierTechnique);
   }
 

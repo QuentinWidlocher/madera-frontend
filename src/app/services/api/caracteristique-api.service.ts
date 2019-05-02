@@ -22,7 +22,7 @@ export class CaracteristiqueApiService {
   add(caracteristique: Caracteristique): Observable<object> {
     caracteristique.id = undefined;
     caracteristique = Object.assign(Caracteristique.newEmpty(), caracteristique);
-    return this.http.post(ApiConfig.CARACTERISTIQUE, caracteristique.toJSON());
+    return this.http.post(ApiConfig.CARACTERISTIQUE, caracteristique);
   }
 
   edit(caracteristique: Caracteristique): Observable<object> {

@@ -22,7 +22,7 @@ export class PlanApiService {
   add(plan: Plan): Observable<object> {
     plan.id = undefined;
     plan = Object.assign(Plan.newEmpty(), plan);
-    return this.http.post(ApiConfig.PLAN, plan.toJSON());
+    return this.http.post(ApiConfig.PLAN, plan);
   }
 
   edit(plan: Plan): Observable<object> {

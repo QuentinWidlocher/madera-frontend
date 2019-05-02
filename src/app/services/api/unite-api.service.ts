@@ -22,7 +22,7 @@ export class UniteApiService {
   add(unite: Unite): Observable<object> {
     unite.id = undefined;
     unite = Object.assign(Unite.newEmpty(), unite);
-    return this.http.post(ApiConfig.UNITE, unite.toJSON());
+    return this.http.post(ApiConfig.UNITE, unite);
   }
 
   edit(unite: Unite): Observable<object> {

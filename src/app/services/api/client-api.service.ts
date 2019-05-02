@@ -22,7 +22,7 @@ export class ClientApiService {
   add(client: Client): Observable<object> {
     client.id = undefined;
     client = Object.assign(Client.newEmpty(), client);
-    return this.http.post(ApiConfig.CLIENT, client.toJSON());
+    return this.http.post(ApiConfig.CLIENT, client);
   }
 
   edit(client: Client): Observable<object> {

@@ -22,7 +22,7 @@ export class DevisApiService {
   add(devis: Devis): Observable<object> {
     devis.id = undefined;
     devis = Object.assign(Devis.newEmpty(), devis);
-    return this.http.post(ApiConfig.DEVIS, devis.toJSON());
+    return this.http.post(ApiConfig.DEVIS, devis);
   }
 
   edit(devis: Devis): Observable<object> {
