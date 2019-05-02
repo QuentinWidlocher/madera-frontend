@@ -11,6 +11,7 @@ export class Ligne {
     public remise: number;
     public remarques: string;
     public devis: Devis;
+    public devisId: number
 
     constructor(id: number, designation: string, gamme: string, quantite: number, unitPriceNoTax: number, unitPriceTax: number,
                 remise: number, remarques: string, devis: Devis) {
@@ -23,6 +24,7 @@ export class Ligne {
         this.remise = remise;
         this.remarques = remarques;
         this.devis = devis;
+        this.devisId = (!devis ? 0 : devis.id);
     }
 
     public static newEmpty() {

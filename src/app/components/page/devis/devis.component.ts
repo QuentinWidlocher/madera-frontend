@@ -11,11 +11,8 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 
 export interface LigneFormat {
   designation: string;
-  gamme: string;
-  quantite: number;
   puht: number;
   puttc: number;
-  total: number;
 }
 
 @Component({
@@ -27,11 +24,10 @@ export class DevisComponent implements OnInit {
 
   @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
   
-  displayedColumns: string[] = ['designation', 'gamme', 'quantite', 'puht', 'puttc', 'total'];
+  displayedColumns: string[] = ['designation', 'puht', 'puttc'];
   dataSource;
   totalHT: number;
   totalTTC: number;
-  totalQte: number;
 
   footers: LigneFormat;
 
@@ -69,25 +65,18 @@ export class DevisComponent implements OnInit {
             devis.lignes.forEach(ligne => {
               lignes.push({
                 designation: ligne.designation,
-                gamme: ligne.gamme,
-                quantite: ligne.quantite,
                 puht: ligne.unitPriceNoTax,
                 puttc: ligne.unitPriceTax,
-                total: ligne.quantite * 99.99
               });
             });
 
-            this.totalQte = lignes.map(item => item.quantite).reduce((prev, next) => prev + next);
             this.totalHT = lignes.map(item => item.puht).reduce((prev, next) => prev + next);
             this.totalTTC = lignes.map(item => item.puttc).reduce((prev, next) => prev + next);
 
             this.footers = {
               designation: 'Total',
-              gamme: '',
-              quantite: this.totalQte,
               puht: this.totalHT,
               puttc: this.totalTTC,
-              total: this.totalQte * this.totalHT
             };
 
             this.dataSource = new MatTableDataSource(lignes);
