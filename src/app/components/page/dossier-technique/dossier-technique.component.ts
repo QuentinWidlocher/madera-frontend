@@ -275,7 +275,9 @@ export class DossierTechniqueComponent implements OnInit {
       this.currentModele.modeleProduit.forEach(p => {
 
         p.produit.produitModule.forEach(m => {
-          let prix = m.module.moduleBase.labourCosts;
+          const taille = m.module.caracteristiques.filter(carac => carac.unite.code == "m").map(carac => carac.value).reduce((a, b) => a*b);
+
+          let prix = m.module.moduleBase.labourCosts * taille;
 
           m.module.moduleBase.composantModule.forEach(c => {
 

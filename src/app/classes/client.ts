@@ -31,28 +31,28 @@ export class Client {
     return this.firstName + ' ' + this.lastName;
   }
 
-  public toJSON(): string {
-    let plainObject = {
-      id: undefined,
-      firstName: undefined,
-      lastName: undefined,
-      email: undefined,
-      phone: undefined,
-      mobile: undefined,
-      creationDate: undefined,
-      projetsIds: []
-    }
+  // public toJSON(): string {
+  //   let plainObject = {
+  //     id: undefined,
+  //     firstName: undefined,
+  //     lastName: undefined,
+  //     email: undefined,
+  //     phone: undefined,
+  //     mobile: undefined,
+  //     creationDate: undefined,
+  //     projetsIds: []
+  //   }
 
-    plainObject.id = this.id;
-    plainObject.firstName = this.firstName;
-    plainObject.lastName = this.lastName;
-    plainObject.email = this.email;
-    plainObject.phone = this.phone;
-    plainObject.mobile = this.mobile;
-    plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
-    plainObject.projetsIds = (this.projets !== undefined ? this.projets.map(x => x.id) : undefined);
+  //   plainObject.id = this.id;
+  //   plainObject.firstName = this.firstName;
+  //   plainObject.lastName = this.lastName;
+  //   plainObject.email = this.email;
+  //   plainObject.phone = this.phone;
+  //   plainObject.mobile = this.mobile;
+  //   plainObject.creationDate = (this.creationDate !== undefined ? this.creationDate.toISOString().slice(0, 19).replace('T', ' ') : undefined);
+  //   plainObject.projetsIds = (this.projets !== undefined ? this.projets.map(x => x.id) : undefined);
 
-    return JSON.stringify(plainObject);
-  }
+  //   return JSON.stringify(plainObject);
+  // }
 
 }
