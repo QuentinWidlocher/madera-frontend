@@ -85,7 +85,8 @@ export class DossierTechniqueComponent implements OnInit {
 
     // Met à jour le temps estimé quand on quitte la page
     this.router.events.subscribe(e => {
-      if (e instanceof NavigationEnd) {
+      if (e instanceof NavigationEnd && !e.urlAfterRedirects.startsWith('/dossier')) {
+        console.log('MAIS PUTAI');
         this.dossierSw.edit(this.dossierTechnique);
       }
     });
@@ -103,6 +104,7 @@ export class DossierTechniqueComponent implements OnInit {
       // on rempli le dossier
       this.dossierSw.get(projet.dossierTechnique.id).then((dossierTechnique: DossierTechnique) => {
         this.dossierTechnique = dossierTechnique;
+        this.dossierTechnique.projet = projet;
 
         // on rempli le modele
         this.modeleSw.get(this.dossierTechnique.modele.id).then((modele: Modele) => {
@@ -160,6 +162,7 @@ export class DossierTechniqueComponent implements OnInit {
   selectModele(modele: Modele) {
     this.currentModele = modele;
     this.dossierTechnique.modele = modele;
+    this.dossierTechnique.modeleId = modele.id;
 
     let lignes: LigneFormat[] = [];
 

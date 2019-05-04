@@ -18,7 +18,7 @@ export class Projet {
     public clientId: number;
 
     public dossierTechnique: DossierTechnique;
-    public dossierTechniqueId: number
+    public dossierTechniqueId: number;
 
     public utilisateur: Utilisateur;
     public userId: number;
@@ -34,15 +34,15 @@ export class Projet {
         this.editionDate = editionDate;
         this.endDate = endDate;
         this.version = version;
-        
+
         this.client = client;
-        this.clientId = (client ? client.id : undefined)
+        this.clientId = (client ? client.id : undefined);
 
         this.dossierTechnique = dossierTechnique;
-        this.dossierTechniqueId = (dossierTechnique ? dossierTechnique.id : undefined)
+        this.dossierTechniqueId = (dossierTechnique ? dossierTechnique.id : undefined);
 
         this.devis = devis;
-        this.devisId = (devis ? devis.id : undefined)
+        this.devisId = (devis ? devis.id : undefined);
 
         this.utilisateur = utilisateur;
         this.userId = (utilisateur ? utilisateur.id : undefined)
@@ -50,10 +50,6 @@ export class Projet {
 
     public static newEmpty(): Projet {
         return new Projet(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
-    }
-
-    public loadClient(): void {
-        this.client = Object.assign(Client.newEmpty(), this.client);
     }
 
 /*    public toJSON(): string {

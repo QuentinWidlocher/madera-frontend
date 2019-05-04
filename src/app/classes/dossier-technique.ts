@@ -9,8 +9,12 @@ export class DossierTechnique {
   public id: number;
   public creationDate: Date;
   public editionDate: Date;
+
   public projet: Projet;
+  public projetId: number;
+
   public plans: Plan[];
+
   public modele: Modele;
   public modeleId: number;
 
@@ -19,6 +23,7 @@ export class DossierTechnique {
     this.creationDate = creationDate;
     this.editionDate = editionDate;
     this.projet = projet;
+    this.projetId = (projet ? projet.id : undefined);
     this.plans = plans;
     this.modele = modele;
     this.modeleId = modeleId;

@@ -20,10 +20,10 @@
       </mat-form-field>
     </mat-card>
 
-    <div class="h-100 w-100 d-flex" *ngIf="modeleListLoading">
+    <div class="h-100 w-100 d-flex" *ngIf="modeleListLoading && !modeles">
       <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
-    <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading">
+    <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading && modeles">
       <mat-list-item *ngFor="let modele of modeles; let index = index"
         (click)="selectModele(modele)"
         [class.selected]="dossierTechnique.modele && dossierTechnique.modele.id === modele.id">

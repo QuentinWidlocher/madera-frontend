@@ -94,7 +94,6 @@ export class ProjectsComponent implements OnInit {
       this.devisSw.get(projet.devis.id).then(devis => {
         if (devis.lignes && devis.lignes.length > 0) {  
           this.totalTTC = devis.lignes.map(item => item.unitPriceTax).reduce((prev, next) => prev + next);
-          console.log('%c ' + this.totalTTC, 'color: #2196f3');
         } else {
           this.totalTTC = 0;
         }
