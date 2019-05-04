@@ -43,7 +43,7 @@
       <mat-list-item (click)="selectProjet(projet, index)" [class.selected]="currentProjet === projet"
         *ngFor="let projet of projets; let index = index" [disableRipple]="editMode">
         <mat-icon mat-list-icon>assignment</mat-icon>
-        <h4 mat-line>{{ projet.title }}</h4>
+        <h4 mat-line>{{ projet.title }} - {{ currentProjet === projet }}</h4>
         <span mat-line class="mat-caption">{{ projet.client.fullName }} - {{ projet.creationDate | date: 'shortDate' }}</span>
       </mat-list-item>
     </mat-action-list>
