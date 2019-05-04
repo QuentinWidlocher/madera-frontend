@@ -13,10 +13,18 @@ export class Projet {
     public editionDate: Date;
     public endDate: Date;
     public version: string;
+
     public client: Client;
+    public clientId: number;
+
     public dossierTechnique: DossierTechnique;
+    public dossierTechniqueId: number
+
     public utilisateur: Utilisateur;
+    public userId: number;
+
     public devis: Devis;
+    public devisId: number;
 
     constructor(id: number, title: string, creationDate: Date, editionDate: Date, endDate: Date, version: string, client: Client,
         dossierTechnique: DossierTechnique, devis: Devis, utilisateur: Utilisateur) {
@@ -26,10 +34,18 @@ export class Projet {
         this.editionDate = editionDate;
         this.endDate = endDate;
         this.version = version;
+        
         this.client = client;
+        this.clientId = (client ? client.id : undefined)
+
         this.dossierTechnique = dossierTechnique;
+        this.dossierTechniqueId = (dossierTechnique ? dossierTechnique.id : undefined)
+
         this.devis = devis;
+        this.devisId = (devis ? devis.id : undefined)
+
         this.utilisateur = utilisateur;
+        this.userId = (utilisateur ? utilisateur.id : undefined)
     }
 
     public static newEmpty(): Projet {
