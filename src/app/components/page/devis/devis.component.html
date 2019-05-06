@@ -29,11 +29,11 @@
       <mat-card>
         <div class="row h-100 align-content-around">
           <p class="col-6 m-0 text-muted">Total HT :</p><span
-            class="col-6 text-align-right">{{ totalHT * totalQte | number: '1.2-2':'fr'}} €</span>
+            class="col-6 text-align-right">{{ totalHT | number: '1.2-2':'fr'}} €</span>
           <p class="col-6 m-0 text-muted">TVA : </p><span
-            class="col-6 text-align-right">{{ (totalTTC * totalQte) - (totalHT * totalQte) | number: '1.2-2':'fr'}} €</span>
+            class="col-6 text-align-right">{{ (totalTTC) - (totalHT) | number: '1.2-2':'fr'}} €</span>
           <p class="col-6 m-0 text-muted">Total TTC : </p><span
-            class="col-6 text-align-right">{{ totalTTC * totalQte | number: '1.2-2':'fr'}} €</span>
+            class="col-6 text-align-right">{{ totalTTC | number: '1.2-2':'fr'}} €</span>
         </div>
       </mat-card>
     </div>
@@ -42,7 +42,7 @@
 
 
   <div class="d-flex flex-column h-100">
-    <mat-card class="p-0 flex-grow-1 overflow-y-scroll" *ngIf="dataSource">
+    <mat-card class="p-0 flex-1 overflow-y-scroll" *ngIf="dataSource">
       <mat-table [dataSource]="dataSource" matSort>
 
         <!-- Designation Column -->
@@ -55,15 +55,15 @@
         <!-- PU HT Column -->
         <ng-container matColumnDef="puht">
           <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Brut</span></mat-header-cell>
-          <mat-cell *matCellDef="let element" class="text-align-right"> {{element.puht | number: '1.2-2':'fr'}} €</mat-cell>
-          <mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puht | number: '1.2-2':'fr' }} €</mat-footer-cell>
+          <mat-cell *matCellDef="let element" class="align-right"> {{element.puht | number: '1.2-2':'fr'}} €</mat-cell>
+          <mat-footer-cell *matFooterCellDef class="align-right">{{ footers.puht | number: '1.2-2':'fr' }} €</mat-footer-cell>
         </ng-container>
 
         <!-- PU TTC Column -->
         <ng-container matColumnDef="puttc">
           <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Net</span></mat-header-cell>
-          <mat-cell *matCellDef="let element" class="text-align-right"> {{element.puttc | number: '1.2-2':'fr'}} €</mat-cell>
-          <mat-footer-cell *matFooterCellDef class="text-align-right">{{ footers.puttc | number: '1.2-2':'fr' }} €</mat-footer-cell>
+          <mat-cell *matCellDef="let element" class="align-right"> {{element.puttc | number: '1.2-2':'fr'}} €</mat-cell>
+          <mat-footer-cell *matFooterCellDef class="align-right">{{ footers.puttc | number: '1.2-2':'fr' }} €</mat-footer-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>

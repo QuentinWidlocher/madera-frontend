@@ -66,7 +66,12 @@ export class ProjectsComponent implements OnInit {
 
       this.route.params.subscribe(params => {
         if (params) {
-          this.currentProjet = this.projets.find(projet => projet.id === +params['id']);
+          let projet = this.projets.find((projet) => projet.id === +params['id']);
+          let index = this.projets.indexOf(projet);
+
+          if (projet) {
+            this.selectProjet(projet, index);
+          }
         }
       });
     });
@@ -87,11 +92,8 @@ export class ProjectsComponent implements OnInit {
 
     if (projet.devis) {
       this.devisSw.get(projet.devis.id).then(devis => {
-        if (devis.lignes && devis.lignes.length > 0) {
-          let qte = devis.lignes.map(item => item.quantite).reduce((prev, next) => prev + next);
-          let total = devis.lignes.map(item => item.unitPriceTax).reduce((prev, next) => prev + next);
-  
-          this.totalTTC = qte * total;
+        if (devis.lignes && devis.lignes.length > 0) {  
+          this.totalTTC = devis.lignes.map(item => item.unitPriceTax).reduce((prev, next) => prev + next);
         } else {
           this.totalTTC = 0;
         }
