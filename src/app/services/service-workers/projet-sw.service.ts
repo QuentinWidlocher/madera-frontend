@@ -177,6 +177,7 @@ export class ProjetSwService {
     let result: Promise<any>;
 
     projet.editionDate = new Date(Date.now());
+    projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -197,6 +198,15 @@ export class ProjetSwService {
               this.dossierTechniqueSw.add(DossierTechnique.newEmpty()).then(dossierTechnique => {
 
                 projet.dossierTechnique = dossierTechnique;
+
+                projet.clientId = projet.client.id;
+                projet.userId = projet.utilisateur.id;
+
+                projet.devisId = projet.devis.id;
+                projet.devis = undefined;
+
+                projet.dossierTechniqueId = projet.dossierTechnique.id;
+                projet.dossierTechnique = undefined;
 
                 this.api.add(projet).subscribe((added: Projet) => {
 
@@ -263,6 +273,7 @@ export class ProjetSwService {
     let result: Promise<any>;
 
     projet.editionDate = new Date(Date.now());
+    projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {

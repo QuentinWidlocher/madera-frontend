@@ -1,7 +1,7 @@
 <!-- Titre Nav -->
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button *ngIf="projet" mat-icon-button [routerLink]="['/projects', projet.id]">
+    <button *ngIf="projet" mat-icon-button [routerLink]="['/projets', projet.id]">
       <mat-icon>arrow_back</mat-icon>
     </button> <span class="ml-2" *ngIf="ready">Devis n° {{ devis.id }} - {{ projet.title }}</span>
   </mat-toolbar-row>

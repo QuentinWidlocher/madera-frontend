@@ -88,7 +88,7 @@ export class ProjectsComponent implements OnInit {
     this.currentProjet = projet;
     this.projetListIndex = index;
 
-    this.location.replaceState('/projects/' + projet.id);
+    this.location.replaceState('/projets/' + projet.id);
 
     if (projet.devis) {
       this.devisSw.get(projet.devis.id).then(devis => {

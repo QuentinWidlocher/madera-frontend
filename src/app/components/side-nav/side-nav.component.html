@@ -6,7 +6,7 @@
     <div class="username">{{userName}}</div>
     <mat-action-list class="pt-0" *ngIf="status">
         <div *ngIf="isAdmin">
-            <mat-list-item [routerLink]="['/create-users']" (click)="closed.emit()">
+            <mat-list-item [routerLink]="['/utilisateurs']" (click)="closed.emit()">
                 <mat-icon matListIcon class="pr-2">supervisor_account</mat-icon> Gérer les utilisateurs
             </mat-list-item>
 

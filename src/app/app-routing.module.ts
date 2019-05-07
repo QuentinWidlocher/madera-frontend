@@ -9,17 +9,26 @@ import { CreateUsersComponent } from './components/page/create-users/create-user
 import {DossierTechniqueComponent } from './components/page/dossier-technique/dossier-technique.component';
 import { AuthGuard } from './auth.guard';
 import { AdminGuard } from './admin.guard';
+import { ModeleComponent } from './components/page/modele/modele.component';
 
 const routes: Routes = [
-  { path: '',   redirectTo: '/projects', pathMatch: 'full', canActivate: [AuthGuard]},
-  { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
-  { path: 'projects/:id', component: ProjectsComponent  , canActivate: [AuthGuard]},
+  { path: '',   redirectTo: '/projets', pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: 'projets', component: ProjectsComponent, canActivate: [AuthGuard] },
+  { path: 'projets/:id', component: ProjectsComponent  , canActivate: [AuthGuard]},
+
   { path: 'test', component: TestComponent , canActivate: [AuthGuard]},
-  { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
-  { path: 'customers/:id', component: CustomersComponent, canActivate: [AuthGuard]  },
+
+  { path: 'clients', component: CustomersComponent, canActivate: [AuthGuard] },
+  { path: 'clients/:id', component: CustomersComponent, canActivate: [AuthGuard] },
+
+  { path: 'modele/:id', component: ModeleComponent, canActivate: [AuthGuard]  },
+
   { path: 'devis/:id', component: DevisComponent, canActivate: [AuthGuard] },
+
   { path: 'login', component: LoginComponent},
-  { path: 'create-users', component: CreateUsersComponent, canActivate: [AuthGuard, AdminGuard] },
+
+  { path: 'utilisateurs', component: CreateUsersComponent, canActivate: [AuthGuard, AdminGuard] },
+  
   { path: 'dossier/:id', component: DossierTechniqueComponent, canActivate: [AuthGuard] }
 ];
 
