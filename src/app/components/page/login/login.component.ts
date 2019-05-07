@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         .subscribe(
         (res) => {
           this.onHamburger.emit();
-          this.router.navigate(['projects']);
+          this.router.navigate(['projets']);
         }, err => this.errors= err);
         
        

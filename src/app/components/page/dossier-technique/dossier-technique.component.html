@@ -1,7 +1,7 @@
 <!-- Titre Nav -->
 <mat-toolbar color="primary">
   <mat-toolbar-row *ngIf="dossierTechnique">
-    <button mat-icon-button [routerLink]="['/projects', projet.id]">
+    <button mat-icon-button [routerLink]="['/projets', projet.id]">
       <mat-icon>arrow_back</mat-icon>
     </button> <span class="ml-2">Dossier Technique n° {{dossierTechnique.id}} - {{ projet.title }}</span>
   </mat-toolbar-row>
@@ -59,7 +59,10 @@
           <h3 class="my-0">{{ currentModele.description }}</h3>
           <span mat-line class="mat-caption">Modèle du {{ currentModele.editionDate | date:'shortDate' }}</span>
         </div>
-        <button mat-raised-button color="primary" class="ml-auto my-auto"><mat-icon class="md-18">edit</mat-icon>Modifier le modèle</button>
+        <button mat-raised-button [routerLink]="['/modele', currentModele.id]" color="primary" class="ml-auto my-auto">
+          <mat-icon class="md-18">edit</mat-icon>
+          Modifier le modèle
+        </button>
       </div>
 
       <mat-card class="p-0 mt-2 flex-grow-1 overflow-y-scroll" *ngIf="dataSource">
@@ -90,7 +93,7 @@
             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
               <div [@detailExpand]="element == expandedLine ? 'expanded' : 'collapsed'">
 
-                <mat-list class="">
+                <mat-list>
                   <mat-list-item *ngFor="let module of element.modules">
                     <mat-icon mat-list-icon>stop</mat-icon>
                     {{ module.description }}
