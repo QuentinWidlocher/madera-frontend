@@ -6,6 +6,7 @@ import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
 import { Utilisateur } from 'src/app/classes/utilisateur';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-edit-project',
@@ -28,22 +29,23 @@ export class EditProjectComponent implements OnInit {
   projetForm: FormGroup;
   get form() { return this.projetForm.controls; }
 
-  constructor(private projetSw: ProjetSwService, 
-              private dialog: MatDialog,
-              private clientSw: ClientSwService,
-              private fb: FormBuilder) {
+  constructor(private projetSw: ProjetSwService,
+    private dialog: MatDialog,
+    private clientSw: ClientSwService,
+    private fb: FormBuilder,
+    private userService: UserService) {
   }
-  
+
   ngOnInit() {
 
     if (this.createMode) {
       this.currentProjet.creationDate = new Date(Date.now());
     }
-    
+
     if (this.currentProjet.client !== undefined) {
       this.selectedClientId = this.currentProjet.client.id;
     }
-    
+
     this.projetForm = this.fb.group({
       title: [this.currentProjet.title, [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       version: [this.currentProjet.version],
@@ -51,13 +53,13 @@ export class EditProjectComponent implements OnInit {
       creationDate: [this.currentProjet.creationDate],
       endDate: [this.currentProjet.endDate && this.currentProjet.endDate.getFullYear() === 1 ? undefined : this.currentProjet.endDate]
     });
-    
+
     this.clientSw.getAll().then(clients => {
       this.listClient = clients;
     });
 
   }
-  
+
   // Met à jour this.currentProjet avec les infos du form
   formToProjet() {
     this.currentProjet = Object.assign(this.currentProjet, this.projetForm.value);
@@ -77,8 +79,8 @@ export class EditProjectComponent implements OnInit {
 
     action = (this.createMode && action !== 'cancel' ? 'create' : action);
 
-    this.currentProjet.utilisateur = Object.assign(Utilisateur.newEmpty(), { id: 1 });
-
+    this.currentProjet.utilisateur = Object.assign(Utilisateur.newEmpty(), { id: this.userService.getUserId() });
+    console.log(this.currentProjet.utilisateur);
     switch (action) {
       case 'save':
         this.projetSw.edit(this.currentProjet);
@@ -95,7 +97,7 @@ export class EditProjectComponent implements OnInit {
       case 'cancel':
         this.isDone(action);
         break;
-    
+
       default:
         break;
     }
@@ -126,6 +128,6 @@ export class EditProjectComponent implements OnInit {
 export class ProjetDeleteConfirmationDialog {
 
   constructor(public dialogRef: MatDialogRef<ProjetDeleteConfirmationDialog>,
-              @Inject(MAT_DIALOG_DATA) public projectName: string) { }
+    @Inject(MAT_DIALOG_DATA) public projectName: string) { }
 
 }

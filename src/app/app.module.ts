@@ -14,6 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AuthInterceptor } from "./auth-interceptor";
 import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard';
 // Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule, MatButtonModule, MatNativeDateModule } from '@angular/material';
@@ -117,7 +118,8 @@ import { DossierTechniqueComponent } from './components/page/dossier-technique/d
   providers: [
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    AuthGuard
+    AuthGuard,
+    AdminGuard
   ],
   entryComponents: [
     LogoutConfirmationDialog,
