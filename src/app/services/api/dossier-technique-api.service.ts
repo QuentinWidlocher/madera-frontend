@@ -21,6 +21,7 @@ export class DossierTechniqueApiService {
 
   add(dossierTechnique: DossierTechnique): Observable<object> {
     console.log(dossierTechnique);
+    console.log(JSON.stringify(dossierTechnique));
    /* dossierTechnique.id = undefined;
     dossierTechnique = Object.assign(DossierTechnique.newEmpty(), dossierTechnique);
      return this.http.post(ApiConfig.DOSSIER_TECHNIQUE, dossierTechnique/*);*/

@@ -192,7 +192,10 @@ export class DossierTechniqueSwService {
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
 
+    dossierTechnique.creationDate = new Date(Date.now());
     dossierTechnique.editionDate = new Date(Date.now());
+
+    dossierTechnique.projet.endDate = (dossierTechnique.projet.endDate.getFullYear() === 1 ? new Date('0001-01-01') : dossierTechnique.projet.endDate);
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
