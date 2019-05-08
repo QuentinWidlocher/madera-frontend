@@ -41,6 +41,8 @@ export interface LigneFormat {
 })
 export class DossierTechniqueComponent implements OnInit {
 
+  newDossier: boolean;
+
   projet: Projet;
   dossierTechnique: DossierTechnique;
   currentModele: Modele;
@@ -83,11 +85,14 @@ export class DossierTechniqueComponent implements OnInit {
       }
     });
 
-    // Met à jour le temps estimé quand on quitte la page
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd && !e.urlAfterRedirects.startsWith('/dossier')) {
-        console.log('MAIS PUTAI');
-        this.dossierSw.edit(this.dossierTechnique);
+        
+        if(this.newDossier) {
+          this.dossierSw.add(this.dossierTechnique);
+        } else {
+          this.dossierSw.edit(this.dossierTechnique);
+        }
       }
     });
   }
@@ -100,6 +105,19 @@ export class DossierTechniqueComponent implements OnInit {
       this.projet = projet;
 
       this.dossierTechnique = DossierTechnique.newEmpty();
+      this.dossierTechnique.projet = projet;
+      this.dossierTechnique.projetId = projet.id;
+
+      if (!projet.dossierTechnique.id) {
+        console.error('Aucun dossier technique n\'est lié à ce projet');
+        console.warn('Le dossier rempli sera posté en totalité à la fin');
+
+        this.newDossier = true;
+
+        return;
+      }
+
+      this.newDossier = false;
 
       // on rempli le dossier
       this.dossierSw.get(projet.dossierTechnique.id).then((dossierTechnique: DossierTechnique) => {
@@ -152,6 +170,10 @@ export class DossierTechniqueComponent implements OnInit {
 
         });
 
+      }, error => { 
+        console.error('Aucun dossier technique n\'est lié à ce projet');
+        console.warn('Le dossier rempli sera posté en totalité à la fin');
+        this.newDossier = true;
       });
 
     });
@@ -161,7 +183,7 @@ export class DossierTechniqueComponent implements OnInit {
 
   selectModele(modele: Modele) {
     this.currentModele = modele;
-    this.dossierTechnique.modele = modele;
+    // this.dossierTechnique.modele = modele;
     this.dossierTechnique.modeleId = modele.id;
 
     let lignes: LigneFormat[] = [];

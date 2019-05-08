@@ -90,7 +90,7 @@ export class ProjectsComponent implements OnInit {
 
     this.location.replaceState('/projets/' + projet.id);
 
-    if (projet.devis) {
+    if (projet.devis.id) {
       this.devisSw.get(projet.devis.id).then(devis => {
         if (devis.lignes && devis.lignes.length > 0) {  
           this.totalTTC = devis.lignes.map(item => item.unitPriceTax).reduce((prev, next) => prev + next);

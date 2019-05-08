@@ -26,10 +26,11 @@
     <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading && modeles">
       <mat-list-item *ngFor="let modele of modeles; let index = index"
         (click)="selectModele(modele)"
-        [class.selected]="dossierTechnique.modele && dossierTechnique.modele.id === modele.id">
-        <mat-icon mat-list-icon class="selected" *ngIf="!dossierTechnique.modele || dossierTechnique.modele.id !== modele.id">
+        [class.selected]="dossierTechnique.modeleId === modele.id">
+        <mat-icon mat-list-icon class="selected"
+          *ngIf="dossierTechnique.modeleId !== modele.id">
           radio_button_unchecked</mat-icon>
-        <mat-icon mat-list-icon *ngIf="dossierTechnique.modele && dossierTechnique.modele.id === modele.id" [color]="'accent'">
+        <mat-icon mat-list-icon *ngIf="dossierTechnique.modeleId === modele.id" [color]="'accent'">
           radio_button_checked</mat-icon>
         <h4 mat-line>{{ modele.description }}</h4>
         <span mat-line class="mat-caption">Modèle du {{ modele.editionDate | date:'shortDate' }}</span>
