@@ -16,7 +16,6 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Get the auth token from the service.
     const authToken = this.userService.getAuthorizationToken();
-
     if (req.headers.has(InterceptorSkipHeader)) {
       const headers = req.headers.delete(InterceptorSkipHeader);
       return next.handle(req.clone({ headers }));
@@ -27,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
       setHeaders: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + authToken.slice(1, -1)
+        'Authorization': 'Bearer ' + authToken
       }
     });
 

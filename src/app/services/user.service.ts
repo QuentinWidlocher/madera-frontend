@@ -38,6 +38,7 @@ export class UserService {
         (res) => {
           var token = JSON.parse(res);
           let auth_token = JSON.stringify(token.auth_token);
+          auth_token = auth_token.replace(/^"(.*)"$/, '$1');
           localStorage.setItem('auth_token', auth_token);
           this.loggedIn = true;
           this._authNavStatusSource.next(true);
