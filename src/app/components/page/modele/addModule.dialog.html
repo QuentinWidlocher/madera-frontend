@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>Ajout d'un module personnalisé</h1>
+<div mat-dialog-content>
+
+  <div class="d-flex flex-column">
+
+    <mat-form-field>
+      <mat-label>Module</mat-label>
+      <mat-select required (selectionChange)="moduleBaseSelected($event)" [(ngModel)]="moduleBase">
+        <mat-option *ngFor="let mod of modulesBase" [(value)]="mod">{{ mod.description }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="moduleSelected">
+      <p>liste des composants de ce module</p>
+      <div *ngFor="let comp of composants">
+        <p> {{comp.name}} x{{comp.quantite}} , famille de gamme : {{comp.familleComposant.nature}}, gamme : {{comp.gammeComposant.code}}</p>
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>Nom / Description</mat-label>
+      <input required matInput type="text" [(ngModel)]="description">
+    </mat-form-field>
+
+    <mat-form-field class="flex-1 mr-2">
+      <mat-label>Longueur</mat-label>
+      <input matInput type="number" [(ngModel)]="longueur">
+      <span matSuffix>m</span>
+    </mat-form-field>
+    <mat-form-field class="flex-1 ml-2">
+      <mat-label>Hauteur</mat-label>
+      <input matInput type="number" [(ngModel)]="hauteur">
+      <span matSuffix>m</span>
+    </mat-form-field>
+
+  </div>
+
+</div>
+<div mat-dialog-actions class="mb-0 pb-0 justify-content-between align-items-end">
+  <button mat-button (click)="onCancelClick()" cdkFocusInitial>
+    Annuler et
+    revenir
+  </button>
+  <button mat-flat-button color="primary" [disabled]="!description|| !moduleBase || !longueur || !hauteur " (click)="onOkClick()">Ajouter</button>
+</div>

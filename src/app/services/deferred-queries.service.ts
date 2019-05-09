@@ -21,6 +21,7 @@ import { UniteApiService } from './api/unite-api.service';
 import { UtilisateurApiService } from './api/utilisateur-api.service';
 import { IndexedDbService } from './indexed-db.service';
 import { zip, Observable, forkJoin } from 'rxjs';
+import { ModuleBaseApiService } from './api/module-base-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,7 @@ export class DeferredQueriesService {
     private ligne: LigneApiService,
     private modele: ModeleApiService,
     private module: ModuleApiService,
+    private moduleBase: ModuleBaseApiService,
     private plan: PlanApiService,
     private produit: ProduitApiService,
     private projet: ProjetApiService,

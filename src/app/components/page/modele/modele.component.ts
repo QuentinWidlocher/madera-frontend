@@ -14,6 +14,16 @@ import { ModuleSwService } from 'src/app/services/service-workers/module-sw.serv
 import { ProjetDeleteConfirmationDialog } from '../projects/edit-project/edit-project.component';
 import { Module } from 'src/app/classes/module';
 import { Unite } from 'src/app/classes/unite';
+import { FamilleGammeSwService } from '../../../services/service-workers/famille-gamme-sw.service';
+import { GammeSwService } from '../../../services/service-workers/gamme-sw.service';
+import { FamilleGamme } from '../../../classes/famille-gamme';
+import { Gamme } from '../../../classes/gamme';
+import { CoupeDePrincipeSwService } from '../../../services/service-workers/coupe-de-principe-sw.service';
+import { CoupeDePrincipe } from '../../../classes/coupe-de-principe';
+import { ModuleBase } from '../../../classes/moduleBase';
+import { ModuleBaseSwService } from '../../../services/service-workers/module-base-sw.service';
+import { ProduitModule } from '../../../classes/produitModule';
+
 
 export interface LigneFormat {
   module: Module;
@@ -82,7 +92,7 @@ export class ModeleComponent implements OnInit {
 
   refresh() {
     this.produitListLoading = true;
-    
+
     // On charge tous les produits
     this.produitSw.getAll().then(produits => {
 
@@ -93,16 +103,16 @@ export class ModeleComponent implements OnInit {
       this.route.params.subscribe(params => {
         if (params) {
           this.modeleSw.get(+params['id']).then(modele => {
-  
+
             this.modele = modele;
 
-            
+
             modele.modeleProduit.forEach(mp => {
               let produit = produits.find(produit => produit.id === mp.produitId)
               this.produits.push(produit);
-              
+
             });
-  
+
             this.produitsOriginal = this.produits;
             this.produitListLoading = false;
           });
@@ -118,35 +128,63 @@ export class ModeleComponent implements OnInit {
 
     let lignes: LigneFormat[] = [];
     let promises: Promise<any>[] = [];
+    if (this.currentProduit.produitModule) {
+      // Pour chaque modules du produit, on crée une ligne d'info
+      produit.produitModule.forEach(pm => {
 
-    // Pour chaque modules du produit, on crée une ligne d'info
-    produit.produitModule.forEach(pm => {
+        promises.push(new Promise(rslv => {
 
-      promises.push(new Promise(rslv => {
+          this.moduleSw.get(pm.moduleId).then(module => {
+            lignes.push({
+              module: module,
+              infoButton: '',
+              deleteButton: '',
+              composants: module.moduleBase.composantModule.map(cm => cm.composant),
+              caracteristiques: module.caracteristiques
+            });
 
-        this.moduleSw.get(pm.moduleId).then(module => {
-          lignes.push({
-            module: module,
-            infoButton: '',
-            deleteButton: '',
-            composants: module.moduleBase.composantModule.map(cm => cm.composant),
-            caracteristiques: module.caracteristiques
+            rslv();
           });
 
-          rslv();
-        });
+        }));
 
-      }));
-
-    });
-
+      });
+    }
     // Quand toutes les lignes ont été créée, on instancie la dataSource du tableau
     Promise.all(promises).then(() => {
       this.dataSource = new MatTableDataSource(lignes);
-    
+
     });
 
   }
+
+  addProduit() {
+    this.dialog.open(AddProduitDialog).afterClosed().subscribe((produit: Produit) => {
+      if (produit) {
+        this.produits.push(produit);
+      }
+    });
+
+  }
+
+  addModule() {
+    this.dialog.open(AddModuleDialog).afterClosed().subscribe((module: Module) => {
+      if (module) {
+
+        ///L'ajout du MODULE EST BON
+        console.log(module);
+        var produitModule = ProduitModule.newEmpty();
+        produitModule.produit = this.currentProduit;
+        produitModule.produitId = this.currentProduit.id;
+        produitModule.module = module;
+        this.currentProduit.produitModule.push(produitModule);
+        
+      }
+    });
+
+  }
+
+
 
   expandLine(ligne: LigneFormat) {
 
@@ -164,7 +202,7 @@ export class ModeleComponent implements OnInit {
         this.composantSw.get(composant.id).then(composantFull => {
 
           let ligneExistante = lignes.find((c) => c.name === composantFull.name);
-    
+
           if (!ligneExistante) {
             lignes.push({
               name: composantFull.name,
@@ -175,9 +213,9 @@ export class ModeleComponent implements OnInit {
           } else {
             lignes[lignes.indexOf(ligneExistante)].quantite += 1;
           }
-  
+
           rslv();
-          
+
         });
 
       }));
@@ -211,9 +249,9 @@ export class ModuleSizesDialog {
 
   constructor(public dialogRef: MatDialogRef<ModuleSizesDialog>,
     @Inject(MAT_DIALOG_DATA) public module: Module) {
-      this.longueur = module.caracteristiques[0] ? module.caracteristiques[0].value : 0
-      this.hauteur = module.caracteristiques[1] ? module.caracteristiques[1].value : 0
-     }
+    this.longueur = module.caracteristiques[0] ? module.caracteristiques[0].value : 0
+    this.hauteur = module.caracteristiques[1] ? module.caracteristiques[1].value : 0
+  }
 
   onOkClick() {
 
@@ -222,25 +260,170 @@ export class ModuleSizesDialog {
     }
 
     if (!this.module.caracteristiques[0]) {
-      this.module.caracteristiques.push(new Caracteristique(undefined, 'Longueur', this.longueur, this.module, undefined, new Unite(1, 'm', 'metre', undefined)));
+      this.module.caracteristiques.push(new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined),1));
     } else {
       this.module.caracteristiques[0].value = this.longueur;
     }
 
     if (!this.module.caracteristiques[1]) {
-      this.module.caracteristiques.push(new Caracteristique(undefined, 'Hauteur', this.hauteur, this.module, undefined, new Unite(1, 'm', 'metre', undefined)));
+      this.module.caracteristiques.push(new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined),1));
     } else {
       this.module.caracteristiques[1].value = this.hauteur;
     }
 
-    this.dialogRef.close(this.module);    
+    this.dialogRef.close(this.module);
   }
 
-  onCancelClick() {
+  onCancelClick() {1
     if (this.longueur === 0 || this.hauteur === 0) {
       return;
     }
 
-    this.dialogRef.close(null);  
+    this.dialogRef.close(null);
+  }
+}
+
+@Component({
+  selector: 'add-produit',
+  templateUrl: './addProduit.dialog.html'
+})
+export class AddProduitDialog implements OnInit {
+
+
+  newProduit: Produit;
+  famillesGamme: FamilleGamme[];
+  gammes: Gamme[];
+  coupesDePrincipe: CoupeDePrincipe[];
+  familleSelected: boolean = false;
+  famille: FamilleGamme;
+  gamme: Gamme;
+  coupe: CoupeDePrincipe;
+  name: string;
+
+  constructor(public dialogRef: MatDialogRef<AddProduitDialog>,
+    private familleGammeSw: FamilleGammeSwService,
+    private coupeDePrincipeSw: CoupeDePrincipeSwService) {
+  }
+
+  ngOnInit() {
+
+    this.coupeDePrincipeSw.getAll().then((coupesDePrincipe: CoupeDePrincipe[]) => {
+      this.coupesDePrincipe = coupesDePrincipe;
+    }
+    );
+
+    this.familleGammeSw.getAll().then((famillesGamme: FamilleGamme[]) => {
+      this.famillesGamme = famillesGamme;
+    }
+    );
+
+  }
+
+  familleGammeSelected() {
+    this.gamme = null;
+    this.gammes = this.famille.gammes;
+    this.familleSelected = true;
+
+  }
+
+
+  onOkClick() {
+    this.newProduit = Produit.newEmpty();
+    this.newProduit.description = this.name;
+    this.newProduit.coupeDePrincipe = this.coupe;
+    this.newProduit.coupeDePrincipeId = this.coupe.id;
+    this.newProduit.gammeId = this.gamme.id;
+    this.newProduit.creationDate = new Date(Date.now());
+    this.newProduit.editionDate = new Date(Date.now());
+
+
+    this.dialogRef.close(this.newProduit);
+  }
+
+  onCancelClick() {
+    this.dialogRef.close(null);
+  }
+}
+
+
+@Component({
+  selector: 'add-module',
+  templateUrl: './addModule.dialog.html'
+})
+export class AddModuleDialog implements OnInit {
+
+
+  newModule: Module;
+  modulesBase: ModuleBase[];
+  moduleBase: ModuleBase;
+  composants: Composant[] = [];
+  longueur: number = 0;
+  hauteur: number = 0;
+  caracteristiques: Caracteristique[]= [];
+  caracteristique: Caracteristique;
+  moduleSelected: boolean = false;
+
+  description: string;
+
+  constructor(public dialogRef: MatDialogRef<AddModuleDialog>,
+    private moduleBaseSw: ModuleBaseSwService,
+    private composantSw: ComposantSwService) {
+  }
+
+  ngOnInit() {
+
+    this.moduleBaseSw.getAll().then((modulesBase: ModuleBase[]) => {
+      this.modulesBase = modulesBase;
+    }
+    );
+
+  }
+
+  moduleBaseSelected() {
+    this.composants = [];
+    this.description = '';
+    this.longueur = 0;
+    this.hauteur = 0;
+    this.caracteristiques = [];
+
+    this.moduleBase.composantModule.forEach(c => {
+        console.log(c.composant);
+
+        this.composantSw.get(c.composantId).then((composant: Composant) => {
+          composant.quantite = c.quantity;
+          this.composants.push(composant);
+          this.description = this.moduleBase.description;
+          this.moduleSelected = true;
+        }
+        );
+    });
+    
+
+
+  }
+
+
+  onOkClick() {
+    this.newModule = Module.newEmpty();
+
+    this.caracteristique = new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1);
+    this.caracteristiques.push(this.caracteristique);
+    this.caracteristique = new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1);
+    this.caracteristiques.push(this.caracteristique);
+
+    this.newModule.description = this.description;
+    this.newModule.moduleBase = this.moduleBase;
+    this.newModule.moduleBaseId = this.moduleBase.id;
+    this.newModule.creationDate = new Date(Date.now());
+    this.newModule.editionDate = new Date(Date.now());
+    this.newModule.labourCosts = this.moduleBase.labourCosts;
+    this.newModule.caracteristiques = this.caracteristiques;
+
+
+    this.dialogRef.close(this.newModule);
+  }
+
+  onCancelClick() {
+    this.dialogRef.close(null);
   }
 }

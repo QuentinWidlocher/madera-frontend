@@ -81,8 +81,6 @@ export class CoupeDePrincipeSwService {
                             // On ajoute à l'IDB les données obtenue
                             coupesDePrincipe.forEach((coupeDePrincipe, index) => {
                                 this.idb.add(coupeDePrincipe);
-                                coupesDePrincipe[index].modules = coupeDePrincipe.modules.map(module => Object.assign(Module.newEmpty(), module));
-                                coupesDePrincipe[index].produits = coupeDePrincipe.produits.map(produit => Object.assign(Produit.newEmpty(), produit));
                             });
 
                             // On résout les données de la Promesse
@@ -103,8 +101,7 @@ export class CoupeDePrincipeSwService {
                         this.idb.toArray().then(coupesDePrincipe => {
                             coupesDePrincipe.forEach((coupeDePrincipe, index) => {
                                 this.idb.add(coupeDePrincipe);
-                                coupesDePrincipe[index].modules = coupeDePrincipe.modules.map(module => Object.assign(Module.newEmpty(), module));
-                                coupesDePrincipe[index].produits = coupeDePrincipe.produits.map(produit => Object.assign(Produit.newEmpty(), produit));
+
                             });
 
                             // On résout les données de la Promesse
@@ -140,8 +137,6 @@ export class CoupeDePrincipeSwService {
                     result = new Promise(rslv => {
                         this.api.get(id).subscribe((coupeDePrincipe: CoupeDePrincipe) => {
 
-                            coupeDePrincipe.modules = coupeDePrincipe.modules.map(module => Object.assign(Module.newEmpty(), module));
-                            coupeDePrincipe.produits = coupeDePrincipe.produits.map(produit => Object.assign(Produit.newEmpty(), produit));
 
                             // Avec la nouvelle données, on ajoute/modifie l'enregistrement
                             this.idb.put(coupeDePrincipe);
@@ -160,8 +155,7 @@ export class CoupeDePrincipeSwService {
                     result = new Promise(rslv => {
                         // Si on ne peux pas toucher l'API on call simplement l'IDB
                         this.idb.get(id).then(coupeDePrincipe => {
-                            coupeDePrincipe.modules = coupeDePrincipe.modules.map(module => Object.assign(Module.newEmpty(), module));
-                            coupeDePrincipe.produits = coupeDePrincipe.produits.map(produit => Object.assign(Produit.newEmpty(), produit));
+
 
                             rslv(coupeDePrincipe);
                         });

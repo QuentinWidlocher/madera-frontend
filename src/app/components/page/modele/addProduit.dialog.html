@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Ajout d'un produit</h1>
+<div mat-dialog-content>
+
+  <div class="d-flex flex-column">
+    <mat-form-field>
+      <mat-label>Nom / Description</mat-label>
+      <input required matInput type="text" [(ngModel)]="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Coupe de principe</mat-label>
+      <mat-select required [(ngModel)]="coupe">
+        <mat-option *ngFor="let cdp of coupesDePrincipe" [(value)]="cdp">{{ cdp.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Famille de gamme</mat-label>
+      <mat-select required  (selectionChange)="familleGammeSelected($event)" [(ngModel)]="famille">
+        <mat-option *ngFor="let fg of famillesGamme" [(value)]="fg" >{{ fg.nature }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="familleSelected">
+      <mat-label>Gamme</mat-label>
+      <mat-select required [(ngModel)]="gamme">
+        <mat-option *ngFor="let g of gammes" [(value)]="g" >{{ g.code }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+</div>
+<div mat-dialog-actions class="mb-0 pb-0 justify-content-between align-items-end">
+  <button mat-button (click)="onCancelClick()" cdkFocusInitial>
+    Annuler et
+    revenir
+  </button>
+  <button mat-flat-button color="primary" [disabled]="!name || !coupe || !famille || !gamme" (click)="onOkClick()">Ajouter</button>
+</div>

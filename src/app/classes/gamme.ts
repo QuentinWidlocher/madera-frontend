@@ -30,29 +30,5 @@ export class Gamme {
         return new Gamme(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): string {
-        let plainObject = {
-            id: undefined,
-            code: undefined,
-            description: undefined,
-            insulating: undefined,
-            frame: undefined,
-            finishes: undefined,
-            cover: undefined,
-            produitsIds: [],
-            familleGammeId: undefined,
-        }
-
-        plainObject.id = this.id;
-        plainObject.description = this.description;
-        plainObject.insulating = this.insulating;
-        plainObject.frame = this.frame;
-        plainObject.finishes = this.finishes;
-        plainObject.cover = this.cover;
-        plainObject.produitsIds = (this.produits !== undefined ? this.produits.map(x => x.id) : undefined);
-        plainObject.familleGammeId = (this.familleGamme !== undefined ? this.familleGamme.id : undefined);
-
-        return JSON.stringify(plainObject);
-    }
 
 }
