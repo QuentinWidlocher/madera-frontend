@@ -56,7 +56,7 @@ import { SideNavComponent, LogoutConfirmationDialog } from './components/side-na
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { DossierTechniqueComponent } from './components/page/dossier-technique/dossier-technique.component';
-import { ModeleComponent, ModuleSizesDialog } from './components/page/modele/modele.component';
+import { ModeleComponent, ModuleSizesDialog, AddProduitDialog, AddModuleDialog } from './components/page/modele/modele.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +76,9 @@ import { ModeleComponent, ModuleSizesDialog } from './components/page/modele/mod
     LogoutConfirmationDialog,
     DossierTechniqueComponent,
     ModeleComponent,
-    ModuleSizesDialog
+    ModuleSizesDialog,
+    AddProduitDialog,
+    AddModuleDialog
   ],
   imports: [
     BrowserModule,
@@ -129,7 +131,9 @@ import { ModeleComponent, ModuleSizesDialog } from './components/page/modele/mod
     ProjetDeleteConfirmationDialog,
     ClientDeleteConfirmationDialog,
     UtilisateurDeleteConfirmationDialog,
-    ModuleSizesDialog
+    ModuleSizesDialog,
+    AddProduitDialog,
+    AddModuleDialog
   ],
   bootstrap: [AppComponent]
 })

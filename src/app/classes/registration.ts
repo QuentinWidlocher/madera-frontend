@@ -10,18 +10,6 @@ export class Registration {
     this.role = role;
   }
 
-  public toJSON(): string {
-    let plainObject = {
-      username: undefined,
-      password: undefined,
-      role: undefined
-    }
 
-    plainObject.username = this.userName;
-    plainObject.password = this.password;
-    plainObject.role = this.role;
-
-    return JSON.stringify(plainObject);
-  }
 
 }

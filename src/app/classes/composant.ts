@@ -14,6 +14,7 @@ export class Composant {
   public caracteristiques: Caracteristique[];
   public gammeComposant: GammeComposant;
   public familleComposant: FamilleComposant;
+  public quantite: number;
 
   constructor(id: number, name: string, unitPriceNoTax: number, unitPriceTax: number, composantModule: ComposantModule[],
     caracteristiques: Caracteristique[], familleComposant: FamilleComposant, gammeComposant: GammeComposant) {

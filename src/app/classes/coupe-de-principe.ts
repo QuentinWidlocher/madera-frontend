@@ -27,26 +27,5 @@ export class CoupeDePrincipe {
         return new CoupeDePrincipe(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): string {
-        let plainObject = {
-            id: undefined,
-            code: undefined,
-            name: undefined,
-            description: undefined,
-            thickness: undefined,
-            modulesIds: [],
-            produitsIds: [],
-        }
-
-        plainObject.id = this.id;
-        plainObject.code = this.code;
-        plainObject.name = this.name;
-        plainObject.description = this.description;
-        plainObject.thickness = this.thickness;
-        plainObject.modulesIds = (this.modules !== undefined ? this.modules.map(x => x.id) : undefined);
-        plainObject.produitsIds = (this.produits !== undefined ? this.produits.map(x => x.id) : undefined);
-
-        return JSON.stringify(plainObject);
-    }
 
 }

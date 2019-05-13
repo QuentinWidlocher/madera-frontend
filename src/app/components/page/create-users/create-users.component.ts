@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms"
   styleUrls: ['./create-users.component.scss']
 })
 export class CreateUsersComponent implements OnInit {
-  
+
   @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
 
   utilisateurs: Utilisateur[] = [];
@@ -35,7 +35,8 @@ export class CreateUsersComponent implements OnInit {
   constructor(
     private utilisateurSw: UtilisateurSwService,
     private connectivity: ConnectivityService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private dialog: MatDialog) {
     this.createForm();
   }
 
@@ -139,11 +140,18 @@ export class CreateUsersComponent implements OnInit {
   }
 
   delete() {
-    this.utilisateurSw.delete(this.currentUtilisateur.id)
-      .then(user => {
-        this.editMode = false;
-        this.ngOnInit();
-      }).catch(error => this.errors = error);
+    this.dialog.open(UtilisateurDeleteConfirmationDialog, {
+      data: this.currentUtilisateur.username
+    }).afterClosed().subscribe((res) => {
+      if (res) {
+      this.utilisateurSw.delete(this.currentUtilisateur.id)
+        .then(user => {
+          this.editMode = false;
+          this.ngOnInit();
+          }).catch(error => this.errors = error);
+      }
+    });
+   
   }
 
 

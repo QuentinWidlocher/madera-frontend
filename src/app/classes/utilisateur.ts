@@ -26,25 +26,5 @@ export class Utilisateur {
     return new Utilisateur(undefined, undefined, undefined, undefined, undefined, undefined ,undefined);
   }
 
-  public toJSON(): string {
-    let plainObject = {
-      id: undefined,
-      username: undefined,
-      password: undefined,
-      projetsIds: [],
-      modelesIds: [],
-      role: undefined,
-      identityId: undefined,
-    }
-
-    plainObject.id = this.id;
-    plainObject.username = this.username;
-    plainObject.password = this.password;
-    plainObject.projetsIds = (this.projets !== undefined ? this.projets.map(x => x.id) : undefined);
-    plainObject.modelesIds = (this.modeles !== undefined ? this.modeles.map(x => x.id) : undefined);
-    plainObject.role = this.role;
-    plainObject.identityId = this.identityId;
-
-    return JSON.stringify(plainObject);
-  }
+ 
 }

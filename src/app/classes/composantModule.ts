@@ -4,15 +4,15 @@ import { ModuleBase } from './moduleBase';
 
 export class ComposantModule {
 
-  public moduleId: number;
-  public produitId: number;
+  public moduleBaseId: number;
+  public composantId: number;
   public moduleBase: ModuleBase;
   public composant: Composant;
   public quantity: number;
 
-  constructor(moduleId: number, produitId: number, moduleBase: ModuleBase, composant: Composant, quantity: number) {
-    this.moduleId = moduleId;
-    this.produitId = produitId;
+  constructor(moduleBaseId: number, composantId: number, moduleBase: ModuleBase, composant: Composant, quantity: number) {
+    this.moduleBaseId = moduleBaseId;
+    this.composantId = composantId;
     this.moduleBase = moduleBase;
     this.composant = composant;
     this.quantity = quantity;

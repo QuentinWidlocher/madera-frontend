@@ -32,7 +32,7 @@
       </mat-list-item>
     </mat-action-list>
 
-    <button mat-fab color="accent">
+    <button mat-fab color="accent" (click)="addProduit()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -58,10 +58,18 @@
         <mat-form-field class="flex-1 pl-3">
           <input matInput placeholder="Gamme" [(ngModel)]="currentProduit.gamme.code">
         </mat-form-field>
-      </div>      
+        <mat-form-field class="flex-1 pl-3">
+          <input matInput placeholder="Coupe de Principe" [(ngModel)]="currentProduit.coupeDePrincipe.name">
+        </mat-form-field>
+
+      </div>
 
       <!-- Tableau -->
+
       <mat-card class="p-0 mt-2 flex-grow-1 overflow-y-scroll w-100" *ngIf="dataSource">
+        <button  (click)="addModule()">
+          <mat-icon>add</mat-icon>
+        </button>
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="module-table">
 
           <!-- Module Column -->
@@ -134,17 +142,18 @@
                   <tr mat-header-row *matHeaderRowDef="displayedColumnsComposant; sticky: true"></tr>
                   <tr mat-row *matRowDef="let composant; columns: displayedColumnsComposant;"></tr>
                 </table>
-
               </div>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-            (click)="expandedLine = (expandedLine === element ? null : element); expandLine(element)"></tr>
+              (click)="expandedLine = (expandedLine === element ? null : element); expandLine(element)"></tr>
           <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
         </table>
+
       </mat-card>
+
     </div>
 
   </div>
