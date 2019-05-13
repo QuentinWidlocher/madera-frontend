@@ -67,9 +67,6 @@
       <!-- Tableau -->
 
       <mat-card class="p-0 mt-2 flex-grow-1 overflow-y-scroll w-100" *ngIf="dataSource">
-        <button  (click)="addModule()">
-          <mat-icon>add</mat-icon>
-        </button>
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="module-table">
 
           <!-- Module Column -->
@@ -153,6 +150,10 @@
         </table>
 
       </mat-card>
+
+      <button mat-fab class="fab-modele" (click)="addModule()">
+        <mat-icon>add</mat-icon>
+      </button>
 
     </div>
 

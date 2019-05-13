@@ -16,7 +16,7 @@
 
 </div>
 <div mat-dialog-actions class="mb-0 pb-0 justify-content-between align-items-end">
-  <button mat-button [disabled]="longueur === 0 || hauteur === 0" (click)="onCancelClick()" cdkFocusInitial>Annuler et
+  <button mat-button (click)="onCancelClick()" cdkFocusInitial>Annuler et
     revenir</button>
   <button mat-flat-button color="primary" [disabled]="longueur === 0 || hauteur === 0" (click)="onOkClick()">Modifier les tailles</button>
 </div>

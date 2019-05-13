@@ -10,7 +10,7 @@ export class Caracteristique {
   public module: Module;
   public composant: Composant;
   public unite: Unite;
-  public uniteId: numer;
+  public uniteId: number;
 
   constructor(id: number, description: string, value: number, module: Module, composant: Composant, unite: Unite, uniteId: number) {
     this.id = id;

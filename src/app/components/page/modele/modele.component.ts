@@ -274,11 +274,7 @@ export class ModuleSizesDialog {
     this.dialogRef.close(this.module);
   }
 
-  onCancelClick() {1
-    if (this.longueur === 0 || this.hauteur === 0) {
-      return;
-    }
-
+  onCancelClick() {
     this.dialogRef.close(null);
   }
 }

@@ -133,8 +133,14 @@ mat-expansion-panel-header {
 button[mat-fab] {
   position: relative;
   float: right;
-  bottom: 11rem;
+  bottom: 9rem;
   right: 2rem;
+
+  &.fab-modele {
+    position: fixed;
+    bottom: 8rem;
+    right: 2rem;
+  }
 }
 
 .locked {
