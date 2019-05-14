@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiConfig } from './api-config';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 import { Registration } from '../../classes/registration';
 
 @Injectable({
@@ -24,12 +24,12 @@ export class UtilisateurApiService {
     return this.http.post(ApiConfig.UTILISATEUR, utilisateur);
   }
 
-  edit(utilisateur: Utilisateur): Observable<object> {
+  edit(utilisateur: User): Observable<object> {
     const utilisateurPlain = { ...utilisateur };
     return this.http.put(ApiConfig.UTILISATEUR_UNIQUE.replace(':id', '' + utilisateur.id), utilisateurPlain);
   }
 
-  delete(utilisateur: Utilisateur): Observable<object> {
+  delete(utilisateur: User): Observable<object> {
     return this.http.delete(ApiConfig.UTILISATEUR_UNIQUE.replace(':id', '' + utilisateur.id));
   }
 

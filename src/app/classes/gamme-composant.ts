@@ -20,22 +20,6 @@ export class GammeComposant {
         return new GammeComposant(undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): string {
-        let plainObject = {
-            id: undefined,
-            code: undefined,
-            description: undefined,
-            material: undefined,
-            composantsIds: [],
-        }
-
-        plainObject.id = this.id;
-        plainObject.code = this.code;
-        plainObject.description = this.description;
-        plainObject.material = this.material;
-        plainObject.composantsIds = (this.composants !== undefined ? this.composants.map(x => x.id) : undefined);
-
-        return JSON.stringify(plainObject);
-    }
+  
 
 }

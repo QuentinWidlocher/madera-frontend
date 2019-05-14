@@ -24,6 +24,8 @@ import { ModuleBase } from '../../../classes/moduleBase';
 import { ModuleBaseSwService } from '../../../services/service-workers/module-base-sw.service';
 import { ProduitModule } from '../../../classes/produitModule';
 import { Location } from '@angular/common';
+import { ModeleProduit } from '../../../classes/modeleProduit';
+import { CaracteristiqueSwService } from '../../../services/service-workers/caracteristique-sw.service';
 
 export interface LigneFormat {
   module: Module;
@@ -84,10 +86,10 @@ export class ModeleComponent implements OnInit {
     private composantSw: ComposantSwService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    private caracSw: CaracteristiqueSwService
   ) {
     this.route.params.subscribe(params => {
-      console.log(params);
       if (params) {
         if (params.id) {
           this.idModele = +params['id'];
@@ -96,7 +98,7 @@ export class ModeleComponent implements OnInit {
           this.dossier = Object.assign(DossierTechnique.newEmpty(), JSON.parse(params.dossier));
           console.log(this.dossier);
         }
-        this.location.replaceState('modele/'+ +params['id'] );
+        this.location.replaceState('modele/' + +params['id']);
       }
     });
   }
@@ -200,7 +202,87 @@ export class ModeleComponent implements OnInit {
 
   }
 
+  post() {
+    let promisesProduit: Promise<any>[] = [];
+    let modele = Object.assign(Modele.newEmpty(), this.modele);
+    let produitIds: number[] = [];
+    modele.modeleProduit = [];
 
+
+    this.produits.forEach(p => {
+      promisesProduit.push(new Promise(rslv => {
+
+        let promisesModuleCarac: Promise<any>[] = [];
+        let moduleIds: number[] = [];
+        let produit = Object.assign(Produit.newEmpty(), p);
+        produit.id = undefined;
+        produit.cctp = undefined;
+        produit.produitModule = [];
+
+        p.produitModule.forEach(pm => {
+
+          promisesModuleCarac.push(new Promise(rslv1 => {
+
+            let module = Object.assign(Module.newEmpty(), pm.module);
+            module.id = undefined;
+            module.labourCosts = module.moduleBase.labourCosts;
+
+
+            this.moduleSw.add(module).then(m => {
+
+              pm.module.caracteristiques.forEach(c => {
+
+                promisesModuleCarac.push(new Promise(rslv2 => {
+
+                  let caracteristique = Object.assign(Caracteristique.newEmpty(), c);
+                  caracteristique.id = undefined;
+                  caracteristique.composantId = undefined;
+                  caracteristique.moduleId = m.id;
+
+                  this.caracSw.add(caracteristique).then(carac => {
+                    rslv2();
+                  });
+
+                }));
+
+              })
+              moduleIds.push(m.id);
+              rslv1();
+            });
+          }));
+
+        });
+
+        Promise.all(promisesModuleCarac).then(() => {
+
+          moduleIds.forEach(id => {
+            produit.produitModule.push(new ProduitModule(id, undefined, undefined, undefined));
+          });
+          this.produitSw.add(produit).then(prod => {
+            produitIds.push(prod.id);
+            rslv();
+          });
+
+        });
+
+      }));
+    });
+
+    Promise.all(promisesProduit).then(() => {
+
+      produitIds.forEach(id => {
+        modele.modeleProduit.push(new ModeleProduit(undefined, id, undefined, undefined));
+      });
+
+      this.modeleSw.add(modele).then(mod => {
+        //this.dossier
+
+      });
+
+    });
+
+
+  }
 
   expandLine(ligne: LigneFormat) {
 
@@ -276,13 +358,13 @@ export class ModuleSizesDialog {
     }
 
     if (!this.module.caracteristiques[0]) {
-      this.module.caracteristiques.push(new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1));
+      this.module.caracteristiques.push(new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1, undefined, undefined));
     } else {
       this.module.caracteristiques[0].value = this.longueur;
     }
 
     if (!this.module.caracteristiques[1]) {
-      this.module.caracteristiques.push(new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1));
+      this.module.caracteristiques.push(new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1, undefined, undefined));
     } else {
       this.module.caracteristiques[1].value = this.hauteur;
     }
@@ -424,9 +506,9 @@ export class AddModuleDialog implements OnInit {
   onOkClick() {
     this.newModule = Module.newEmpty();
 
-    this.caracteristique = new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1);
+    this.caracteristique = new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1, undefined, undefined);
     this.caracteristiques.push(this.caracteristique);
-    this.caracteristique = new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1);
+    this.caracteristique = new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1, undefined, undefined);
     this.caracteristiques.push(this.caracteristique);
 
     this.newModule.description = this.description;

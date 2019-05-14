@@ -11,8 +11,10 @@ export class Caracteristique {
   public composant: Composant;
   public unite: Unite;
   public uniteId: number;
+  public moduleId: number;
+  public composantId: number;
 
-  constructor(id: number, description: string, value: number, module: Module, composant: Composant, unite: Unite, uniteId: number) {
+  constructor(id: number, description: string, value: number, module: Module, composant: Composant, unite: Unite, uniteId: number, moduleId: number, composantId: number) {
     this.id = id;
     this.description = description;
     this.value = value;
@@ -20,6 +22,8 @@ export class Caracteristique {
     this.composant = composant;
     this.unite = unite;
     this.uniteId = uniteId;
+    this.moduleId = moduleId;
+    this.composantId = this.composantId;
   }
 
   public get toString(): string {
@@ -27,7 +31,7 @@ export class Caracteristique {
   }
 
   public static newEmpty(): Caracteristique {
-    return new Caracteristique(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+    return new Caracteristique(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
   }
 
   /* public toJSON(): string {

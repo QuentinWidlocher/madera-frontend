@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { ApiConfig } from './api/api-config';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 import { Credentials } from 'src/app/classes/credentials';
 import { Token } from 'src/app/classes/token';
 import { UtilisateurApiService } from './api/utilisateur-api.service';

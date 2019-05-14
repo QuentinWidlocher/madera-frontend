@@ -24,7 +24,7 @@ import { Module } from 'src/app/classes/module';
 import { Unite } from 'src/app/classes/unite';
 import { DossierTechnique } from 'src/app/classes/dossier-technique';
 import { ModuleBase } from 'src/app/classes/moduleBase';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 import { CCTP } from 'src/app/classes/cctp';
 import { CoupeDePrincipe } from 'src/app/classes/coupe-de-principe';
 import { Gamme } from 'src/app/classes/gamme';

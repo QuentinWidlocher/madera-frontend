@@ -25,13 +25,14 @@
     </div>
     <mat-action-list class="scroll mt-3 h-100" *ngIf="!produitListLoading && produits">
       <mat-list-item *ngFor="let produit of produits; let index = index" (click)="selectProduit(produit)"
-        [class.selected]="currentProduit === produit">
+                     [class.selected]="currentProduit === produit">
         <mat-icon mat-list-icon>apps</mat-icon>
         <h4 mat-line>{{ produit.description }}</h4>
         <span mat-line class="mat-caption">{{produit.gamme.code}}</span>
       </mat-list-item>
     </mat-action-list>
 
+    <button (click)="post()" mat-raised-button color="primary" class="mr-auto">Sauvegarder Wola</button>
     <button mat-fab color="accent" (click)="addProduit()">
       <mat-icon>add</mat-icon>
     </button>

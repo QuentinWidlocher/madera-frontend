@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { ConnectivityService } from '../../../services/connectivity.service';
 import { UtilisateurSwService } from '../../../services/service-workers/utilisateur-sw.service';
@@ -14,9 +14,9 @@ export class CreateUsersComponent implements OnInit {
 
   @Output() onHamburger: EventEmitter<void> = new EventEmitter<void>();
 
-  utilisateurs: Utilisateur[] = [];
-  utilisateursOriginal: Utilisateur[] = [];
-  currentUtilisateur: Utilisateur;
+  utilisateurs: User[] = [];
+  utilisateursOriginal: User[] = [];
+  currentUtilisateur: User;
   userForm: FormGroup;
   isRequesting: boolean;
   submitted: boolean = false;
@@ -42,7 +42,7 @@ export class CreateUsersComponent implements OnInit {
 
   ngOnInit() {
     this.isRequesting = false;
-    this.currentUtilisateur = Utilisateur.newEmpty();
+    this.currentUtilisateur = User.newEmpty();
     this.refresh();
 
     // On met à jours la liste quand on retrouve l'internet
@@ -86,7 +86,7 @@ export class CreateUsersComponent implements OnInit {
 
   }
 
-  selectUtilisateur(utilisateur: Utilisateur, index: number) {
+  selectUtilisateur(utilisateur: User, index: number) {
     this.editMode = true;
     this.currentUtilisateur = utilisateur;
     this.utilisateurListIndex = index;
@@ -108,7 +108,7 @@ export class CreateUsersComponent implements OnInit {
     }).catch(error => this.errors = error);
   }
 
-  user({ value, valid }: { value: Utilisateur, valid: boolean }) {
+  user({ value, valid }: { value: User, valid: boolean }) {
 
     this.submitted = true;
     this.isRequesting = true;

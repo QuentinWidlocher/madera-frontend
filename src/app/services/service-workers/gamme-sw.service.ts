@@ -37,7 +37,7 @@ import { Module } from 'src/app/classes/module';
 import { Unite } from 'src/app/classes/unite';
 import { DossierTechnique } from 'src/app/classes/dossier-technique';
 import { Produit } from 'src/app/classes/produit';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 import { FamilleGamme } from 'src/app/classes/famille-gamme';
 
 @Injectable({

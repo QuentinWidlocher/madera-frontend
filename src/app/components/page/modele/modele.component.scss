@@ -136,6 +136,12 @@ button[mat-fab] {
   bottom: 11rem;
   right: 2rem;
 }
+button[mat-raised-button] {
+  position: relative;
+  float: right;
+  bottom: 11rem;
+  right: 2rem;
+}
 
 .locked {
   opacity: 0.5;
