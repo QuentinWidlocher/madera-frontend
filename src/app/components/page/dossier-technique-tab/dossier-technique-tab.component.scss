@@ -1,0 +1,58 @@
+table {
+
+  width: 100%;
+  width: -moz-available;
+  /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;
+  /* Mozilla-based browsers will ignore this. */
+  width: stretch;
+
+  border-left: solid lightgray 1px;
+
+  th {
+    text-align: start;
+    padding-left: 0.5rem;
+  }
+
+  td {
+      
+    &:not(.divider) {
+        padding-left: 0.5rem;
+    }
+
+    &.divider {
+
+      height: 0.5rem;
+
+      &:before {
+        content: '';
+        border-top: solid lightgray 1px;
+        display: block;
+        margin-top: 3px;
+      }
+    }
+
+    .footer {
+        font-weight: bold;
+    }
+  }
+
+  &.child {
+    margin: 1rem;
+  }
+}
+
+.align-right {
+  text-align: right !important;
+}
+
+@media print {
+
+  html,
+  body {
+    width: 21cm;
+    height: 29.7cm;
+    margin: 30mm 45mm 30mm 45mm;
+    /* change the margins as you want them to be. */
+  }
+}

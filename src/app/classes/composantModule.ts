@@ -9,6 +9,7 @@ export class ComposantModule {
   public moduleBase: ModuleBase;
   public composant: Composant;
   public quantity: number;
+  com: number;
 
   constructor(moduleBaseId: number, composantId: number, moduleBase: ModuleBase, composant: Composant, quantity: number) {
     this.moduleBaseId = moduleBaseId;

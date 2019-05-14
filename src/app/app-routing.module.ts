@@ -10,6 +10,7 @@ import {DossierTechniqueComponent } from './components/page/dossier-technique/do
 import { AuthGuard } from './auth.guard';
 import { AdminGuard } from './admin.guard';
 import { ModeleComponent } from './components/page/modele/modele.component';
+import { DossierTechniqueTabComponent } from './components/page/dossier-technique-tab/dossier-technique-tab.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/projets', pathMatch: 'full', canActivate: [AuthGuard]},
@@ -29,7 +30,9 @@ const routes: Routes = [
 
   { path: 'utilisateurs', component: CreateUsersComponent, canActivate: [AuthGuard, AdminGuard] },
   
-  { path: 'dossier/:id', component: DossierTechniqueComponent, canActivate: [AuthGuard] }
+  { path: 'dossier/:id', component: DossierTechniqueComponent, canActivate: [AuthGuard] },
+
+  { path: 'tableaudossier/:id', component: DossierTechniqueTabComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
