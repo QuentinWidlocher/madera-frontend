@@ -23,21 +23,25 @@
     <div class="h-100 w-100 d-flex" *ngIf="modeleListLoading && !modeles">
       <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
-    <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading && modeles">
+    <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading">
       <mat-list-item *ngFor="let modele of modeles; let index = index"
-        (click)="selectModele(modele)"
-        [class.selected]="dossierTechnique.modeleId === modele.id">
+                     (click)="selectModele(modele)"
+                     [class.selected]="dossierTechnique.modeleId === modele.id">
         <mat-icon mat-list-icon class="selected"
-          *ngIf="dossierTechnique.modeleId !== modele.id">
-          radio_button_unchecked</mat-icon>
-        <mat-icon mat-list-icon *ngIf="dossierTechnique.modeleId === modele.id" [color]="'accent'">
-          radio_button_checked</mat-icon>
+                  *ngIf="dossierTechnique.modeleId !== modele.id ; else check">
+          radio_button_unchecked
+        </mat-icon>
+        <ng-template #check>
+          <mat-icon mat-list-icon [color]="'accent'">
+            radio_button_checked
+          </mat-icon>
+        </ng-template>
         <h4 mat-line>{{ modele.description }}</h4>
         <span mat-line class="mat-caption">Modèle du {{ modele.editionDate | date:'shortDate' }}</span>
       </mat-list-item>
     </mat-action-list>
 
-    <button mat-fab color="accent">
+    <button mat-fab color="accent" (click)="addModele()">
       <mat-icon>add</mat-icon>
     </button>
   </div>

@@ -61,8 +61,7 @@ export class ModeleComponent implements OnInit {
   currentProduit: Produit;
   produitListIndex: number;
   produitListLoading: boolean = true;
-
-  allProduits: Produit[];
+  produit: Produit;
 
   displayedColumns: string[] = ['module', 'infoButton', 'deleteButton'];
   expandedLine: LigneFormat | null;
@@ -84,83 +83,88 @@ export class ModeleComponent implements OnInit {
     private composantSw: ComposantSwService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-  ) { }
+  ) {  }
 
-  ngOnInit() {
-    this.refresh();
-  }
-
-  refresh() {
-    this.produitListLoading = true;
-
-    // On charge tous les produits
-    this.produitSw.getAll().then(produits => {
-
-      // On les stock pour pouvoir les afficher plus tard
-      this.allProduits = produits
-
-      // On trouve le modèle et on charge ses valeurs
-      this.route.params.subscribe(params => {
-        if (params) {
-          this.modeleSw.get(+params['id']).then(modele => {
-
-            this.modele = modele;
+   ngOnInit() {
+   this.produitListLoading = true;
 
 
-            modele.modeleProduit.forEach(mp => {
-              let produit = produits.find(produit => produit.id === mp.produitId)
-              this.produits.push(produit);
 
+    // On trouve le modèle et on charge ses valeurs
+    this.route.params.subscribe(params => {
+      if (params) {
+        this.modeleSw.get(+params['id']).then(modele => {
+
+          this.modele = modele;
+
+          modele.modeleProduit.forEach(mp => {
+
+            this.produitSw.get(mp.produitId).then(p => {
+
+
+             var produitTmp = Object.assign(Produit.newEmpty(), p);
+             produitTmp.produitModule = [];
+
+            
+
+              p.produitModule.forEach(pm => {
+
+                this.moduleSw.get(pm.moduleId).then(m => {
+
+                  m.moduleBase.composantModule.forEach(cm => {
+
+                    this.composantSw.get(cm.composantId).then(c => {
+
+                      cm.composant = c;
+
+                    });
+
+                  });
+                  produitTmp.produitModule.push(new ProduitModule(pm.moduleId, undefined, m, undefined));
+                  console.log(produitTmp);
+                });
+
+              });
+
+              this.produits.push(produitTmp);
+               
             });
-
-            this.produitsOriginal = this.produits;
-            this.produitListLoading = false;
           });
-        }
-      });
-    });
 
-  }
+          this.produitsOriginal = this.produits;
+          this.produitListLoading = false;
+        });
+      }
+    });
+   }
+
+ 
 
   selectProduit(produit: Produit, index: number) {
     this.currentProduit = produit;
     this.produitListIndex = index;
 
     let lignes: LigneFormat[] = [];
-    let promises: Promise<any>[] = [];
     if (this.currentProduit.produitModule) {
       // Pour chaque modules du produit, on crée une ligne d'info
       produit.produitModule.forEach(pm => {
-
-        promises.push(new Promise(rslv => {
-
-          this.moduleSw.get(pm.moduleId).then(module => {
-            lignes.push({
-              module: module,
-              infoButton: '',
-              deleteButton: '',
-              composants: module.moduleBase.composantModule.map(cm => cm.composant),
-              caracteristiques: module.caracteristiques
-            });
-
-            rslv();
-          });
-
-        }));
-
+        lignes.push({
+          module: pm.module,
+          infoButton: '',
+          deleteButton: '',
+          composants: pm.module.moduleBase.composantModule.map(cm => cm.composant),
+          caracteristiques: pm.module.caracteristiques
+        });
       });
     }
-    // Quand toutes les lignes ont été créée, on instancie la dataSource du tableau
-    Promise.all(promises).then(() => {
-      this.dataSource = new MatTableDataSource(lignes);
 
-    });
-
+    this.dataSource = new MatTableDataSource(lignes);
   }
 
   addProduit() {
     this.dialog.open(AddProduitDialog).afterClosed().subscribe((produit: Produit) => {
       if (produit) {
+        produit.produitModule =[];
         this.produits.push(produit);
       }
     });
@@ -171,14 +175,13 @@ export class ModeleComponent implements OnInit {
     this.dialog.open(AddModuleDialog).afterClosed().subscribe((module: Module) => {
       if (module) {
 
-        ///L'ajout du MODULE EST BON
-        console.log(module);
         var produitModule = ProduitModule.newEmpty();
         produitModule.produit = this.currentProduit;
         produitModule.produitId = this.currentProduit.id;
         produitModule.module = module;
-        this.currentProduit.produitModule.push(produitModule);
-        
+        var index = this.produits.indexOf(this.currentProduit);
+        this.produits[index].produitModule.push(produitModule);
+        this.selectProduit(this.produits[index], index);
       }
     });
 
@@ -260,13 +263,13 @@ export class ModuleSizesDialog {
     }
 
     if (!this.module.caracteristiques[0]) {
-      this.module.caracteristiques.push(new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined),1));
+      this.module.caracteristiques.push(new Caracteristique(undefined, 'Longueur', this.longueur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1));
     } else {
       this.module.caracteristiques[0].value = this.longueur;
     }
 
     if (!this.module.caracteristiques[1]) {
-      this.module.caracteristiques.push(new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined),1));
+      this.module.caracteristiques.push(new Caracteristique(undefined, 'Hauteur', this.hauteur, undefined, undefined, new Unite(1, 'm', 'metre', undefined), 1));
     } else {
       this.module.caracteristiques[1].value = this.hauteur;
     }
@@ -274,7 +277,8 @@ export class ModuleSizesDialog {
     this.dialogRef.close(this.module);
   }
 
-  onCancelClick() {1
+  onCancelClick() {
+    1
     if (this.longueur === 0 || this.hauteur === 0) {
       return;
     }
@@ -333,6 +337,7 @@ export class AddProduitDialog implements OnInit {
     this.newProduit.coupeDePrincipe = this.coupe;
     this.newProduit.coupeDePrincipeId = this.coupe.id;
     this.newProduit.gammeId = this.gamme.id;
+    this.newProduit.gamme = this.gamme;
     this.newProduit.creationDate = new Date(Date.now());
     this.newProduit.editionDate = new Date(Date.now());
 
@@ -359,7 +364,7 @@ export class AddModuleDialog implements OnInit {
   composants: Composant[] = [];
   longueur: number = 0;
   hauteur: number = 0;
-  caracteristiques: Caracteristique[]= [];
+  caracteristiques: Caracteristique[] = [];
   caracteristique: Caracteristique;
   moduleSelected: boolean = false;
 
@@ -387,17 +392,17 @@ export class AddModuleDialog implements OnInit {
     this.caracteristiques = [];
 
     this.moduleBase.composantModule.forEach(c => {
-        console.log(c.composant);
+      console.log(c.composant);
 
-        this.composantSw.get(c.composantId).then((composant: Composant) => {
-          composant.quantite = c.quantity;
-          this.composants.push(composant);
-          this.description = this.moduleBase.description;
-          this.moduleSelected = true;
-        }
-        );
+      this.composantSw.get(c.composantId).then((composant: Composant) => {
+        composant.quantite = c.quantity;
+        this.composants.push(composant);
+        this.description = this.moduleBase.description;
+        this.moduleSelected = true;
+      }
+      );
     });
-    
+
 
 
   }

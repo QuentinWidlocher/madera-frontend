@@ -232,6 +232,12 @@ export class ModeleSwService {
 
           result = new Promise(rslv => {
 
+            if (modele.dossiersTechniques) {
+              if (modele.dossiersTechniques.length == 1) {
+                this.delete(modele.id, true);
+              }
+            }
+
             // On doit trouver le dernier id pour pouvoir ajouter la donnée
             this.idb.orderBy('id').reverse().first().then(lastRecord => {
 
@@ -315,7 +321,7 @@ export class ModeleSwService {
   ///
   /// DELETE
   ///
-  delete(id: number): Promise<any> {
+  delete(id: number, forceOffline: boolean = false): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
@@ -326,7 +332,7 @@ export class ModeleSwService {
       // On utilise connectivity service pour savoir l'état de la connexion
       this.connectivity.isConnected.then(isConnected => {
 
-        if (isConnected) {
+        if (forceOffline || isConnected) {
 
           result = new Promise(rslv => {
 
