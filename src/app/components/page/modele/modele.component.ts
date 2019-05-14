@@ -23,7 +23,7 @@ import { CoupeDePrincipe } from '../../../classes/coupe-de-principe';
 import { ModuleBase } from '../../../classes/moduleBase';
 import { ModuleBaseSwService } from '../../../services/service-workers/module-base-sw.service';
 import { ProduitModule } from '../../../classes/produitModule';
-
+import { Location } from '@angular/common';
 
 export interface LigneFormat {
   module: Module;
@@ -62,6 +62,7 @@ export class ModeleComponent implements OnInit {
   produitListIndex: number;
   produitListLoading: boolean = true;
   produit: Produit;
+  idModele: number;
 
   displayedColumns: string[] = ['module', 'infoButton', 'deleteButton'];
   expandedLine: LigneFormat | null;
@@ -83,62 +84,74 @@ export class ModeleComponent implements OnInit {
     private composantSw: ComposantSwService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-  ) {  }
-
-   ngOnInit() {
-   this.produitListLoading = true;
-
-
-
-    // On trouve le modèle et on charge ses valeurs
+    private location: Location
+  ) {
     this.route.params.subscribe(params => {
+      console.log(params);
       if (params) {
-        this.modeleSw.get(+params['id']).then(modele => {
+        if (params.id) {
+          this.idModele = +params['id'];
+        }
+        if (params.dossier) {
+          this.dossier = Object.assign(DossierTechnique.newEmpty(), JSON.parse(params.dossier));
+          console.log(this.dossier);
+        }
+        this.location.replaceState('modele/'+ +params['id'] );
+      }
+    });
+  }
 
-          this.modele = modele;
-
-          modele.modeleProduit.forEach(mp => {
-
-            this.produitSw.get(mp.produitId).then(p => {
+  ngOnInit() {
+    this.produitListLoading = true;
 
 
-             var produitTmp = Object.assign(Produit.newEmpty(), p);
-             produitTmp.produitModule = [];
+    this.modeleSw.get(this.idModele).then(modele => {
 
-            
 
-              p.produitModule.forEach(pm => {
+      this.modele = modele;
 
-                this.moduleSw.get(pm.moduleId).then(m => {
+      modele.modeleProduit.forEach(mp => {
 
-                  m.moduleBase.composantModule.forEach(cm => {
+        this.produitSw.get(mp.produitId).then(p => {
 
-                    this.composantSw.get(cm.composantId).then(c => {
 
-                      cm.composant = c;
+          var produitTmp = Object.assign(Produit.newEmpty(), p);
+          produitTmp.produitModule = [];
 
-                    });
 
-                  });
-                  produitTmp.produitModule.push(new ProduitModule(pm.moduleId, undefined, m, undefined));
-                  console.log(produitTmp);
+
+          p.produitModule.forEach(pm => {
+
+            this.moduleSw.get(pm.moduleId).then(m => {
+
+              m.moduleBase.composantModule.forEach(cm => {
+
+                this.composantSw.get(cm.composantId).then(c => {
+
+                  cm.composant = c;
+
                 });
 
               });
+              produitTmp.produitModule.push(new ProduitModule(pm.moduleId, undefined, m, undefined));
 
-              this.produits.push(produitTmp);
-               
             });
+
           });
 
-          this.produitsOriginal = this.produits;
-          this.produitListLoading = false;
-        });
-      }
-    });
-   }
+          this.produits.push(produitTmp);
 
- 
+        });
+      });
+
+      this.produitsOriginal = this.produits;
+      this.produitListLoading = false;
+    });
+
+
+  }
+
+
 
   selectProduit(produit: Produit, index: number) {
     this.currentProduit = produit;
@@ -164,7 +177,7 @@ export class ModeleComponent implements OnInit {
   addProduit() {
     this.dialog.open(AddProduitDialog).afterClosed().subscribe((produit: Produit) => {
       if (produit) {
-        produit.produitModule =[];
+        produit.produitModule = [];
         this.produits.push(produit);
       }
     });

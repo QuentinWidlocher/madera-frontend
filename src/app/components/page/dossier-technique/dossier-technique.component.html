@@ -64,7 +64,7 @@
           <h3 class="my-0">{{ currentModele.description }}</h3>
           <span mat-line class="mat-caption">Modèle du {{ currentModele.editionDate | date:'shortDate' }}</span>
         </div>
-        <button mat-raised-button [routerLink]="['/modele', currentModele.id]" color="primary" class="ml-auto my-auto">
+        <button mat-raised-button (click)="editModele(currentModele.id)" color="primary" class="ml-auto my-auto">
           <mat-icon class="md-18">edit</mat-icon>
           Modifier le modèle
         </button>

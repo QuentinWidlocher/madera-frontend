@@ -322,9 +322,18 @@ export class DossierTechniqueComponent implements OnInit {
   addModele() {
     this.dialog.open(AddModeleDialog).afterClosed().subscribe((modele: Modele) => {
       if (modele) {
-        this.router.navigate(['modele', modele.id]);
+        this.editModele(modele.id);
       }
     });
+
+  }
+
+  editModele(idModele : number) {
+
+    this.dossierTechnique.modele = null;
+    this.dossierTechnique.projet = null;
+    this.dossierTechnique.plans = [];
+    this.router.navigate(['modele', { id: idModele, dossier: JSON.stringify(this.dossierTechnique) }]);
 
   }
 
