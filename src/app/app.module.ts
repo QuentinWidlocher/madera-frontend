@@ -55,7 +55,7 @@ import { CreateUsersComponent, UtilisateurDeleteConfirmationDialog } from './com
 import { SideNavComponent, LogoutConfirmationDialog } from './components/side-nav/side-nav.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { DossierTechniqueComponent } from './components/page/dossier-technique/dossier-technique.component';
+import { DossierTechniqueComponent, AddModeleDialog } from './components/page/dossier-technique/dossier-technique.component';
 import { ModeleComponent, ModuleSizesDialog, AddProduitDialog, AddModuleDialog } from './components/page/modele/modele.component';
 
 @NgModule({
@@ -78,7 +78,8 @@ import { ModeleComponent, ModuleSizesDialog, AddProduitDialog, AddModuleDialog }
     ModeleComponent,
     ModuleSizesDialog,
     AddProduitDialog,
-    AddModuleDialog
+    AddModuleDialog,
+    AddModeleDialog
   ],
   imports: [
     BrowserModule,
@@ -133,7 +134,8 @@ import { ModeleComponent, ModuleSizesDialog, AddProduitDialog, AddModuleDialog }
     UtilisateurDeleteConfirmationDialog,
     ModuleSizesDialog,
     AddProduitDialog,
-    AddModuleDialog
+    AddModuleDialog,
+    AddModeleDialog
   ],
   bootstrap: [AppComponent]
 })
