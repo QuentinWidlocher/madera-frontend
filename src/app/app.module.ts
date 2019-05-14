@@ -53,10 +53,12 @@ import { DevisComponent } from './components/page/devis/devis.component';
 import { LoginComponent } from './components/page/login/login.component';
 import { CreateUsersComponent, UtilisateurDeleteConfirmationDialog } from './components/page/create-users/create-users.component';
 import { SideNavComponent, LogoutConfirmationDialog } from './components/side-nav/side-nav.component';
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { DossierTechniqueComponent, AddModeleDialog } from './components/page/dossier-technique/dossier-technique.component';
 import { ModeleComponent, ModuleSizesDialog, AddProduitDialog, AddModuleDialog } from './components/page/modele/modele.component';
+import { DossierTechniqueTabComponent } from './components/page/dossier-technique-tab/dossier-technique-tab.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,8 @@ import { ModeleComponent, ModuleSizesDialog, AddProduitDialog, AddModuleDialog }
     ModuleSizesDialog,
     AddProduitDialog,
     AddModuleDialog,
-    AddModeleDialog
+    AddModeleDialog,
+    DossierTechniqueTabComponent
   ],
   imports: [
     BrowserModule,
@@ -119,6 +122,7 @@ import { ModeleComponent, ModuleSizesDialog, AddProduitDialog, AddModuleDialog }
     MatSortModule,
     MatPaginatorModule,
     MatNativeDateModule,
+    CdkTreeModule,
     AppRoutingModule
   ],
   providers: [

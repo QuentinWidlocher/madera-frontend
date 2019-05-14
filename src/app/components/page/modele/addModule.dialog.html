@@ -20,16 +20,18 @@
       <input required matInput type="text" [(ngModel)]="description">
     </mat-form-field>
 
-    <mat-form-field class="flex-1 mr-2">
-      <mat-label>Longueur</mat-label>
-      <input matInput type="number" [(ngModel)]="longueur">
-      <span matSuffix>m</span>
-    </mat-form-field>
-    <mat-form-field class="flex-1 ml-2">
-      <mat-label>Hauteur</mat-label>
-      <input matInput type="number" [(ngModel)]="hauteur">
-      <span matSuffix>m</span>
-    </mat-form-field>
+    <div class="d-flex">
+      <mat-form-field class="flex-1 mr-2">
+        <mat-label>Longueur</mat-label>
+        <input matInput type="number" [(ngModel)]="longueur">
+        <span matSuffix>m</span>
+      </mat-form-field>
+      <mat-form-field class="flex-1 ml-2">
+        <mat-label>Hauteur</mat-label>
+        <input matInput type="number" [(ngModel)]="hauteur">
+        <span matSuffix>m</span>
+      </mat-form-field>
+    </div>
 
   </div>
 

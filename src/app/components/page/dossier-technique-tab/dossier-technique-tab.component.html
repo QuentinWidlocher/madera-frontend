@@ -1,0 +1,98 @@
+<ng-container *ngIf="!printMode">
+  <!-- Titre Nav -->
+  <mat-toolbar color="primary">
+    <mat-toolbar-row *ngIf="projet">
+  
+      <button mat-icon-button [routerLink]="['/projets', projet.id]">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+  
+      <span class="ml-2">Dossier technique n°{{ projet.dossierTechniqueId }} - {{ projet.title }}</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <h3>Modèle {{ projet.dossierTechnique.modele.description }}</h3>
+</ng-container>
+
+<ng-container *ngIf="printMode">
+  <h1>Dossier Technique pour le projet "{{ projet.title }}"</h1>
+  <h2>Débuté le {{ projet.creationDate | date: 'shortDate' }}
+    <span *ngIf="projet.endDate && projet.endDate.getFullYear() !== 1"> 
+      et terminé le {{ projet.endDate | date: 'shortDate'}}
+    </span>
+  </h2>
+</ng-container>
+
+<div [class.overflow-y-scroll]="!printMode" [class.p-2]="!printMode">
+<!-- Tableau des produits -->
+<table class="mat-table">
+  <tr class="mat-row">
+    <th class="mat-header-cell">Produit</th>
+    <th class="mat-header-cell">Coupe de principe</th>
+    <th class="mat-header-cell">Gamme</th>
+    <!-- <th class="mat-header-cell">CCTP</th> -->
+  </tr>
+  <ng-container *ngFor="let mp of projet.dossierTechnique.modele.modeleProduit">
+    <tr class="mat-row">
+      <td class="mat-cell">{{ mp.produit.description }}</td>
+      <td class="mat-cell">{{ mp.produit.coupeDePrincipe.description }}</td>
+      <td class="mat-cell">{{ mp.produit.gamme.description }}</td>
+      <!-- <td class="mat-cell">{{ mp.produit.cctp.description }}</td> -->
+    </tr>
+    <tr class="mat-row">
+      <td colspan="3">
+
+      <!-- Tableau des modules -->
+      <table class="mat-table child">
+        <tr class="mat-row">
+          <th class="mat-header-cell">Module</th>
+          <th class="mat-header-cell">Cout de fabrication</th>
+        </tr>
+        <ng-container *ngFor="let pm of mp.produit.produitModule">
+          <tr class="mat-row">
+            <td class="mat-cell">{{ pm.module.description }}</td>
+            <td class="mat-cell">{{ pm.module.labourCost }}</td>
+          </tr>
+          <tr class="mat-row">
+            <td colspan="2">
+
+            <!-- Tableau des composants -->
+            <table class="mat-table child">
+              <tr class="mat-row">
+                <th class="mat-header-cell">Composant</th>
+                <th class="mat-header-cell">Famille</th>
+                <th class="mat-header-cell">Gamme</th>
+                <th class="mat-header-cell align-right">Qté</th>
+                <th class="mat-header-cell align-right">PU HT</th>
+                <th class="mat-header-cell align-right">PU TTC</th>
+                <th class="mat-header-cell align-right">Total</th>
+              </tr>
+              <tr class="mat-row" *ngFor="let cm of pm.module.moduleBase.composantModule">
+                <td class="mat-cell">{{ cm.composant.name }}</td>
+                <td class="mat-cell">{{ cm.composant.familleComposant.nature }}</td>
+                <td class="mat-cell">{{ cm.composant.gammeComposant.description }}</td>
+                <td class="mat-cell align-right">{{ cm.quantity | number:'1.2-2':'fr' }}</td>
+                <td class="mat-cell align-right">{{ cm.composant.unitPriceNoTax | number:'1.2-2':'fr' }}</td>
+                <td class="mat-cell align-right">{{ cm.composant.unitPriceTax | number:'1.2-2':'fr' }}</td>
+                <td class="mat-cell align-right">{{ cm.composant.unitPriceTax * cm.quantity | number:'1.2-2':'fr' }}</td>
+              </tr>
+              <tr><td class="divider" colspan="7"></td></tr>
+              <tr *ngIf="pm">
+                <td class="footer mat-cell" colspan="3">Total</td>
+                <td class="footer align-right">{{ totalsComposant[pm.moduleId]['quantity'] | number:'1.2-2':'fr' }}</td>
+                <td class="footer align-right">{{ totalsComposant[pm.moduleId]['puht'] | number:'1.2-2':'fr' }}</td>
+                <td class="footer align-right">{{ totalsComposant[pm.moduleId]['puttc'] | number:'1.2-2':'fr' }}</td>
+                <td class="footer align-right">{{ totalsComposant[pm.moduleId]['total'] | number:'1.2-2':'fr' }}</td>
+              </tr>
+            </table>
+
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+
+      </td>
+    </tr>
+  </ng-container>
+</table>
+</div>

@@ -178,7 +178,7 @@ export class DossierTechniqueComponent implements OnInit {
 
   selectModele(modele: Modele) {
     this.currentModele = modele;
-    // this.dossierTechnique.modele = modele;
+    this.dossierTechnique.modele = modele;
     this.dossierTechnique.modeleId = modele.id;
 
     let lignes: LigneFormat[] = [];
