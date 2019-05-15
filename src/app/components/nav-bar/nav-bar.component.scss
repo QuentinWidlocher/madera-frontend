@@ -5,6 +5,10 @@ mat-toolbar {
     bottom: 0;
     position: relative;
     margin-top: 2rem;
+
+    &.print-mode {
+        display: none;
+    }
 }
 
 .row {

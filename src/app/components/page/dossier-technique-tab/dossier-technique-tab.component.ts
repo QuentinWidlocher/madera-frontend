@@ -29,7 +29,8 @@ export class DossierTechniqueTabComponent implements OnInit {
   projet: Projet;
   dossierTechnique: DossierTechnique;
 
-  totalsComposant: number[][] = new Array<Array<number>>();
+  totalsModule: number[][] = new Array<Array<number>>();
+  totalsProduit: number[][] = new Array<Array<number>>();
 
   ready: boolean = false;
   printMode: boolean = true;
@@ -45,6 +46,8 @@ export class DossierTechniqueTabComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.print();
+
     this.route.params.subscribe(params => {
       if (params['id']) {
         const id = +params['id'];
@@ -85,25 +88,22 @@ export class DossierTechniqueTabComponent implements OnInit {
               m.produit.produitModule.forEach(p => {
                 this.moduleSw.get(p.module.id).then((module: Module) => {
                   p.module = module;
-                  console.log(this.totalsComposant);
 
-                  this.totalsComposant[module.id] = [];
-                  this.totalsComposant[module.id]['quantity'] = 0;
-                  this.totalsComposant[module.id]['puht']     = 0;
-                  this.totalsComposant[module.id]['puttc']    = 0;
-                  this.totalsComposant[module.id]['total']    = 0;
+                  this.totalsModule[produit.id+''+module.id] = [];
+                  this.totalsModule[produit.id+''+module.id]['quantity'] = 0;
+                  this.totalsModule[produit.id+''+module.id]['puht']     = 0;
+                  this.totalsModule[produit.id+''+module.id]['puttc']    = 0;
+                  this.totalsModule[produit.id+''+module.id]['total']    = 0;
 
                   // on rempli les composants pour chaque ComposantModule
                   p.module.moduleBase.composantModule.forEach(cm => {
                     this.composantSw.get(cm.composant.id).then((composant: Composant) => {
                       cm.composant = composant;
                       
-                      this.totalsComposant[module.id]['quantity']  += cm.quantity;
-                      this.totalsComposant[module.id]['puht']      += cm.composant.unitPriceNoTax;
-                      this.totalsComposant[module.id]['puttc']     += cm.composant.unitPriceTax;
-                      this.totalsComposant[module.id]['total']     += cm.quantity * cm.composant.unitPriceTax;
-
-                      console.log(this.totalsComposant);
+                      this.totalsModule[produit.id+''+module.id]['quantity']  += cm.quantity;
+                      this.totalsModule[produit.id+''+module.id]['puht']      += cm.composant.unitPriceNoTax;
+                      this.totalsModule[produit.id+''+module.id]['puttc']     += cm.composant.unitPriceTax;
+                      this.totalsModule[produit.id+''+module.id]['total']  
                     });
                     this.ready = true;
                   });
@@ -123,6 +123,18 @@ export class DossierTechniqueTabComponent implements OnInit {
     });
 
 
+  }
+
+  print() {
+    document.body.className = 'print-mode';
+
+    for (let i = 0; i < document.getElementsByClassName('page').length; i++) {
+      const element = document.getElementsByClassName('page')[i];
+      
+      element.classList.add('print-mode');
+    }
+
+    document.getElementById('nav-bar').className = 'print-mode';
   }
 
 }
