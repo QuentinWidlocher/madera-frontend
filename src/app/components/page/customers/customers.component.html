@@ -14,7 +14,7 @@
       <mat-form-field class="w-100">
         <input [disabled]="clientForm && clientForm.dirty" type="text" [(ngModel)]="searchTerms" (keyup)="filter()"
           matInput
-          placeholder="Rechercher un Projet">
+          placeholder="Rechercher un client">
         <button matSuffix mat-icon-button (click)="filter()" [disabled]="clientForm && clientForm.dirty">
           <mat-icon>search</mat-icon>
         </button>

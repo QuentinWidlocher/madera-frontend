@@ -94,71 +94,150 @@ export class DossierTechniqueTabComponent implements OnInit {
 
   loadDossier(idProjet: number) {
 
-    // On charge le projet
-    this.projetSw.get(idProjet).then((projet: Projet) => {
+    new Promise((rslv) => {
+      // On charge le projet
+      this.projetSw.get(idProjet).then((projet: Projet) => {
 
-      this.projet = projet;
+        this.projet = projet;
 
-      this.dossierTechnique = DossierTechnique.newEmpty();
-      this.dossierTechnique.projet = projet;
-      this.dossierTechnique.projetId = projet.id;
-
-      // on rempli le dossier
-      this.dossierSw.get(projet.dossierTechnique.id).then((dossierTechnique: DossierTechnique) => {
-        this.dossierTechnique = dossierTechnique;
+        this.dossierTechnique = DossierTechnique.newEmpty();
         this.dossierTechnique.projet = projet;
+        this.dossierTechnique.projetId = projet.id;
 
-        this.projet.dossierTechnique = this.dossierTechnique;
+        console.log('%c Là le projet à été chargé', 'color: #2196f3');
+        console.log(this.projet);
+
+        rslv(projet)
+      });
+
+    }).then((projet: Projet) => {
+
+      console.log('%c Entrée dans le premier then avant de get le dossier', 'color: #4caf50');
+
+      return new Promise(rslv => {
+        // on rempli le dossier
+        this.dossierSw.get(projet.dossierTechniqueId).then((dossierTechnique: DossierTechnique) => {
+          this.dossierTechnique = dossierTechnique;
+          this.dossierTechnique.projet = projet;
+
+          this.projet.dossierTechnique = this.dossierTechnique;
+
+          console.log('%c Là, le dossier technique a été chargé ', 'color: #2196f3');
+          console.log(this.projet.dossierTechnique);
+
+          rslv();
+        });
+      });
+
+    }).then(() => {
+
+      console.log('%c Entrée dans le deuxième then avant de get le modèle', 'color: #4caf50');
+
+      return new Promise(rslv => {
 
         // on rempli le modele
-        this.modeleSw.get(this.dossierTechnique.modele.id).then((modele: Modele) => {
+        this.modeleSw.get(this.dossierTechnique.modeleId).then((modele: Modele) => {
           this.dossierTechnique.modele = modele;
 
-          // on rempli les produits pour chaque modeleProduit
-          this.dossierTechnique.modele.modeleProduit.forEach(m => {
+          console.log('%c Là, le modèle a été chargé ', 'color: #2196f3');
+          console.log(this.projet.dossierTechnique.modele);
 
-            this.produitSw.get(m.produit.id).then((produit: Produit) => {
-              m.produit = produit;
+          rslv();
+        });
 
-              // on rempli les modules pour chaque ProduitModule
-              m.produit.produitModule.forEach(p => {
-                this.moduleSw.get(p.module.id).then((module: Module) => {
-                  p.module = module;
+      });
 
-                  this.totalsModule[produit.id + '-' + module.id] = [];
-                  this.totalsModule[produit.id + '-' + module.id]['quantity'] = 0;
-                  this.totalsModule[produit.id + '-' + module.id]['puht'] = 0;
-                  this.totalsModule[produit.id + '-' + module.id]['puttc'] = 0;
-                  this.totalsModule[produit.id + '-' + module.id]['total'] = 0;
+    }).then(() => {
 
-                  // on rempli les composants pour chaque ComposantModule
-                  p.module.moduleBase.composantModule.forEach(cm => {
-                    this.composantSw.get(cm.composant.id).then((composant: Composant) => {
-                      cm.composant = composant;
+      const promises: Promise < void > [] = [];
 
-                      this.totalsModule[produit.id + '-' + module.id]['quantity'] += cm.quantity;
-                      this.totalsModule[produit.id + '-' + module.id]['puht'] += cm.composant.unitPriceNoTax;
-                      this.totalsModule[produit.id + '-' + module.id]['puttc'] += cm.composant.unitPriceTax;
-                      this.totalsModule[produit.id + '-' + module.id]['total']
-                    });
-                    this.ready = true;
-                  });
+      // on rempli les produits pour chaque modeleProduit
+      this.dossierTechnique.modele.modeleProduit.forEach(m => {
 
-                });
+        console.log('%c Dans la boucle 1 de modèleProduit ', 'color: #2196f3');
 
-              });
+        promises.push(new Promise(rslv => {
 
+          this.produitSw.get(m.produit.id).then((produit: Produit) => {
+            m.produit = produit;
+
+            rslv();
+          }); // produitSw
+
+        })); // promises push
+
+      }); // foreach modeleproduit
+
+      return Promise.all(promises);
+
+    }).then(() => {
+      const promises2: Promise<void>[] = [];
+
+      this.dossierTechnique.modele.modeleProduit.forEach(m => {
+
+        // on rempli les modules pour chaque ProduitModule
+        m.produit.produitModule.forEach(p => {
+
+          console.log('%c Dans la boucle 2 de produitModule ', 'color: #2196f3');
+
+          promises2.push(new Promise(rslv => {
+            this.moduleSw.get(p.module.id).then((module: Module) => {
+              p.module = module;
+
+              this.totalsModule[m.produit.id + '-' + module.id] = [];
+              this.totalsModule[m.produit.id + '-' + module.id]['quantity'] = 0;
+              this.totalsModule[m.produit.id + '-' + module.id]['puht'] = 0;
+              this.totalsModule[m.produit.id + '-' + module.id]['puttc'] = 0;
+              this.totalsModule[m.produit.id + '-' + module.id]['total'] = 0;
+              rslv();
             });
+          }));
+        }); // foreach produitmodule
+      });
 
-          });
+      return Promise.all(promises2);
+
+    }).then(() => {
+
+      const promises3: Promise<void>[] = [];
+
+      this.dossierTechnique.modele.modeleProduit.forEach(m => {
+
+        // on rempli les modules pour chaque ProduitModule
+        m.produit.produitModule.forEach(p => {
+
+          // on rempli les composants pour chaque ComposantModule
+          p.module.moduleBase.composantModule.forEach(cm => {
+
+            console.log('%c Dans la boucle 3 de composantModule ', 'color: #2196f3');
+
+            promises3.push(new Promise(rslv => {
+              this.composantSw.get(cm.composant.id).then((composant: Composant) => {
+
+                cm.composant = composant;
+
+                console.log('%c Dans la promise push dans promises3', 'color: #2196f3');
+                this.totalsModule[m.produit.id + '-' + p.module.id]['quantity'] += cm.quantity;
+                this.totalsModule[m.produit.id + '-' + p.module.id]['puht'] += cm.composant.unitPriceNoTax;
+                this.totalsModule[m.produit.id + '-' + p.module.id]['puttc'] += cm.composant.unitPriceTax;
+                this.totalsModule[m.produit.id + '-' + p.module.id]['total']
+                rslv();
+              });
+            }));
+
+            console.log('%c Après le push trql ', 'color: #2196f3');
+
+          }); // foreach composantmodule
 
         });
 
       });
 
+      return Promise.all(promises3);
+    }).then(() => {
+      this.ready = true;
+      console.log('%c Oh putain dis moi pas que c\'est pas vrai', 'color: #f44336');
     });
-
-
   }
 
   print() {

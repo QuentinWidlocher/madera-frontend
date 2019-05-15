@@ -3,7 +3,7 @@
   <mat-toolbar-row *ngIf="dossierTechnique">
     <button mat-icon-button [routerLink]="['/projets', projet.id]">
       <mat-icon>arrow_back</mat-icon>
-    </button> <span class="ml-2">Dossier Technique n° {{dossierTechnique.id}} - {{ projet.title }}</span>
+    </button> <span class="ml-2">Gestion du modèle - {{ projet.title }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -150,9 +150,6 @@
         </div>
       </div>
     </div>
-
-    <button (click)="generationDevis()" mat-raised-button color="primary" class="mr-auto">generer devis</button>
-
   </div>
 </div>
 

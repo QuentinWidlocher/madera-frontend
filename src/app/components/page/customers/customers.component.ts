@@ -92,6 +92,7 @@ export class CustomersComponent implements OnInit {
     this.currentClient = Client.newEmpty();
     this.createMode = true;
     this.refreshForm();
+    this.clientForm.markAsDirty();
   }
 
   exit(action = 'cancel') {
@@ -122,6 +123,7 @@ export class CustomersComponent implements OnInit {
       if (this.createMode) {
         this.currentClient = undefined;
       }
+      this.clientForm.markAsPristine();
       this.createMode = false;
       break;
       

@@ -1,4 +1,4 @@
-<div [class.page-dossier]="!printMode">
+<div [class.page-dossier]="!printMode" *ngIf="ready">
   <div *ngIf="!printMode">
     <!-- Titre Nav -->
     <mat-toolbar color="primary">

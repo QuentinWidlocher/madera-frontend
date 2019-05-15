@@ -3,7 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 
 // import { UserService } from './shared/services/user.service';
 
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from "rxjs/operators";
 import { UserService } from './services/user.service';
 export const InterceptorSkipHeader = 'X-Skip-Interceptor';
@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
       if (event instanceof HttpErrorResponse) {
         const response = event as HttpErrorResponse;
         if (response.headers.get('content-type') === 'application/json') {
-          return Observable.throw(new HttpErrorResponse({
+          return throwError(new HttpErrorResponse({
             error: JSON.parse(response.error),
             headers: response.headers,
             status: response.status,
@@ -44,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
           }));
         }
       }
-      return Observable.throw(event);
+      return throwError(event);
     }));
   }
 }

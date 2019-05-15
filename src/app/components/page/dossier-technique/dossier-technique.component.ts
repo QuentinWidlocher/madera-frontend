@@ -274,7 +274,7 @@ export class DossierTechniqueComponent implements OnInit {
   editModele(idModele : number) {
 
     this.dossierTechnique.modele = null;
-    this.dossierTechnique.projet = null;
+    // this.dossierTechnique.projet = null;
     this.dossierTechnique.plans = [];
     this.router.navigate(['modele', { id: idModele, dossier: JSON.stringify(this.dossierTechnique) }]);
 
