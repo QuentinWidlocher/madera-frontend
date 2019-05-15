@@ -1,6 +1,11 @@
 .page {
   overflow: hidden;
   max-height: 100vh;
+
+  &.print-mode {
+    overflow: visible;
+    max-height: unset;
+  }
 }
 
 .content-nav {
