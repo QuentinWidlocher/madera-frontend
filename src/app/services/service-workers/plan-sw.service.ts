@@ -34,7 +34,7 @@ import { Module } from 'src/app/classes/module';
 import { Unite } from 'src/app/classes/unite';
 import { DossierTechnique } from 'src/app/classes/dossier-technique';
 import { Produit } from 'src/app/classes/produit';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 
 @Injectable({
     providedIn: 'root'
@@ -77,8 +77,8 @@ export class PlanSwService {
 
                             // On ajoute à l'IDB les données obtenue
                             plans.forEach((plan, index) => {
-                                this.idb.add(plan);
-                                plans[index].dossierTechnique = Object.assign(Utilisateur.newEmpty(), plan.dossierTechnique);
+                              this.idb.add(plan);
+                              plans[index].dossierTechnique = Object.assign(DossierTechnique.newEmpty(), plan.dossierTechnique);
                                 plans[index].creationDate = new Date(plan.creationDate);
                                 plans[index].editionDate = new Date(plan.editionDate);
                             });
@@ -101,7 +101,7 @@ export class PlanSwService {
                         this.idb.toArray().then(plans => {
                             plans.forEach((plan, index) => {
                                 this.idb.add(plan);
-                                plans[index].dossierTechnique = Object.assign(Utilisateur.newEmpty(), plan.dossierTechnique);
+                              plans[index].dossierTechnique = Object.assign(DossierTechnique.newEmpty(), plan.dossierTechnique);
                                 plans[index].creationDate = new Date(plan.creationDate);
                                 plans[index].editionDate = new Date(plan.editionDate);
                             });
@@ -139,7 +139,7 @@ export class PlanSwService {
                     result = new Promise(rslv => {
                         this.api.get(id).subscribe((plan: Plan) => {
 
-                            plan.dossierTechnique = Object.assign(Utilisateur.newEmpty(), plan.dossierTechnique);
+                          plan.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), plan.dossierTechnique);
                             plan.creationDate = new Date(plan.creationDate);
                             plan.editionDate = new Date(plan.editionDate);
 
@@ -160,7 +160,7 @@ export class PlanSwService {
                     result = new Promise(rslv => {
                         // Si on ne peux pas toucher l'API on call simplement l'IDB
                         this.idb.get(id).then(plan => {
-                            plan.dossierTechnique = Object.assign(Utilisateur.newEmpty(), plan.dossierTechnique);
+                          plan.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), plan.dossierTechnique);
                             plan.creationDate = new Date(plan.creationDate);
                             plan.editionDate = new Date(plan.editionDate);
 

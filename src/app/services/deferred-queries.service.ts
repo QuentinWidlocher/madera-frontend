@@ -47,7 +47,7 @@ export class DeferredQueriesService {
     private produit: ProduitApiService,
     private projet: ProjetApiService,
     private unite: UniteApiService,
-    private utilisateur: UtilisateurApiService,
+    private user: UtilisateurApiService,
     private idb: IndexedDbService) { }
 
   // On passe par cette fonction pour alléger les requêtes faites à la base lors de la reconnexion

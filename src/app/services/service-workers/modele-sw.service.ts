@@ -37,7 +37,7 @@ import { Module } from 'src/app/classes/module';
 import { Unite } from 'src/app/classes/unite';
 import { DossierTechnique } from 'src/app/classes/dossier-technique';
 import { Produit } from 'src/app/classes/produit';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 import { ModeleProduit } from '../../classes/modeleProduit';
 
 @Injectable({
@@ -86,7 +86,7 @@ export class ModeleSwService {
                 modeles[index].modeleProduit = modele.modeleProduit.map(modeleProduit => Object.assign(ModeleProduit.newEmpty(), modeleProduit));
                 modeles[index].creationDate = new Date(modele.creationDate)
                 modeles[index].editionDate = new Date(modele.editionDate)
-                modeles[index].utilisateur = Object.assign(Utilisateur.newEmpty(), modele.utilisateur);
+                modeles[index].user = Object.assign(User.newEmpty(), modele.user);
               });
 
               // On résout les données de la Promesse
@@ -111,7 +111,7 @@ export class ModeleSwService {
                 modeles[index].modeleProduit = modele.modeleProduit.map(modeleProduit => Object.assign(ModeleProduit.newEmpty(), modeleProduit));
                 modeles[index].creationDate = new Date(modele.creationDate)
                 modeles[index].editionDate = new Date(modele.editionDate)
-                modeles[index].utilisateur = Object.assign(Utilisateur.newEmpty(), modele.utilisateur);
+                modeles[index].user = Object.assign(User.newEmpty(), modele.user);
               });
 
               // On résout les données de la Promesse
@@ -151,7 +151,7 @@ export class ModeleSwService {
               modele.modeleProduit = modele.modeleProduit.map(modeleProduit => Object.assign(ModeleProduit.newEmpty(), modeleProduit));
               modele.creationDate = new Date(modele.creationDate)
               modele.editionDate = new Date(modele.editionDate)
-              modele.utilisateur = Object.assign(Utilisateur.newEmpty(), modele.utilisateur);
+              modele.user = Object.assign(User.newEmpty(), modele.user);
 
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
               this.idb.put(modele);
@@ -174,7 +174,7 @@ export class ModeleSwService {
               modele.modeleProduit = modele.modeleProduit.map(modeleProduit => Object.assign(ModeleProduit.newEmpty(), modeleProduit));
               modele.creationDate = new Date(modele.creationDate)
               modele.editionDate = new Date(modele.editionDate)
-              modele.utilisateur = Object.assign(Utilisateur.newEmpty(), modele.utilisateur);
+              modele.user = Object.assign(User.newEmpty(), modele.user);
 
               rslv(modele);
             });
@@ -216,7 +216,7 @@ export class ModeleSwService {
               added.modeleProduit = modele.modeleProduit;
               added.creationDate = modele.creationDate;
               added.editionDate = modele.editionDate;
-              added.utilisateur = modele.utilisateur;
+              added.user = modele.user;
 
               // On résout les données de la Promesse
               rslv(added);

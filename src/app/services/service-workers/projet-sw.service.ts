@@ -33,8 +33,8 @@ import {
   DevisSwService
 } from './devis-sw.service';
 import {
-  Utilisateur
-} from 'src/app/classes/utilisateur';
+  User
+} from 'src/app/classes/user';
 import {
   DossierTechniqueSwService
 } from './dossier-technique-sw.service';
@@ -44,7 +44,7 @@ import {
 })
 export class ProjetSwService {
 
-  idb: Dexie.Table < Projet, number > ;
+  idb: Dexie.Table<Projet, number>;
 
   constructor(private connectivity: ConnectivityService,
     private api: ProjetApiService,
@@ -59,10 +59,10 @@ export class ProjetSwService {
   ///
   /// GET ALL
   ///
-  getAll(): Promise < Projet[] > {
+  getAll(): Promise<Projet[]> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < Projet[] > ;
+    let result: Promise<Projet[]>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -85,7 +85,7 @@ export class ProjetSwService {
                 this.idb.add(projet);
                 projets[index].client = Object.assign(Client.newEmpty(), projet.client);
                 projets[index].dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
-                projets[index].utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+                projets[index].user = Object.assign(User.newEmpty(), projet.user);
                 projets[index].devis = Object.assign(Devis.newEmpty(), projet.devis);
                 projets[index].creationDate = new Date(projets[index].creationDate);
                 projets[index].editionDate = new Date(projets[index].editionDate);
@@ -112,7 +112,7 @@ export class ProjetSwService {
                 this.idb.add(projet);
                 projets[index].client = Object.assign(Client.newEmpty(), projet.client);
                 projets[index].dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
-                projets[index].utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+                projets[index].user = Object.assign(User.newEmpty(), projet.user);
                 projets[index].devis = Object.assign(Devis.newEmpty(), projet.devis);
                 projets[index].creationDate = new Date(projets[index].creationDate);
                 projets[index].editionDate = new Date(projets[index].editionDate);
@@ -136,10 +136,10 @@ export class ProjetSwService {
   ///
   /// GET ONE
   ///
-  get(id: number): Promise < Projet > {
+  get(id: number): Promise<Projet> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < Projet > ;
+    let result: Promise<Projet>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -154,7 +154,7 @@ export class ProjetSwService {
 
               projet.client = Object.assign(Client.newEmpty(), projet.client);
               projet.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
-              projet.utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+              projet.user = Object.assign(User.newEmpty(), projet.user);
               projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
               projet.creationDate = new Date(projet.creationDate);
               projet.editionDate = new Date(projet.editionDate);
@@ -181,7 +181,7 @@ export class ProjetSwService {
 
               projet.client = Object.assign(Client.newEmpty(), projet.client);
               projet.dossierTechnique = Object.assign(DossierTechnique.newEmpty(), projet.dossierTechnique);
-              projet.utilisateur = Object.assign(Utilisateur.newEmpty(), projet.utilisateur);
+              projet.user = Object.assign(User.newEmpty(), projet.user);
               projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
               projet.creationDate = new Date(projet.creationDate);
               projet.editionDate = new Date(projet.editionDate);
@@ -201,16 +201,16 @@ export class ProjetSwService {
   ///
   /// ADD
   ///
-  add(projet: Projet): Promise < Projet > {
+  add(projet: Projet): Promise<Projet> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     projet.editionDate = new Date(Date.now());
     projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
 
     projet.clientId = projet.client.id;
-    projet.userId = projet.utilisateur.id;
+    projet.userId = projet.user.id;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -228,7 +228,7 @@ export class ProjetSwService {
               added.client = projet.client;
               added.devis = projet.devis;
               added.dossierTechnique = projet.dossierTechnique;
-              added.utilisateur = projet.utilisateur;
+              added.user = projet.user;
               added.creationDate = projet.creationDate;
               added.editionDate = projet.editionDate;
               added.endDate = projet.endDate
@@ -280,10 +280,10 @@ export class ProjetSwService {
   ///
   /// EDIT
   ///
-  edit(projet: Projet): Promise < any > {
+  edit(projet: Projet): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     projet.editionDate = new Date(Date.now());
     projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
@@ -337,10 +337,10 @@ export class ProjetSwService {
   ///
   /// DELETE
   ///
-  delete(projet: Projet): Promise < any > {
+  delete(projet: Projet): Promise<any> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < any > ;
+    let result: Promise<any>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -391,10 +391,10 @@ export class ProjetSwService {
   ///
   /// COUNT
   ///
-  count(): Promise < number > {
+  count(): Promise<number> {
 
     // On prépare le résultat qui serra retourné dans la promesse
-    let result: Promise < number > ;
+    let result: Promise<number>;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {

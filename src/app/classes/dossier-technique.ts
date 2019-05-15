@@ -1,6 +1,5 @@
 import { Projet } from './projet';
 import { Devis } from './devis';
-import { Utilisateur } from './utilisateur';
 import { Plan } from './plan';
 import { Modele } from './modele';
 

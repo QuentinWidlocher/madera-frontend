@@ -18,7 +18,7 @@ export class Unite {
         return new Unite(undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): string {
+   /* public toJSON(): string {
         let plainObject = {
             id: undefined,
             code: undefined,
@@ -32,5 +32,5 @@ export class Unite {
         plainObject.caracteristiquesIds = (this.caracteristiques !== undefined ? this.caracteristiques.map(x => x.id) : undefined);
 
         return JSON.stringify(plainObject);
-    }
+    }*/
 }

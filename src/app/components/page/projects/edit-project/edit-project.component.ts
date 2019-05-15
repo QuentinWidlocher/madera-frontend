@@ -4,7 +4,7 @@ import { ProjetSwService } from 'src/app/services/service-workers/projet-sw.serv
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Client } from 'src/app/classes/client';
 import { ClientSwService } from 'src/app/services/service-workers/client-sw.service';
-import { Utilisateur } from 'src/app/classes/utilisateur';
+import { User } from 'src/app/classes/user';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../../../services/user.service';
 
@@ -79,8 +79,8 @@ export class EditProjectComponent implements OnInit {
 
     action = (this.createMode && action !== 'cancel' ? 'create' : action);
 
-    this.currentProjet.utilisateur = Object.assign(Utilisateur.newEmpty(), { id: this.userService.getUserId() });
-    console.log(this.currentProjet.utilisateur);
+    this.currentProjet.user = Object.assign(User.newEmpty(), { id: this.userService.getUserId() });
+    console.log(this.currentProjet.user);
     switch (action) {
       case 'save':
         this.projetSw.edit(this.currentProjet);

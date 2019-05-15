@@ -2,7 +2,7 @@ import { DossierTechnique } from './dossier-technique';
 import { Projet } from './projet';
 import { Modele } from './modele';
 
-export class Utilisateur {
+export class User {
 
   public id: number;
   public username: string;
@@ -22,8 +22,8 @@ export class Utilisateur {
     this.identityId = identityId;
   }
 
-  public static newEmpty(): Utilisateur {
-    return new Utilisateur(undefined, undefined, undefined, undefined, undefined, undefined ,undefined);
+  public static newEmpty(): User {
+    return new User(undefined, undefined, undefined, undefined, undefined, undefined ,undefined);
   }
 
  

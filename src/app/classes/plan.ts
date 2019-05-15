@@ -20,7 +20,7 @@ export class Plan {
         return new Plan(undefined, undefined, undefined, undefined, undefined);
     }
 
-    public toJSON(): string {
+  /*  public toJSON(): string {
         let plainObject = {
             id: undefined,
             number: undefined,
@@ -36,6 +36,6 @@ export class Plan {
         plainObject.dossierTechniqueId = (this.dossierTechnique !== undefined ? this.dossierTechnique.id : undefined);
 
         return JSON.stringify(plainObject);
-    }
+    }*/
 
 }
