@@ -8,6 +8,12 @@ body {
   height: 100vh;
   overflow: hidden;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  &.print-mode {
+    height: unset;
+    margin: 30mm 45mm 30mm 45mm;
+    overflow: visible !important;
+  }
 }
 
 .contentPage {

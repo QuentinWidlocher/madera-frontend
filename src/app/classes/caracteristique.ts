@@ -26,7 +26,7 @@ export class Caracteristique {
     this.composantId = this.composantId;
   }
 
-  public get toString(): string {
+  public get toString() {
     return this.value + ' ' + this.unite.code;
   }
 
