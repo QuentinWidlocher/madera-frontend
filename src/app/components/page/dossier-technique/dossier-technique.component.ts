@@ -265,7 +265,13 @@ export class DossierTechniqueComponent implements OnInit {
   addModele() {
     this.dialog.open(AddModeleDialog).afterClosed().subscribe((modele: Modele) => {
       if (modele) {
-        this.editModele(modele.id);
+
+        this.dossierTechnique.modeleId = modele.id;
+        this.dossierSw.edit(this.dossierTechnique).then(d=>{
+          this.editModele(modele.id);
+
+        });
+        
       }
     });
 

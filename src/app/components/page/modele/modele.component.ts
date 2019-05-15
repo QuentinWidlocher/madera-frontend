@@ -98,7 +98,6 @@ export class ModeleComponent implements OnInit {
         }
         if (params.dossier) {
           this.dossier = Object.assign(DossierTechnique.newEmpty(), JSON.parse(params.dossier));
-          console.log(this.dossier);
         }
         this.location.replaceState('modele/' + +params['id']);
       }
