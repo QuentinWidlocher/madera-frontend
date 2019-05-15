@@ -18,8 +18,8 @@
             </span>{{ projet.creationDate | date: 'fullDate' }}</div>
           <div class="col-6">
             <span class="text-muted">Projet terminé le : </span>
-            <span *ngIf="!projet.endDate || projet.endDate.getFullYear() !== 1">{{ projet.endDate | date: 'fullDate' }}</span>
-            <span *ngIf="projet.endDate && projet.endDate.getFullYear() === 1">en cours</span>
+            <span *ngIf="projet.endDate ">{{ projet.endDate | date: 'fullDate' }}</span>
+            <span *ngIf="!projet.endDate">en cours</span>
           </div>
         </div>
       </mat-card>
