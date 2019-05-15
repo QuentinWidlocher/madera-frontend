@@ -96,8 +96,9 @@
           </p>
     
           <div class="d-flex col-12 mt-4 justify-content-end">
-            <button mat-raised-button color="primary" [routerLink]="['/devis', currentProjet.id]" class="mr-3">Ouvrir le devis</button>
-            <button mat-raised-button color="primary" [routerLink]="['/dossier', currentProjet.id]">Ouvrir le dossier technique</button>
+            <button mat-stroked-button color="primary" [routerLink]="['/devis', currentProjet.id]" class="mr-3">Ouvrir le devis</button>
+            <button mat-stroked-button color="primary" [routerLink]="['/tableaudossier', currentProjet.id]" class="mr-5">Ouvrir le dossier technique</button>
+            <button mat-raised-button color="primary" [routerLink]="['/dossier', currentProjet.id]">Gérer le modèle</button>
           </div>
         </div>
       </div>

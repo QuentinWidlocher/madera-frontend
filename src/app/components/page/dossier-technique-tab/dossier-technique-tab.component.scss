@@ -42,6 +42,15 @@ table {
   }
 }
 
+.bg-white {
+  background-color: white;
+}
+
 .align-right {
   text-align: right !important;
+}
+
+.page-dossier {
+  height: calc(100vh - 4rem);
+  overflow-y: scroll; 
 }
