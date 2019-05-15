@@ -89,7 +89,7 @@ export class ProjetSwService {
                 projets[index].devis = Object.assign(Devis.newEmpty(), projet.devis);
                 projets[index].creationDate = new Date(projets[index].creationDate);
                 projets[index].editionDate = new Date(projets[index].editionDate);
-                projets[index].endDate = new Date(projets[index].endDate);
+                projets[index].endDate = (projets[index].endDate ? new Date(projets[index].endDate) : null); 
               });
 
               // On résout les données de la Promesse
@@ -116,7 +116,7 @@ export class ProjetSwService {
                 projets[index].devis = Object.assign(Devis.newEmpty(), projet.devis);
                 projets[index].creationDate = new Date(projets[index].creationDate);
                 projets[index].editionDate = new Date(projets[index].editionDate);
-                projets[index].endDate = new Date(projets[index].endDate);
+                projets[index].endDate = (projets[index].endDate ? new Date(projets[index].endDate) : null); 
               });
 
               // On résout les données de la Promesse
@@ -158,7 +158,7 @@ export class ProjetSwService {
               projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
               projet.creationDate = new Date(projet.creationDate);
               projet.editionDate = new Date(projet.editionDate);
-              projet.endDate = new Date(projet.endDate);
+              projet.endDate = (projet.endDate ? new Date(projet.endDate) : null); 
 
               // Avec la nouvelle données, on ajoute/modifie l'enregistrement
               this.idb.put(projet);
@@ -185,7 +185,7 @@ export class ProjetSwService {
               projet.devis = Object.assign(Devis.newEmpty(), projet.devis);
               projet.creationDate = new Date(projet.creationDate);
               projet.editionDate = new Date(projet.editionDate);
-              projet.endDate = new Date(projet.endDate);
+              projet.endDate = (projet.endDate ? new Date(projet.endDate) : null); 
 
               rslv(projet);
             });
@@ -207,10 +207,9 @@ export class ProjetSwService {
     let result: Promise<any>;
 
     projet.editionDate = new Date(Date.now());
-    projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
+    //projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
 
     projet.clientId = projet.client.id;
-    projet.userId = projet.user.id;
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
@@ -286,7 +285,7 @@ export class ProjetSwService {
     let result: Promise<any>;
 
     projet.editionDate = new Date(Date.now());
-    projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
+    //projet.endDate = (projet.endDate == null ? new Date('0001-01-01') : projet.endDate);
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {

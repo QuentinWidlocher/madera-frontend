@@ -7,6 +7,10 @@ import { ClientSwService } from 'src/app/services/service-workers/client-sw.serv
 import { User } from 'src/app/classes/user';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../../../services/user.service';
+import { DossierTechniqueSwService } from 'src/app/services/service-workers/dossier-technique-sw.service';
+import { DevisSwService } from 'src/app/services/service-workers/devis-sw.service';
+import { DossierTechnique } from 'src/app/classes/dossier-technique';
+import { Devis } from 'src/app/classes/devis';
 
 @Component({
   selector: 'app-edit-project',
@@ -33,7 +37,11 @@ export class EditProjectComponent implements OnInit {
     private dialog: MatDialog,
     private clientSw: ClientSwService,
     private fb: FormBuilder,
-    private userService: UserService) {
+    private userService: UserService,
+    private dossierSw: DossierTechniqueSwService,
+    private devisSw: DevisSwService,
+
+  ) {
   }
 
   ngOnInit() {
@@ -79,7 +87,7 @@ export class EditProjectComponent implements OnInit {
 
     action = (this.createMode && action !== 'cancel' ? 'create' : action);
 
-    this.currentProjet.user = Object.assign(User.newEmpty(), { id: this.userService.getUserId() });
+    this.currentProjet.userId = this.userService.getUserId();
     console.log(this.currentProjet.user);
     switch (action) {
       case 'save':
@@ -88,10 +96,17 @@ export class EditProjectComponent implements OnInit {
         break;
 
       case 'create':
-        this.projetSw.add(this.currentProjet).then(projet => {
-          this.currentProjet = projet;
-          this.isDone(action);
-        }).catch(error => console.error(error));
+        this.devisSw.add(new Devis(undefined, undefined, new Date(), new Date(), 0, undefined, undefined)).then(devis => {
+          this.dossierSw.add(new DossierTechnique(undefined, new Date(), new Date(), undefined, undefined, undefined, undefined)).then(dossier => {
+            this.currentProjet.devisId = devis.id;
+            this.currentProjet.dossierTechniqueId =  dossier.id;
+            this.projetSw.add(this.currentProjet).then(projet => {
+              this.currentProjet = projet;
+              this.isDone(action);
+            }).catch(error => console.error(error));
+          });
+        });
+
         break;
 
       case 'cancel':

@@ -26,6 +26,7 @@ import { ProduitModule } from '../../../classes/produitModule';
 import { Location } from '@angular/common';
 import { ModeleProduit } from '../../../classes/modeleProduit';
 import { CaracteristiqueSwService } from '../../../services/service-workers/caracteristique-sw.service';
+import { DossierTechniqueSwService } from 'src/app/services/service-workers/dossier-technique-sw.service';
 
 export interface LigneFormat {
   module: Module;
@@ -87,7 +88,8 @@ export class ModeleComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private location: Location,
-    private caracSw: CaracteristiqueSwService
+    private caracSw: CaracteristiqueSwService,
+    private dossierSw: DossierTechniqueSwService,
   ) {
     this.route.params.subscribe(params => {
       if (params) {
@@ -275,7 +277,11 @@ export class ModeleComponent implements OnInit {
       });
 
       this.modeleSw.add(modele).then(mod => {
-        //this.dossier
+        this.dossier.modeleId = mod.id;
+        this.dossierSw.edit(this.dossier).then(d=>{
+          this.location.back();
+
+        });
 
       });
 
@@ -482,7 +488,6 @@ export class AddModuleDialog implements OnInit {
     this.caracteristiques = [];
 
     this.moduleBase.composantModule.forEach(c => {
-      console.log(c.composant);
 
       this.composantSw.get(c.composantId).then((composant: Composant) => {
         composant.quantite = c.quantity;
