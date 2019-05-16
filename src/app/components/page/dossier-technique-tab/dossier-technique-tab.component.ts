@@ -104,15 +104,10 @@ export class DossierTechniqueTabComponent implements OnInit {
         this.dossierTechnique.projet = projet;
         this.dossierTechnique.projetId = projet.id;
 
-        console.log('%c Là le projet à été chargé', 'color: #2196f3');
-        console.log(this.projet);
-
         rslv(projet)
       });
 
     }).then((projet: Projet) => {
-
-      console.log('%c Entrée dans le premier then avant de get le dossier', 'color: #4caf50');
 
       return new Promise(rslv => {
         // on rempli le dossier
@@ -122,25 +117,17 @@ export class DossierTechniqueTabComponent implements OnInit {
 
           this.projet.dossierTechnique = this.dossierTechnique;
 
-          console.log('%c Là, le dossier technique a été chargé ', 'color: #2196f3');
-          console.log(this.projet.dossierTechnique);
-
           rslv();
         });
       });
 
     }).then(() => {
 
-      console.log('%c Entrée dans le deuxième then avant de get le modèle', 'color: #4caf50');
-
       return new Promise(rslv => {
 
         // on rempli le modele
         this.modeleSw.get(this.dossierTechnique.modeleId).then((modele: Modele) => {
           this.dossierTechnique.modele = modele;
-
-          console.log('%c Là, le modèle a été chargé ', 'color: #2196f3');
-          console.log(this.projet.dossierTechnique.modele);
 
           rslv();
         });
@@ -153,8 +140,6 @@ export class DossierTechniqueTabComponent implements OnInit {
 
       // on rempli les produits pour chaque modeleProduit
       this.dossierTechnique.modele.modeleProduit.forEach(m => {
-
-        console.log('%c Dans la boucle 1 de modèleProduit ', 'color: #2196f3');
 
         promises.push(new Promise(rslv => {
 
@@ -177,8 +162,6 @@ export class DossierTechniqueTabComponent implements OnInit {
 
         // on rempli les modules pour chaque ProduitModule
         m.produit.produitModule.forEach(p => {
-
-          console.log('%c Dans la boucle 2 de produitModule ', 'color: #2196f3');
 
           promises2.push(new Promise(rslv => {
             this.moduleSw.get(p.module.id).then((module: Module) => {
@@ -209,14 +192,10 @@ export class DossierTechniqueTabComponent implements OnInit {
           // on rempli les composants pour chaque ComposantModule
           p.module.moduleBase.composantModule.forEach(cm => {
 
-            console.log('%c Dans la boucle 3 de composantModule ', 'color: #2196f3');
-
             promises3.push(new Promise(rslv => {
               this.composantSw.get(cm.composant.id).then((composant: Composant) => {
 
                 cm.composant = composant;
-
-                console.log('%c Dans la promise push dans promises3', 'color: #2196f3');
                 this.totalsModule[m.produit.id + '-' + p.module.id]['quantity'] += cm.quantity;
                 this.totalsModule[m.produit.id + '-' + p.module.id]['puht'] += cm.composant.unitPriceNoTax;
                 this.totalsModule[m.produit.id + '-' + p.module.id]['puttc'] += cm.composant.unitPriceTax;
@@ -224,8 +203,6 @@ export class DossierTechniqueTabComponent implements OnInit {
                 rslv();
               });
             }));
-
-            console.log('%c Après le push trql ', 'color: #2196f3');
 
           }); // foreach composantmodule
 
@@ -236,7 +213,6 @@ export class DossierTechniqueTabComponent implements OnInit {
       return Promise.all(promises3);
     }).then(() => {
       this.ready = true;
-      console.log('%c Oh putain dis moi pas que c\'est pas vrai', 'color: #f44336');
     });
   }
 

@@ -229,7 +229,6 @@ export class DossierTechniqueComponent implements OnInit {
   generationDevis() {
 
     this.ligneSw.getAll().then(lignes => {
-      console.log(lignes);
       lignes.forEach(ligne => {
         if (ligne.devisId == this.projet.devis.id) {
           this.ligneSw.delete(ligne.id);
@@ -242,7 +241,11 @@ export class DossierTechniqueComponent implements OnInit {
       this.currentModele.modeleProduit.forEach(p => {
 
         p.produit.produitModule.forEach(m => {
-          const taille = m.module.caracteristiques.filter(carac => carac.unite.code == "m").map(carac => carac.value).reduce((a, b) => a * b);
+
+          console.log(m);          
+
+          // const taille = m.module.caracteristiques.filter(carac => carac.unite.code == "m").map(carac => carac.value).reduce((a, b) => a * b);
+          const taille = m.module.caracteristiques.length > 1 ? m.module.caracteristiques[0].value * m.module.caracteristiques[1].value : 1;
 
           let prix = m.module.moduleBase.labourCosts * taille;
 
@@ -278,6 +281,11 @@ export class DossierTechniqueComponent implements OnInit {
     this.dossierTechnique.plans = [];
     this.router.navigate(['modele', { id: idModele, dossier: JSON.stringify(this.dossierTechnique) }]);
 
+  }
+
+  saveAndQuit() {
+    this.generationDevis();
+    this.router.navigate(['/projets', this.projet.id])
   }
 
 }

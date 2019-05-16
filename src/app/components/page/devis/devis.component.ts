@@ -36,7 +36,9 @@ export class DevisComponent implements OnInit {
   devis: Devis;
   projet: Projet;
   client: Client;
+
   ready: boolean = false;
+  printMode: boolean = false;
 
   constructor(private projetSw: ProjetSwService,
               private devisSw: DevisSwService,
@@ -90,6 +92,37 @@ export class DevisComponent implements OnInit {
       });
     });
 
+  }
+
+  print() {
+    this.printMode = true;
+
+    document.body.className = 'print-mode';
+
+    for (let i = 0; i < document.getElementsByClassName('page').length; i++) {
+      const element = document.getElementsByClassName('page')[i];
+
+      element.classList.add('print-mode');
+    }
+
+    const navbarClasses = document.getElementById('nav-bar').className;
+    document.getElementById('nav-bar').className = 'print-mode';
+
+    setTimeout(() => {
+      window.print();
+
+      this.printMode = false;
+
+      document.body.className = '';
+
+      for (let i = 0; i < document.getElementsByClassName('page print-mode').length; i++) {
+        const element = document.getElementsByClassName('page print-mode')[i];
+
+        element.classList.remove('print-mode');
+      }
+
+      document.getElementById('nav-bar').className = navbarClasses;
+    }, 500);
   }
 
 }

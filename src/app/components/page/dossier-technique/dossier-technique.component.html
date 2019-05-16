@@ -1,7 +1,7 @@
 <!-- Titre Nav -->
 <mat-toolbar color="primary">
   <mat-toolbar-row *ngIf="dossierTechnique">
-    <button mat-icon-button [routerLink]="['/projets', projet.id]">
+    <button mat-icon-button (click)="saveAndQuit()">
       <mat-icon>arrow_back</mat-icon>
     </button> <span class="ml-2">Gestion du modèle - {{ projet.title }}</span>
   </mat-toolbar-row>
