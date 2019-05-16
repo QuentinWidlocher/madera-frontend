@@ -105,6 +105,7 @@ export class ModeleComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.produitListLoading = true;
 
 
@@ -112,6 +113,7 @@ export class ModeleComponent implements OnInit {
 
 
       this.modele = modele;
+
 
       modele.modeleProduit.forEach(mp => {
 
@@ -150,7 +152,7 @@ export class ModeleComponent implements OnInit {
       this.produitsOriginal = this.produits;
       this.produitListLoading = false;
     });
-
+    console.log(this.produits);
 
   }
 
@@ -204,23 +206,25 @@ export class ModeleComponent implements OnInit {
   }
 
   post() {
+
     let promisesProduit: Promise<any>[] = [];
     let modele = Object.assign(Modele.newEmpty(), this.modele);
     let produitIds: number[] = [];
     modele.modeleProduit = [];
 
-
-    this.produits.forEach(p => {
+    if(this.produits){
+      this.produits.forEach(p => {
       promisesProduit.push(new Promise(rslv => {
 
         let promisesModuleCarac: Promise<any>[] = [];
         let moduleIds: number[] = [];
         let produit = Object.assign(Produit.newEmpty(), p);
-        produit.id = undefined;
-        produit.cctp = undefined;
-        produit.produitModule = [];
-
-        p.produitModule.forEach(pm => {
+        p.id = undefined;
+        p.cctp = undefined;
+        p.produitModule = [];
+        if(produit.produitModule){
+        
+        produit.produitModule.forEach(pm => {
 
           promisesModuleCarac.push(new Promise(rslv1 => {
 
@@ -253,35 +257,47 @@ export class ModeleComponent implements OnInit {
           }));
 
         });
+      }
+
 
         Promise.all(promisesModuleCarac).then(() => {
-
           moduleIds.forEach(id => {
-            produit.produitModule.push(new ProduitModule(id, undefined, undefined, undefined));
+            p.produitModule.push(new ProduitModule(id, undefined, undefined, undefined));
           });
-          this.produitSw.add(produit).then(prod => {
-            produitIds.push(prod.id);
-            rslv();
-          });
+
+            this.produitSw.add(p).then(prod => {
+              produitIds.push(prod.id);             
+              rslv();
+            });
 
         });
 
       }));
     });
+  }
 
     Promise.all(promisesProduit).then(() => {
 
       produitIds.forEach(id => {
         modele.modeleProduit.push(new ModeleProduit(undefined, id, undefined, undefined));
       });
-
+       modele.currentDossier = this.dossier.id;
+       modele.user = undefined;
       this.modeleSw.add(modele).then(mod => {
-        this.dossier.modeleId = mod.id;
-        this.dossierSw.edit(this.dossier).then(d=>{
-          this.location.back();
+        let newDossier = Object.assign(DossierTechnique.newEmpty(), this.dossier)
+        newDossier.modeleId = mod.id;
+        newDossier.modele = mod;
 
-        });
+        //this.dossierSw.edit(newDossier).then(d=>{
 
+        this.location.back();
+
+        //  }).catch(function(error) {
+        //   console.log(error);
+        // });
+
+      }).catch(function (error) {
+        console.log(error);
       });
 
     });

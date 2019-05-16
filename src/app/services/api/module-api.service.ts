@@ -20,7 +20,6 @@ export class ModuleApiService {
   }
 
   add(module: Module): Observable<object> {
-    module.id = undefined;
     module = Object.assign(Module.newEmpty(), module);
     return this.http.post(ApiConfig.MODULE, module);
   }

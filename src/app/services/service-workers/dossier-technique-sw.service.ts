@@ -277,13 +277,13 @@ export class DossierTechniqueSwService {
           // Si on peux toucher l'API, on la call, on remplace la base locale par les nouvelles données
           result = new Promise(rslv => {
 
-            this.api.edit(dossierTechnique).subscribe(() => {
+            this.api.edit(dossierTechnique).subscribe(d => {
 
               // On met à jour l'enregistrement dans l'IDB
               this.idb.update(dossierTechnique.id, {...dossierTechnique});
 
               // On résout vide, histoire de dire que c'est fini
-              rslv();
+              rslv(d);
             }, error => {
 
               // Si on détecte une erreur, on attend un changement de connexion et on réessaye
@@ -292,14 +292,16 @@ export class DossierTechniqueSwService {
             });
           });
         } else {
-
+            console.log(dossierTechnique);
           // On met à jour l'enregistrement dans l'IDB
-          result = this.idb.update(dossierTechnique.id, {
+          result =  this.idb.update(dossierTechnique.id, {
             ...dossierTechnique
+          }).then(d => {
+            return d;
           });
 
           // On ajoute une requête différée pour update la base plus tard
-          this.deferredQueries.add(new DeferredQuery(dossierTechnique, 'edit', 'dossierTechnique'));
+         // this.deferredQueries.add(new DeferredQuery(dossierTechnique, 'edit', 'dossierTechnique'));
         }
 
       }).finally(() => {

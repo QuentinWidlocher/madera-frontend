@@ -221,10 +221,10 @@ export class ClientSwService {
           // On met à jour l'enregistrement dans l'IDB
           result = this.idb.update(client.id, { ...client });
 
-          client.projets.forEach(projet => {
-            projet.client = client;
-            this.projetSw.edit(projet);
-          })
+          // client.projets.forEach(projet => {
+          //   projet.client = client;
+          //   this.projetSw.edit(projet);
+          // })
 
           // On ajoute une requête différée pour update la base plus tard
           this.deferredQueries.add(new DeferredQuery(client, 'edit', 'client'));
