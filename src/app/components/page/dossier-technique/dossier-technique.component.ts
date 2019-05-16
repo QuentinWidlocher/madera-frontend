@@ -260,8 +260,6 @@ export class DossierTechniqueComponent implements OnInit {
 
       });
 
-      this.snackbar.open(`Devis généré ! (${nbLignes} lignes)`, '', { duration: 1000 });
-
     });
   }
 
@@ -284,8 +282,10 @@ export class DossierTechniqueComponent implements OnInit {
   }
 
   saveAndQuit() {
-    this.generationDevis();
-    this.router.navigate(['/projets', this.projet.id])
+    this.dossierSw.edit(this.dossierTechnique).then(() => {
+      this.generationDevis();
+      this.router.navigate(['/projets', this.projet.id]);
+    });
   }
 
 }
