@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   DossierTechniqueSwService
@@ -41,18 +42,6 @@ import {
 import {
   Composant
 } from 'src/app/classes/composant';
-import {
-  MatTableDataSource
-} from '@angular/material';
-import {
-  ProduitModule
-} from 'src/app/classes/produitModule';
-import {
-  ComposantModule
-} from 'src/app/classes/composantModule';
-import {
-  timeout
-} from 'rxjs/operators';
 
 export interface LigneFormat {}
 
@@ -116,6 +105,11 @@ export class DossierTechniqueTabComponent implements OnInit {
           this.dossierTechnique.projet = projet;
 
           this.projet.dossierTechnique = this.dossierTechnique;
+
+          if (!this.dossierTechnique.modele.id) {
+            this.ready = true;
+            return;
+          }
 
           rslv();
         });
@@ -229,8 +223,8 @@ export class DossierTechniqueTabComponent implements OnInit {
       element.classList.add('print-mode');
     }
 
-    const navbarClasses = document.getElementById('nav-bar').className;
-    document.getElementById('nav-bar').className = 'print-mode';
+    // const navbarClasses = document.getElementById('nav-bar').className;
+    // document.getElementById('nav-bar').className = 'print-mode';
 
     setTimeout(() => {
       window.print();
@@ -247,7 +241,7 @@ export class DossierTechniqueTabComponent implements OnInit {
         element.classList.remove('print-mode');
       }
 
-      document.getElementById('nav-bar').className = navbarClasses;
+      // document.getElementById('nav-bar').className = navbarClasses;
     }, 500);
   }
 

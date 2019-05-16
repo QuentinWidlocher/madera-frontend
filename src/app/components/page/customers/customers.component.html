@@ -43,7 +43,7 @@
 
   
   <!-- Formulaire -->
-  <div class="col-8 h-100 d-flex flex-column background">
+  <div class="col-8 h-100 d-flex flex-column" [class.background]="currentClient">
 
     <div class="emptyState" *ngIf="!currentClient">
       <img src="../../../../assets/svg/illustrations/people.svg">

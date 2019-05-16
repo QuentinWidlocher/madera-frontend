@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Inject, Output, EventEmitter } from '@ang
 import { UserService } from '../../services/user.service';
 import { Observable, Subscription } from "rxjs";
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-side-nav',
@@ -12,11 +13,28 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
   @Output() closed: EventEmitter<void> = new EventEmitter<void>();
 
+  // Ici on mets les différents boutons avec leurs routes
+  buttons = [
+    // { icon: 'bug_report', title: 'test page', route: '/test', active: false },
+    { icon: 'library_books', title: 'Projets', route: '/projets', active: false },
+    { icon: 'people', title: 'Clients', route: '/clients', active: false },
+    // { icon: 'description', title: 'devis', route: '/devis', active: false },
+  ];
+
   status: boolean;
   subscription: Subscription;
   userName: string;
   isAdmin: boolean;
-  constructor(private userService: UserService, private dialog: MatDialog) { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private dialog: MatDialog) { 
+      router.events.subscribe(e => {
+        if (e instanceof NavigationEnd) {
+          this.highlightTab(e.urlAfterRedirects);
+        }
+      });
+    }
 
   ngOnInit() {
     this.subscription = this.userService.authNavStatus$.subscribe(status => {
@@ -26,8 +44,18 @@ export class SideNavComponent implements OnInit, OnDestroy {
         this.isAdmin = this.userService.getRole() === 'Admin'
       }
     });
-    
-    
+  }
+
+  // Lance la navigation vers la route selectionnée
+  navigate(url: string) {
+    this.router.navigateByUrl(url);
+  }
+
+  // Met en surbrillance le bouton de la route
+  highlightTab(url: string = this.router.url) {
+    this.buttons.forEach(button => {
+      button.active = (url.startsWith(button.route));
+    });
   }
 
   logout() {

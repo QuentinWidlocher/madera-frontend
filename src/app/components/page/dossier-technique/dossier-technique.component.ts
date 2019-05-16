@@ -81,7 +81,6 @@ export class DossierTechniqueComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.modeleListLoading = true;
-        console.log('%c Loading', 'color: #2196f3');
         this.loadDossier(+params['id']);
       }
     });
@@ -169,7 +168,6 @@ export class DossierTechniqueComponent implements OnInit {
           this.modeles.push(modele);
         });
         this.modeleListLoading = false;
-        console.log('%c End loading', 'color: #2196f3');
       });
 
     });
