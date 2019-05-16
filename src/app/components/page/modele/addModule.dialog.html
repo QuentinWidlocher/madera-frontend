@@ -5,7 +5,7 @@
 
     <mat-form-field>
       <mat-label>Module</mat-label>
-      <mat-select required (selectionChange)="moduleBaseSelected($event)" [(ngModel)]="moduleBase">
+      <mat-select required (selectionChange)="moduleBaseSelected()" [(ngModel)]="moduleBase">
         <mat-option *ngFor="let mod of modulesBase" [(value)]="mod">{{ mod.description }}</mat-option>
       </mat-select>
     </mat-form-field>

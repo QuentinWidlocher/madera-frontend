@@ -20,10 +20,25 @@
       </mat-form-field>
     </mat-card>
 
-    <div class="h-100 w-100 d-flex" *ngIf="modeleListLoading && !modeles">
+    <div class="h-100 w-100 d-flex" *ngIf="modeleListLoading">
       <mat-spinner [strokeWidth]="2" [diameter]="30" class="m-auto"></mat-spinner>
     </div>
     <mat-action-list class="scroll mt-3 h-100" *ngIf="!modeleListLoading">
+
+      <mat-list-item *ngIf="modeleDuDossier" (click)="selectModele(modeleDuDossier)"
+                      [class.selected]="dossierTechnique.modeleId === modeleDuDossier.id">
+        <mat-icon mat-list-icon class="selected" *ngIf="dossierTechnique.modeleId !== modeleDuDossier.id ; else check2">
+          radio_button_unchecked
+        </mat-icon>
+        <ng-template #check2>
+          <mat-icon mat-list-icon [color]="'accent'">
+            radio_button_checked
+          </mat-icon>
+        </ng-template>
+        <h4 mat-line>{{ modeleDuDossier.description }}</h4>
+        <span mat-line class="mat-caption">Modèle du {{ modeleDuDossier.editionDate | date:'shortDate' }}</span>
+      </mat-list-item>
+
       <mat-list-item *ngFor="let modele of modeles; let index = index"
                      (click)="selectModele(modele)"
                      [class.selected]="dossierTechnique.modeleId === modele.id">
@@ -39,6 +54,7 @@
         <h4 mat-line>{{ modele.description }}</h4>
         <span mat-line class="mat-caption">Modèle du {{ modele.editionDate | date:'shortDate' }}</span>
       </mat-list-item>
+
     </mat-action-list>
 
     <button mat-fab color="accent" (click)="addModele()">
@@ -51,7 +67,7 @@
   <div class="col-8 h-100 d-flex flex-column background">
 
     <div class="emptyState" *ngIf="!dossierTechnique || !dossierTechnique.modele">
-      <img src="../../../../assets/svg/illustrations/dossier.svg">
+      <img src="../../../../assets/svg/illustrations/modele.svg">
       <div class="subtitle">
         <h3>Aucun modèle selectionné.</h3>
         <button mat-button color="primary">Ajouter un modèle</button>
@@ -115,40 +131,6 @@
           <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
         </table>
       </mat-card>
-    </div>
-
-    <!-- Test de projet -> Composants -->
-    <div *ngIf="false && dossierTechnique">
-      <h2>dossier technique</h2>
-      <p>Numéro: {{dossierTechnique.id}} </p>
-      <p>Créé le {{dossierTechnique.creationDate}} </p>
-      <div *ngIf="dossierTechnique.modele">
-        <h3>Modèle choisi</h3>
-        <p>Numéro: {{dossierTechnique.modele.id}} </p>
-        <p>Desc: {{dossierTechnique.modele.description}} </p>
-        <div *ngFor="let modeleProduit of dossierTechnique.modele.modeleProduit" class="ml-2">
-          <h3>Produit num:{{modeleProduit.produit.id}}</h3>
-          <p>Desc: {{modeleProduit.produit.description}} </p>
-          <p>Coupe de principe: {{modeleProduit.produit.coupeDePrincipe.name}} </p>
-          <div *ngFor="let produitModule of modeleProduit.produit.produitModule" class="ml-4">
-            <h3>Module num:{{produitModule.module.id}}</h3>
-            <p>Desc: {{produitModule.module.description}} </p>
-            <p>Cout de main d'oeuvre: {{produitModule.module.labourCosts}} </p>
-            <div *ngFor="let carac of produitModule.module.caracteristiques" class="ml-5">
-              <h3>Caracteristique n° {{carac.id}}</h3>
-              <p>
-                Caracteristique: {{carac.description}} : {{ carac.toString() }} ({{carac.unite.name}})
-              </p>
-            </div>
-            <div *ngFor="let comp of produitModule.module.moduleBase.composantModule" class="ml-5">
-              <h3>Composant n° {{comp.composant.id}}</h3>
-              <p>
-                Composant: {{comp.composant.name}} (x {{comp.quantity}})
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>

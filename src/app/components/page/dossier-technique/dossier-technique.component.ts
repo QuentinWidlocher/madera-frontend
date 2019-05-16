@@ -49,6 +49,7 @@ export class DossierTechniqueComponent implements OnInit {
   currentModele: Modele;
 
   modeles: Modele[] = [];
+  modeleDuDossier: Modele;
   modeleListLoading: boolean = true;
 
   displayedColumns: string[] = ['produit', 'modules', 'gamme'];
@@ -76,13 +77,11 @@ export class DossierTechniqueComponent implements OnInit {
 
   ngOnInit() {
     this.dossierTechnique = DossierTechnique.newEmpty();
-    this.modeleSw.getAll().then(modeles => {
-      this.modeles = modeles;
-      this.modeleListLoading = false;
-    });
 
     this.route.params.subscribe(params => {
       if (params['id']) {
+        this.modeleListLoading = true;
+        console.log('%c Loading', 'color: #2196f3');
         this.loadDossier(+params['id']);
       }
     });
@@ -100,17 +99,6 @@ export class DossierTechniqueComponent implements OnInit {
       this.dossierTechnique = DossierTechnique.newEmpty();
       this.dossierTechnique.projet = projet;
       this.dossierTechnique.projetId = projet.id;
-
-      if (!projet.dossierTechnique.id) {
-        console.error('Aucun dossier technique n\'est lié à ce projet');
-        console.warn('Le dossier rempli sera posté en totalité à la fin');
-
-        this.newDossier = true;
-
-        return;
-      }
-
-      this.newDossier = false;
 
       // on rempli le dossier
       this.dossierSw.get(projet.dossierTechnique.id).then((dossierTechnique: DossierTechnique) => {
@@ -166,9 +154,22 @@ export class DossierTechniqueComponent implements OnInit {
         });
 
       }, error => {
-        console.error('Aucun dossier technique n\'est lié à ce projet');
-        console.warn('Le dossier rempli sera posté en totalité à la fin');
-        this.newDossier = true;
+      });
+
+    }).then(() => {
+
+      this.modeleSw.getAll().then(modeles => {
+
+        modeles.forEach(modele => {
+          if (this.dossierTechnique.modele && modele.id === this.dossierTechnique.modele.id) {
+            this.modeleDuDossier = modele;
+            return;
+          }
+
+          this.modeles.push(modele);
+        });
+        this.modeleListLoading = false;
+        console.log('%c End loading', 'color: #2196f3');
       });
 
     });
