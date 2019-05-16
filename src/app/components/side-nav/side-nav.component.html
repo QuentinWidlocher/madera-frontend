@@ -5,20 +5,24 @@
 
     <div class="username">{{userName}}</div>
     <mat-action-list class="pt-0" *ngIf="status">
+        <mat-list-item [class.selected]="button.active" *ngFor="let button of buttons" [routerLink]="[button.route]" (click)="closed.emit()">
+            <mat-icon matListIcon class="pr-3">{{button.icon}}</mat-icon> {{button.title}}
+        </mat-list-item>
+        <mat-divider></mat-divider>
         <div *ngIf="isAdmin">
             <mat-list-item [routerLink]="['/utilisateurs']" (click)="closed.emit()">
-                <mat-icon matListIcon class="pr-2">supervisor_account</mat-icon> Gérer les utilisateurs
+                <mat-icon matListIcon class="pr-3">settings</mat-icon> Gérer les utilisateurs
             </mat-list-item>
 
             <mat-divider></mat-divider>
         </div>
 
         <mat-list-item (click)="logout()">
-            <mat-icon matListIcon class="pr-2">exit_to_app</mat-icon> Se deconnecter
+            <mat-icon matListIcon class="pr-3">exit_to_app</mat-icon> Se deconnecter
         </mat-list-item>
     </mat-action-list>
 
-    <button mat-icon-button color="warn" class="mt-auto mb-2 ml-auto mr-2">
+    <button *ngIf="false" mat-icon-button color="warn" class="mt-auto mb-2 ml-auto mr-2">
       <mat-icon class="md-24">power_settings_new</mat-icon>
     </button>
 </div>

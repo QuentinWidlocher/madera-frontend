@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   DossierTechniqueSwService
@@ -41,18 +42,6 @@ import {
 import {
   Composant
 } from 'src/app/classes/composant';
-import {
-  MatTableDataSource
-} from '@angular/material';
-import {
-  ProduitModule
-} from 'src/app/classes/produitModule';
-import {
-  ComposantModule
-} from 'src/app/classes/composantModule';
-import {
-  timeout
-} from 'rxjs/operators';
 
 export interface LigneFormat {}
 
@@ -94,71 +83,131 @@ export class DossierTechniqueTabComponent implements OnInit {
 
   loadDossier(idProjet: number) {
 
-    // On charge le projet
-    this.projetSw.get(idProjet).then((projet: Projet) => {
+    new Promise((rslv) => {
+      // On charge le projet
+      this.projetSw.get(idProjet).then((projet: Projet) => {
 
-      this.projet = projet;
+        this.projet = projet;
 
-      this.dossierTechnique = DossierTechnique.newEmpty();
-      this.dossierTechnique.projet = projet;
-      this.dossierTechnique.projetId = projet.id;
-
-      // on rempli le dossier
-      this.dossierSw.get(projet.dossierTechnique.id).then((dossierTechnique: DossierTechnique) => {
-        this.dossierTechnique = dossierTechnique;
+        this.dossierTechnique = DossierTechnique.newEmpty();
         this.dossierTechnique.projet = projet;
+        this.dossierTechnique.projetId = projet.id;
 
-        this.projet.dossierTechnique = this.dossierTechnique;
+        rslv(projet)
+      });
+
+    }).then((projet: Projet) => {
+
+      return new Promise(rslv => {
+        // on rempli le dossier
+        this.dossierSw.get(projet.dossierTechniqueId).then((dossierTechnique: DossierTechnique) => {
+          this.dossierTechnique = dossierTechnique;
+          this.dossierTechnique.projet = projet;
+
+          this.projet.dossierTechnique = this.dossierTechnique;
+
+          if (!this.dossierTechnique.modele.id) {
+            this.ready = true;
+            return;
+          }
+
+          rslv();
+        });
+      });
+
+    }).then(() => {
+
+      return new Promise(rslv => {
 
         // on rempli le modele
-        this.modeleSw.get(this.dossierTechnique.modele.id).then((modele: Modele) => {
+        this.modeleSw.get(this.dossierTechnique.modeleId).then((modele: Modele) => {
           this.dossierTechnique.modele = modele;
 
-          // on rempli les produits pour chaque modeleProduit
-          this.dossierTechnique.modele.modeleProduit.forEach(m => {
+          rslv();
+        });
 
-            this.produitSw.get(m.produit.id).then((produit: Produit) => {
-              m.produit = produit;
+      });
 
-              // on rempli les modules pour chaque ProduitModule
-              m.produit.produitModule.forEach(p => {
-                this.moduleSw.get(p.module.id).then((module: Module) => {
-                  p.module = module;
+    }).then(() => {
 
-                  this.totalsModule[produit.id + '-' + module.id] = [];
-                  this.totalsModule[produit.id + '-' + module.id]['quantity'] = 0;
-                  this.totalsModule[produit.id + '-' + module.id]['puht'] = 0;
-                  this.totalsModule[produit.id + '-' + module.id]['puttc'] = 0;
-                  this.totalsModule[produit.id + '-' + module.id]['total'] = 0;
+      const promises: Promise < void > [] = [];
 
-                  // on rempli les composants pour chaque ComposantModule
-                  p.module.moduleBase.composantModule.forEach(cm => {
-                    this.composantSw.get(cm.composant.id).then((composant: Composant) => {
-                      cm.composant = composant;
+      // on rempli les produits pour chaque modeleProduit
+      this.dossierTechnique.modele.modeleProduit.forEach(m => {
 
-                      this.totalsModule[produit.id + '-' + module.id]['quantity'] += cm.quantity;
-                      this.totalsModule[produit.id + '-' + module.id]['puht'] += cm.composant.unitPriceNoTax;
-                      this.totalsModule[produit.id + '-' + module.id]['puttc'] += cm.composant.unitPriceTax;
-                      this.totalsModule[produit.id + '-' + module.id]['total']
-                    });
-                    this.ready = true;
-                  });
+        promises.push(new Promise(rslv => {
 
-                });
+          this.produitSw.get(m.produit.id).then((produit: Produit) => {
+            m.produit = produit;
 
-              });
+            rslv();
+          }); // produitSw
 
+        })); // promises push
+
+      }); // foreach modeleproduit
+
+      return Promise.all(promises);
+
+    }).then(() => {
+      const promises2: Promise<void>[] = [];
+
+      this.dossierTechnique.modele.modeleProduit.forEach(m => {
+
+        // on rempli les modules pour chaque ProduitModule
+        m.produit.produitModule.forEach(p => {
+
+          promises2.push(new Promise(rslv => {
+            this.moduleSw.get(p.module.id).then((module: Module) => {
+              p.module = module;
+
+              this.totalsModule[m.produit.id + '-' + module.id] = [];
+              this.totalsModule[m.produit.id + '-' + module.id]['quantity'] = 0;
+              this.totalsModule[m.produit.id + '-' + module.id]['puht'] = 0;
+              this.totalsModule[m.produit.id + '-' + module.id]['puttc'] = 0;
+              this.totalsModule[m.produit.id + '-' + module.id]['total'] = 0;
+              rslv();
             });
+          }));
+        }); // foreach produitmodule
+      });
 
-          });
+      return Promise.all(promises2);
+
+    }).then(() => {
+
+      const promises3: Promise<void>[] = [];
+
+      this.dossierTechnique.modele.modeleProduit.forEach(m => {
+
+        // on rempli les modules pour chaque ProduitModule
+        m.produit.produitModule.forEach(p => {
+
+          // on rempli les composants pour chaque ComposantModule
+          p.module.moduleBase.composantModule.forEach(cm => {
+
+            promises3.push(new Promise(rslv => {
+              this.composantSw.get(cm.composant.id).then((composant: Composant) => {
+
+                cm.composant = composant;
+                this.totalsModule[m.produit.id + '-' + p.module.id]['quantity'] += cm.quantity;
+                this.totalsModule[m.produit.id + '-' + p.module.id]['puht'] += cm.composant.unitPriceNoTax;
+                this.totalsModule[m.produit.id + '-' + p.module.id]['puttc'] += cm.composant.unitPriceTax;
+                this.totalsModule[m.produit.id + '-' + p.module.id]['total']
+                rslv();
+              });
+            }));
+
+          }); // foreach composantmodule
 
         });
 
       });
 
+      return Promise.all(promises3);
+    }).then(() => {
+      this.ready = true;
     });
-
-
   }
 
   print() {
@@ -174,8 +223,8 @@ export class DossierTechniqueTabComponent implements OnInit {
       element.classList.add('print-mode');
     }
 
-    const navbarClasses = document.getElementById('nav-bar').className;
-    document.getElementById('nav-bar').className = 'print-mode';
+    // const navbarClasses = document.getElementById('nav-bar').className;
+    // document.getElementById('nav-bar').className = 'print-mode';
 
     setTimeout(() => {
       window.print();
@@ -192,7 +241,7 @@ export class DossierTechniqueTabComponent implements OnInit {
         element.classList.remove('print-mode');
       }
 
-      document.getElementById('nav-bar').className = navbarClasses;
+      // document.getElementById('nav-bar').className = navbarClasses;
     }, 500);
   }
 

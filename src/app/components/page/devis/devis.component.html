@@ -1,108 +1,161 @@
-<!-- Titre Nav -->
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <button *ngIf="projet" mat-icon-button [routerLink]="['/projets', projet.id]">
-      <mat-icon>arrow_back</mat-icon>
-    </button> <span class="ml-2" *ngIf="ready">Devis n° {{ devis.id }} - {{ projet.title }}</span>
-  </mat-toolbar-row>
-</mat-toolbar>
+<div [class.page-dossier]="!printMode">
 
-<div class="content-page d-flex flex-column px-2">
-  <div id="info-row" class="row my-3" *ngIf="ready">
-    <div class="col-8">
-      <!-- Card Info Client / projet-->
-      <mat-card class="h-100">
-        <div class="row h-100 align-content-around">
-          <div class="col-12"><span class="text-muted">Client : </span>{{ client.fullName }}</div>
-          <div class="col"><span class="text-muted">Projet débuté le :
-            </span>{{ projet.creationDate | date: 'fullDate' }}</div>
-          <div class="col-6">
-            <span class="text-muted">Projet terminé le : </span>
-            <span *ngIf="projet.endDate ">{{ projet.endDate | date: 'fullDate' }}</span>
-            <span *ngIf="!projet.endDate">en cours</span>
-          </div>
+  <div *ngIf="!printMode">
+
+    <!-- Titre Nav -->
+    <mat-toolbar color="primary">
+      <mat-toolbar-row class="d-flex">
+        <button *ngIf="projet" mat-icon-button [routerLink]="['/projets', projet.id]">
+          <mat-icon>arrow_back</mat-icon>
+        </button> <span class="ml-2" *ngIf="ready">Devis n° {{ devis.id }} - {{ projet.title }}</span>
+
+         <button *ngIf="ready" mat-icon-button (click)="print()" class="ml-auto">
+           <mat-icon>print</mat-icon>
+         </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+  </div>
+
+  <div class="bg-white" *ngIf="printMode">
+    <div class="d-flex p-3 pb-5">
+      <div class="d-flex flex-column flex-1">
+        <img class="w-50 mb-auto" src="../../../../assets/png/LogoTitre_Legacy.png">
+        <p>
+          12 Rue de l'Europe Lomme <br>
+          59160 Lille <br>
+          Tel. +33 (0)3 20 32 32 37 <br>
+          Fax. +33 (0)3 20 60 61 51
+        </p>
+      </div>
+      <div class="d-flex flex-column flex-1">
+        <div class="d-flex mb-2">
+          <mat-icon class="my-auto mr-2">assignment</mat-icon>
+          <span class="mat-h1 my-auto">Devis n°{{ projet.devisId }}</span>
         </div>
-      </mat-card>
-    </div>
-    <div class="col-4">
-      <!-- Card Coût du projet-->
-      <mat-card>
-        <div class="row h-100 align-content-around">
-          <p class="col-6 m-0 text-muted">Total HT :</p><span
-            class="col-6 text-align-right">{{ totalHT | number: '1.2-2':'fr'}} €</span>
-          <p class="col-6 m-0 text-muted">TVA : </p><span
-            class="col-6 text-align-right">{{ (totalTTC) - (totalHT) | number: '1.2-2':'fr'}} €</span>
-          <p class="col-6 m-0 text-muted">Total TTC : </p><span
-            class="col-6 text-align-right">{{ totalTTC | number: '1.2-2':'fr'}} €</span>
-        </div>
-      </mat-card>
+        <mat-card class="d-flex flex-column">
+          <span class="mat-h3 mb-1">Projet : {{ projet.title }}</span>
+          <span class="mat-h5">Débuté le {{ projet.creationDate | date: 'shortDate' }}
+            <span *ngIf="projet.endDate">
+              et terminé le {{ projet.endDate | date: 'shortDate'}}
+            </span>
+          </span>
+          <span class="mat-h4 mb-1">Client : {{projet.client.fullName}} </span>
+          <span class="mat-h5">
+            Tel. : {{ projet.client.phone }}      Mobile : {{ projet.client.mobile }} <br>
+            Email : {{ projet.client.email }}
+          </span>
+        </mat-card>
+      </div>
     </div>
   </div>
 
-
-
-  <div class="d-flex flex-column h-100">
-    <mat-card class="p-0 flex-1 overflow-y-scroll" *ngIf="dataSource">
-      <mat-table [dataSource]="dataSource" matSort>
-
-        <!-- Designation Column -->
-        <ng-container matColumnDef="designation">
-          <mat-header-cell *matHeaderCellDef>Désignation</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.designation}} </mat-cell>
-          <mat-footer-cell *matFooterCellDef>{{ footers.designation }}</mat-footer-cell>
-        </ng-container>
-
-        <!-- PU HT Column -->
-        <ng-container matColumnDef="puht">
-          <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Brut</span></mat-header-cell>
-          <mat-cell *matCellDef="let element" class="align-right"> {{element.puht | number: '1.2-2':'fr'}} €</mat-cell>
-          <mat-footer-cell *matFooterCellDef class="align-right">{{ footers.puht | number: '1.2-2':'fr' }} €</mat-footer-cell>
-        </ng-container>
-
-        <!-- PU TTC Column -->
-        <ng-container matColumnDef="puttc">
-          <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Net</span></mat-header-cell>
-          <mat-cell *matCellDef="let element" class="align-right"> {{element.puttc | number: '1.2-2':'fr'}} €</mat-cell>
-          <mat-footer-cell *matFooterCellDef class="align-right">{{ footers.puttc | number: '1.2-2':'fr' }} €</mat-footer-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
-      </mat-table>
-    </mat-card>
-
-    <div class="emptyState" *ngIf="!dataSource">
-      <img src="../../../../assets/svg/illustrations/devis.svg">
-      <div class="subtitle">
-        <h3>Ce devis est vide...</h3>
-        <h5>Pour l'instant !</h5>
-      </div>
-    </div>
-
-    <!-- Card total projet -->
-    <div class="row my-2" *ngIf="ready">
-      <div class="col-7">
-        <mat-card class="py-0">
-          <div class="row">
-            <div class="col-5 mt-auto">
-               <mat-form-field>
-                 <mat-label>Temps estimé</mat-label>
-                 <input [(ngModel)]="devis.estimatedTime" matInput type="number" placeholder="42.5" class="text-align-right">
-                 <span matSuffix> {{ devis.estimatedTime >= 2 ? 'heures' : 'heure' }}</span>
-               </mat-form-field>
-            </div>
-            <div class="col-7 text-align-right">
-              <p> <span class="text-muted">Main d'oeuvre horaire :</span> {{ totalHT / devis.estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
-              <p> <span class="text-muted">Main d'oeuvre estimée :</span> {{ totalHT / devis.estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
+  <div class="content-page d-flex flex-column px-2">
+    <div id="info-row" class="row my-3" *ngIf="!printMode && ready">
+      <div class="col-8">
+        <!-- Card Info Client / projet-->
+        <mat-card class="h-100">
+          <div class="row h-100 align-content-around">
+            <div class="col-12"><span class="text-muted">Client : </span>{{ client.fullName }}</div>
+            <div class="col"><span class="text-muted">Projet débuté le :
+              </span>{{ projet.creationDate | date: 'fullDate' }}</div>
+            <div class="col-6">
+              <span class="text-muted">Projet terminé le : </span>
+              <span *ngIf="projet.endDate ">{{ projet.endDate | date: 'fullDate' }}</span>
+              <span *ngIf="!projet.endDate">en cours</span>
             </div>
           </div>
         </mat-card>
       </div>
-      <div class="col-auto ml-auto mt-auto">
-        <a *ngIf="client && client.email" href="mailto:{{client.email}}" mat-stroked-button color="primary">Envoyer le devis par mail</a>
+      <div class="col-4">
+        <!-- Card Coût du projet-->
+        <mat-card>
+          <div class="row h-100 align-content-around">
+            <p class="col-6 m-0 text-muted">Total HT :</p><span
+              class="col-6 text-align-right">{{ totalHT | number: '1.2-2':'fr'}} €</span>
+            <p class="col-6 m-0 text-muted">TVA : </p><span
+              class="col-6 text-align-right">{{ (totalTTC) - (totalHT) | number: '1.2-2':'fr'}} €</span>
+            <p class="col-6 m-0 text-muted">Total TTC : </p><span
+              class="col-6 text-align-right">{{ totalTTC | number: '1.2-2':'fr'}} €</span>
+          </div>
+        </mat-card>
       </div>
     </div>
 
+
+
+    <div class="d-flex flex-column h-100">
+      <mat-card class="p-0 flex-1" [class.overflow-y-scroll]="!printMode" *ngIf="dataSource">
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <!-- Designation Column -->
+          <ng-container matColumnDef="designation">
+            <mat-header-cell *matHeaderCellDef>Désignation</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.designation}} </mat-cell>
+            <mat-footer-cell *matFooterCellDef>{{ footers.designation }}</mat-footer-cell>
+          </ng-container>
+
+          <!-- PU HT Column -->
+          <ng-container matColumnDef="puht">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Brut</span>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="align-right"> {{element.puht | number: '1.2-2':'fr'}} €
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="align-right">{{ footers.puht | number: '1.2-2':'fr' }} €
+            </mat-footer-cell>
+          </ng-container>
+
+          <!-- PU TTC Column -->
+          <ng-container matColumnDef="puttc">
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"><span>PU Net</span></mat-header-cell>
+            <mat-cell *matCellDef="let element" class="align-right"> {{element.puttc | number: '1.2-2':'fr'}} €
+            </mat-cell>
+            <mat-footer-cell *matFooterCellDef class="align-right">{{ footers.puttc | number: '1.2-2':'fr' }} €
+            </mat-footer-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
+        </mat-table>
+      </mat-card>
+
+      <div class="emptyState" *ngIf="!dataSource">
+        <img src="../../../../assets/svg/illustrations/devis.svg">
+        <div class="subtitle">
+          <h3>Ce devis est vide...</h3>
+          <h5>Pour l'instant !</h5>
+        </div>
+      </div>
+
+      <!-- Card total projet -->
+      <div class="row my-2" *ngIf="ready">
+        <div [class.col-7]="!printMode">
+          <mat-card class="py-0">
+            <div class="row">
+              <div class="col-5 mt-auto">
+                <mat-form-field>
+                  <mat-label>Temps estimé</mat-label>
+                  <input [(ngModel)]="devis.estimatedTime" matInput type="number" placeholder="42.5"
+                    class="text-align-right">
+                  <span matSuffix> {{ devis.estimatedTime >= 2 ? 'heures' : 'heure' }}</span>
+                </mat-form-field>
+              </div>
+              <div class="col-7 text-align-right">
+                <p> <span class="text-muted">Main d'oeuvre horaire :</span>
+                  {{ totalHT / devis.estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
+                <p> <span class="text-muted">Main d'oeuvre estimée :</span>
+                  {{ totalHT / devis.estimatedTime | number:'1.2-2':'fr' }} € / heure</p>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+        <div class="col-auto ml-auto mt-auto">
+          <a *ngIf="client && client.email" href="mailto:{{client.email}}" mat-stroked-button color="primary">Envoyer le
+            devis par mail</a>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>

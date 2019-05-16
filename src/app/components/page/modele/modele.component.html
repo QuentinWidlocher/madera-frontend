@@ -2,7 +2,7 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row *ngIf="modele">
 
-    <button *ngIf="sourcePage" mat-icon-button [routerLink]="['/'+ sourcePage, sourceId]">
+    <button *ngIf="sourcePage" (click)="post()" mat-icon-button>
       <mat-icon>arrow_back</mat-icon>
     </button> 
 
@@ -32,7 +32,6 @@
       </mat-list-item>
     </mat-action-list>
 
-    <button (click)="post()" mat-raised-button color="primary" class="mr-auto">Sauvegarder Wola</button>
     <button mat-fab color="accent" (click)="addProduit()">
       <mat-icon>add</mat-icon>
     </button>
@@ -40,27 +39,27 @@
 
 
   <!-- Formulaire -->
-  <div class="col-8 h-100 d-flex flex-column background">
+  <div class="col-8 h-100 d-flex flex-column">
 
     <!-- Empty state -->
-    <div class="emptyState" *ngIf="false">
+    <div class="emptyState" *ngIf="!currentProduit">
       <img src="../../../../assets/svg/illustrations/dossier.svg">
       <div class="subtitle">
-        <h3>Aucun modèle selectionné.</h3>
-        <button mat-button color="primary">Ajouter un modèle</button>
+        <h3>Aucun produit selectionné.</h3>
+        <button mat-button (click)="addModule()" color="primary">Ajouter un produit</button>
       </div>
     </div>
 
     <div class="h-100 d-flex flex-column" *ngIf="currentProduit">
       <div class="d-flex w-100">
         <mat-form-field class="flex-1 pr-3">
-          <input matInput placeholder="Titre du produit" [(ngModel)]="currentProduit.description">
+          <input matInput disabled placeholder="Titre du produit" [(ngModel)]="currentProduit.description">
         </mat-form-field>
         <mat-form-field class="flex-1 pl-3">
-          <input matInput placeholder="Gamme" [(ngModel)]="currentProduit.gamme.code">
+          <input matInput disabled placeholder="Gamme" [(ngModel)]="currentProduit.gamme.code">
         </mat-form-field>
         <mat-form-field class="flex-1 pl-3">
-          <input matInput placeholder="Coupe de Principe" [(ngModel)]="currentProduit.coupeDePrincipe.name">
+          <input matInput disabled placeholder="Coupe de Principe" [(ngModel)]="currentProduit.coupeDePrincipe.name">
         </mat-form-field>
 
       </div>

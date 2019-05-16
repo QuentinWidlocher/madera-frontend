@@ -17,7 +17,12 @@ body {
 }
 
 .contentPage {
-  height: calc(100vh - 10rem);
+  height: calc(100vh - 6rem);
+}
+
+.background {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 0.25rem;
 }
 
 button:focus {

@@ -2,21 +2,25 @@
   <div *ngIf="!printMode">
     <!-- Titre Nav -->
     <mat-toolbar color="primary">
-      <mat-toolbar-row *ngIf="projet" class="d-flex">
+      <mat-toolbar-row class="d-flex">
 
-        <button mat-icon-button [routerLink]="['/projets', projet.id]">
+        <button *ngIf="ready" mat-icon-button [routerLink]="['/projets', projet.id]">
           <mat-icon>arrow_back</mat-icon>
         </button>
 
-        <span class="ml-2">Dossier technique n°{{ projet.dossierTechniqueId }} - {{ projet.title }}</span>
+        <span class="ml-2" *ngIf="ready">Dossier technique n°{{ projet.dossierTechniqueId }} - {{ projet.title }}</span>
 
-        <button mat-icon-button (click)="print()" class="ml-auto">
+        <button *ngIf="ready" mat-icon-button (click)="print()" class="ml-auto">
           <mat-icon>print</mat-icon>
         </button>
       </mat-toolbar-row>
     </mat-toolbar>
 
-    <h3 class="ml-4">Modèle {{ projet.dossierTechnique.modele.description }}</h3>
+    <div class="page-dossier d-flex" *ngIf="!ready">
+      <mat-spinner [strokeWidth]="2" [diameter]="50" class="m-auto"></mat-spinner>
+    </div>
+
+    <h3 *ngIf="ready" class="ml-4">Modèle {{ projet.dossierTechnique.modele.description }}</h3>
   </div>
 
   <div class="bg-white" *ngIf="printMode">
@@ -52,7 +56,7 @@
     </div>
   </div>
 
-  <div>
+  <div *ngIf="ready">
     <!-- Tableau des produits -->
     <table class="mat-table m-4 p-2 mat-elevation-z2" id="tableau-dossier">
       <tr class="mat-row">
