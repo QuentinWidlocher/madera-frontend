@@ -222,30 +222,41 @@ export class ProjetSwService {
           // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
           result = new Promise(rslv => {
 
-            this.api.add(projet).subscribe((added: Projet) => {
+            this.devisSw.add(Devis.newEmpty()).then(devis =>{
+              projet.devisId = devis.id;
+              return this.dossierTechniqueSw.add(DossierTechnique.newEmpty())
+            }).then((dossier) => {
+              projet.dossierTechniqueId = dossier.id;
+            }).then(() => {
 
-              added.client = projet.client;
-              added.devis = projet.devis;
-              added.dossierTechnique = projet.dossierTechnique;
-              added.user = projet.user;
-              added.creationDate = projet.creationDate;
-              added.editionDate = projet.editionDate;
-              added.endDate = projet.endDate
+              this.api.add(projet).subscribe((added: Projet) => {
 
-              // On ajoute aussi à l'IDB
-              this.idb.add(added);
+                added.client = projet.client;
+                added.user = projet.user;
+                added.devis = projet.devis;
+                added.devisId = projet.devisId;
+                added.dossierTechnique = projet.dossierTechnique
+                added.dossierTechniqueId = projet.dossierTechniqueId;
+                added.creationDate = projet.creationDate;
+                added.editionDate = projet.editionDate;
+                added.endDate = projet.endDate
 
-              // On résout les données de la Promesse
-              rslv(added);
+                // On ajoute aussi à l'IDB
+                this.idb.add(added);
 
-            }, error => {
+                // On résout les données de la Promesse
+                rslv(added);
 
-              // Si on détecte une erreur, on attend un changement de connexion et on réessaye
-              this.connectivity.event.subscribe(connected => rslv(this.add(projet)));
+              }, error => {
 
+                // Si on détecte une erreur, on attend un changement de connexion et on réessaye
+                this.connectivity.event.subscribe(connected => rslv(this.add(projet)));
+
+              });
+              
             });
-
           });
+
         } else {
 
           result = new Promise(rslv => {

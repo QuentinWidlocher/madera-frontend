@@ -144,7 +144,7 @@ export class DevisSwService {
               // On ajoute aussi à l'IDB
               this.idb.add(added);
 
-              added.lignes = unDevis.lignes;
+              added.lignes = unDevis.lignes ? unDevis.lignes : undefined;
               added.projet = unDevis.projet;
 
               // On résout les données de la Promesse

@@ -27,3 +27,16 @@
     margin-right: 15px;
 }
 
+mat-action-list {
+  padding-bottom: 6rem;
+
+  mat-icon {
+    opacity: 0.60;
+  }
+
+  mat-list-item {
+    &.selected {
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+}

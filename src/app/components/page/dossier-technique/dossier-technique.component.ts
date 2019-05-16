@@ -49,6 +49,7 @@ export class DossierTechniqueComponent implements OnInit {
   currentModele: Modele;
 
   modeles: Modele[] = [];
+  modeleDuDossier: Modele;
   modeleListLoading: boolean = true;
 
   displayedColumns: string[] = ['produit', 'modules', 'gamme'];
@@ -76,13 +77,10 @@ export class DossierTechniqueComponent implements OnInit {
 
   ngOnInit() {
     this.dossierTechnique = DossierTechnique.newEmpty();
-    this.modeleSw.getAll().then(modeles => {
-      this.modeles = modeles;
-      this.modeleListLoading = false;
-    });
 
     this.route.params.subscribe(params => {
       if (params['id']) {
+        this.modeleListLoading = true;
         this.loadDossier(+params['id']);
       }
     });
@@ -100,17 +98,6 @@ export class DossierTechniqueComponent implements OnInit {
       this.dossierTechnique = DossierTechnique.newEmpty();
       this.dossierTechnique.projet = projet;
       this.dossierTechnique.projetId = projet.id;
-
-      if (!projet.dossierTechnique.id) {
-        console.error('Aucun dossier technique n\'est lié à ce projet');
-        console.warn('Le dossier rempli sera posté en totalité à la fin');
-
-        this.newDossier = true;
-
-        return;
-      }
-
-      this.newDossier = false;
 
       // on rempli le dossier
       this.dossierSw.get(projet.dossierTechnique.id).then((dossierTechnique: DossierTechnique) => {
@@ -166,9 +153,21 @@ export class DossierTechniqueComponent implements OnInit {
         });
 
       }, error => {
-        console.error('Aucun dossier technique n\'est lié à ce projet');
-        console.warn('Le dossier rempli sera posté en totalité à la fin');
-        this.newDossier = true;
+      });
+
+    }).then(() => {
+
+      this.modeleSw.getAll().then(modeles => {
+
+        modeles.forEach(modele => {
+          if (this.dossierTechnique.modele && modele.id === this.dossierTechnique.modele.id) {
+            this.modeleDuDossier = modele;
+            return;
+          }
+
+          this.modeles.push(modele);
+        });
+        this.modeleListLoading = false;
       });
 
     });
@@ -229,7 +228,6 @@ export class DossierTechniqueComponent implements OnInit {
   generationDevis() {
 
     this.ligneSw.getAll().then(lignes => {
-      console.log(lignes);
       lignes.forEach(ligne => {
         if (ligne.devisId == this.projet.devis.id) {
           this.ligneSw.delete(ligne.id);
@@ -242,7 +240,11 @@ export class DossierTechniqueComponent implements OnInit {
       this.currentModele.modeleProduit.forEach(p => {
 
         p.produit.produitModule.forEach(m => {
-          const taille = m.module.caracteristiques.filter(carac => carac.unite.code == "m").map(carac => carac.value).reduce((a, b) => a * b);
+
+          console.log(m);          
+
+          // const taille = m.module.caracteristiques.filter(carac => carac.unite.code == "m").map(carac => carac.value).reduce((a, b) => a * b);
+          const taille = m.module.caracteristiques.length > 1 ? m.module.caracteristiques[0].value * m.module.caracteristiques[1].value : 1;
 
           let prix = m.module.moduleBase.labourCosts * taille;
 
@@ -256,8 +258,6 @@ export class DossierTechniqueComponent implements OnInit {
         });
 
       });
-
-      this.snackbar.open(`Devis généré ! (${nbLignes} lignes)`, '', { duration: 1000 });
 
     });
   }
@@ -284,10 +284,17 @@ export class DossierTechniqueComponent implements OnInit {
   editModele(idModele : number) {
 
     this.dossierTechnique.modele = null;
-    this.dossierTechnique.projet = null;
+    // this.dossierTechnique.projet = null;
     this.dossierTechnique.plans = [];
     this.router.navigate(['modele', { id: idModele, dossier: JSON.stringify(this.dossierTechnique) }]);
 
+  }
+
+  saveAndQuit() {
+    this.dossierSw.edit(this.dossierTechnique).then(() => {
+      this.generationDevis();
+      this.router.navigate(['/projets', this.projet.id]);
+    });
   }
 
 }

@@ -4,7 +4,7 @@ import { DossierTechnique } from 'src/app/classes/dossier-technique';
 import { Produit } from 'src/app/classes/produit';
 import { ProduitSwService } from 'src/app/services/service-workers/produit-sw.service';
 import { ModeleSwService } from 'src/app/services/service-workers/modele-sw.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComposantSwService } from 'src/app/services/service-workers/composant-sw.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Caracteristique } from 'src/app/classes/caracteristique';
@@ -86,6 +86,7 @@ export class ModeleComponent implements OnInit {
     private moduleSw: ModuleSwService,
     private composantSw: ComposantSwService,
     private route: ActivatedRoute,
+    private router: Router,
     private dialog: MatDialog,
     private location: Location,
     private caracSw: CaracteristiqueSwService,
@@ -98,6 +99,11 @@ export class ModeleComponent implements OnInit {
         }
         if (params.dossier) {
           this.dossier = Object.assign(DossierTechnique.newEmpty(), JSON.parse(params.dossier));
+
+          this.sourcePage = 'dossier';
+          this.sourceId = this.dossier.projet.id;
+  
+
         }
         this.location.replaceState('modele/' + +params['id']);
       }
@@ -284,17 +290,13 @@ export class ModeleComponent implements OnInit {
        modele.currentDossier = this.dossier.id;
        modele.user = undefined;
       this.modeleSw.add(modele).then(mod => {
-        let newDossier = Object.assign(DossierTechnique.newEmpty(), this.dossier)
-        newDossier.modeleId = mod.id;
-        newDossier.modele = mod;
 
-        //this.dossierSw.edit(newDossier).then(d=>{
+        this.dossier.modeleId = mod.id;
 
-        this.location.back();
+          
+          this.router.navigate(['/' + this.sourcePage, this.sourceId])
 
-        //  }).catch(function(error) {
-        //   console.log(error);
-        // });
+
 
       }).catch(function (error) {
         console.log(error);

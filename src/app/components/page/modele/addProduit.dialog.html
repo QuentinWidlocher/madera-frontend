@@ -14,7 +14,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Famille de gamme</mat-label>
-      <mat-select required  (selectionChange)="familleGammeSelected($event)" [(ngModel)]="famille">
+      <mat-select required  (selectionChange)="familleGammeSelected()" [(ngModel)]="famille">
         <mat-option *ngFor="let fg of famillesGamme" [(value)]="fg" >{{ fg.nature }}</mat-option>
       </mat-select>
     </mat-form-field>

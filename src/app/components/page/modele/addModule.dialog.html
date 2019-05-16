@@ -5,15 +5,20 @@
 
     <mat-form-field>
       <mat-label>Module</mat-label>
-      <mat-select required (selectionChange)="moduleBaseSelected($event)" [(ngModel)]="moduleBase">
+      <mat-select required (selectionChange)="moduleBaseSelected()" [(ngModel)]="moduleBase">
         <mat-option *ngFor="let mod of modulesBase" [(value)]="mod">{{ mod.description }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div *ngIf="moduleSelected">
-      <p>liste des composants de ce module</p>
-      <div *ngFor="let comp of composants">
-        <p> {{comp.name}} x{{comp.quantite}} , famille de gamme : {{comp.familleComposant.nature}}, gamme : {{comp.gammeComposant.code}}</p>
-      </div>
+    <div *ngIf="moduleSelected" style="padding-bottom: 8px;">
+      <p>Composants de ce module</p>
+      <mat-list style="max-height: 25vh; overflow-y: scroll; padding-top: 0;">
+        <mat-list-item *ngFor="let comp of composants">
+          <div class="d-flex flex-column">
+            <span>{{comp.name}} x{{comp.quantite}}</span>
+            <small>Famille : <b>{{comp.familleComposant.nature}}</b> - Gamme : <b>{{comp.gammeComposant.code}}</b></small>
+          </div>
+        </mat-list-item>
+      </mat-list>
     </div>
     <mat-form-field>
       <mat-label>Nom / Description</mat-label>
