@@ -11,6 +11,7 @@ export class Modele {
   public modeleProduit: ModeleProduit[];
   public user: User;
   public userId: number;
+  public currentDossier :number;
 
   constructor(id: number, description: string, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
     modeleProduit: ModeleProduit[], user: User, userId :number) {

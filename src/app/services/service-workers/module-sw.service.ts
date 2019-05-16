@@ -84,7 +84,7 @@ export class ModuleSwService {
               // On ajoute à l'IDB les données obtenue
               modules.forEach((module, index) => {
                 this.idb.add(module);
-                modules[index].caracteristiques = module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique));
+                modules[index].caracteristiques = (module.caracteristiques ? module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique)) : []);
                 modules[index].moduleBase = Object.assign(ModuleBase.newEmpty(), module.moduleBase);
                 modules[index].coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), module.coupeDePrincipe);
                 modules[index].produitModule = module.produitModule.map(produitModule => Object.assign(ProduitModule.newEmpty(), produitModule));
@@ -111,7 +111,7 @@ export class ModuleSwService {
             this.idb.toArray().then(modules => {
               modules.forEach((module, index) => {
                 this.idb.add(module);
-                modules[index].caracteristiques = module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique));
+                modules[index].caracteristiques = (module.caracteristiques ? module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique)) : []);
                 modules[index].moduleBase = Object.assign(ModuleBase.newEmpty(), module.moduleBase);
                 modules[index].coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), module.coupeDePrincipe);
                 modules[index].produitModule = module.produitModule.map(produitModule => Object.assign(ProduitModule.newEmpty(), produitModule));
@@ -152,7 +152,7 @@ export class ModuleSwService {
           result = new Promise(rslv => {
             this.api.get(id).subscribe((module: Module) => {
 
-              module.caracteristiques = module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique));
+              module.caracteristiques = (module.caracteristiques ? module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique)) : []);
               module.moduleBase = Object.assign(ModuleBase.newEmpty(), module.moduleBase);
               module.coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), module.coupeDePrincipe);
               module.produitModule = module.produitModule.map(produitModule => Object.assign(ProduitModule.newEmpty(), produitModule));
@@ -176,7 +176,7 @@ export class ModuleSwService {
           result = new Promise(rslv => {
             // Si on ne peux pas toucher l'API on call simplement l'IDB
             this.idb.get(id).then(module => {
-              module.caracteristiques = module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique));
+              module.caracteristiques = (module.caracteristiques ? module.caracteristiques.map(caracteristique => Object.assign(Caracteristique.newEmpty(), caracteristique)) : []);
               module.moduleBase = Object.assign(ModuleBase.newEmpty(), module.moduleBase);
               module.coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), module.coupeDePrincipe);
               module.produitModule = module.produitModule.map(produitModule => Object.assign(ProduitModule.newEmpty(), produitModule));
@@ -241,21 +241,21 @@ export class ModuleSwService {
           result = new Promise(rslv => {
 
             // On doit trouver le dernier id pour pouvoir ajouter la donnée
-            this.idb.orderBy('id').reverse().first().then(lastRecord => {
+            //this.idb.orderBy('id').reverse().first().then(lastRecord => {
 
               // S'il n'y a pas d'enregistrement on prend 1, sinon le dernier ID + 1
-              const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
+              //const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
 
               // On met à jour l'objet qu'on va ajouter
-              module.id = nextId;
+              module.id = this.getRandomIntInclusive(2000,2000000);
 
               // On ajoute une requête différée pour update la base plus tard
               this.deferredQueries.add(new DeferredQuery(module, 'add', 'module'));
 
-              result = this.idb.add(module);
-              rslv(module);
+              result = this.idb.add(module).then(()=>{ rslv(module);});
 
-            });
+
+           // });
           });
 
         }
@@ -265,7 +265,11 @@ export class ModuleSwService {
     });
   }
 
-
+  getRandomIntInclusive(min : number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min +1)) + min;
+  }
   ///
   /// EDIT
   ///

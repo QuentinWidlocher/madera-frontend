@@ -7,6 +7,21 @@ import { ClientSwService } from 'src/app/services/service-workers/client-sw.serv
 import { ConnectivityService } from 'src/app/services/connectivity.service';
 import { DevisSwService } from 'src/app/services/service-workers/devis-sw.service';
 import { ActivatedRoute } from '@angular/router';
+import { UtilisateurSwService } from 'src/app/services/service-workers/utilisateur-sw.service';
+import { DossierTechniqueSwService } from 'src/app/services/service-workers/dossier-technique-sw.service';
+import { Modele } from 'src/app/classes/modele';
+import { ModeleSwService } from 'src/app/services/service-workers/modele-sw.service';
+import { LigneSwService } from 'src/app/services/service-workers/ligne-sw.service';
+import { ProduitSwService } from 'src/app/services/service-workers/produit-sw.service';
+import { ModuleSwService } from 'src/app/services/service-workers/module-sw.service';
+import { ModuleBaseSwService } from 'src/app/services/service-workers/module-base-sw.service';
+import { ComposantSwService } from 'src/app/services/service-workers/composant-sw.service';
+import { Caracteristique } from 'src/app/classes/caracteristique';
+import { CaracteristiqueSwService } from 'src/app/services/service-workers/caracteristique-sw.service';
+import { GammeSwService } from 'src/app/services/service-workers/gamme-sw.service';
+import { FamilleGammeSwService } from 'src/app/services/service-workers/famille-gamme-sw.service';
+import { CoupeDePrincipeSwService } from 'src/app/services/service-workers/coupe-de-principe-sw.service';
+import { GammeComposantSwService } from 'src/app/services/service-workers/gamme-composant-sw.service';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -38,7 +53,20 @@ export class ProjectsComponent implements OnInit {
               private devisSw: DevisSwService,
               private connectivity: ConnectivityService,
               private location: Location,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private userSw: UtilisateurSwService,
+              private dossierSw: DossierTechniqueSwService,
+              private composantSw: ComposantSwService,
+              private modeleSw: ModeleSwService,
+              private ligneSw: LigneSwService,
+              private produitSw: ProduitSwService,
+              private moduleSw: ModuleSwService,
+              private moduleBaseSw: ModuleBaseSwService,
+              private caracteristiqueSw: CaracteristiqueSwService,
+              private familleGameSw: FamilleGammeSwService,
+              private coupeDePrincipeSw: CoupeDePrincipeSwService,
+
+              ) {
   }
 
   ngOnInit() {
@@ -51,6 +79,19 @@ export class ProjectsComponent implements OnInit {
         this.refresh();
       }
     });
+    this.clientSw.getAll();
+    this.userSw.getAll();
+    this.dossierSw.getAll();
+    this.composantSw.getAll();
+    this.modeleSw.getAll();
+    this.ligneSw.getAll();
+    this.produitSw.getAll();
+    this.moduleBaseSw.getAll();
+    this.moduleSw.getAll();
+    this.caracteristiqueSw.getAll();
+    this.familleGameSw.getAll();
+    this.coupeDePrincipeSw.getAll();
+
   }
 
   refresh() {

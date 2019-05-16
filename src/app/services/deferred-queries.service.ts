@@ -34,7 +34,7 @@ export class DeferredQueriesService {
     private composant: ComposantApiService,
     private coupeDePrincipe: CoupeDePrincipeApiService,
     private devis: DevisApiService,
-    private dossierTechnique: DossierTechniqueApiService,
+    private dossiertechnique: DossierTechniqueApiService,
     private familleComposant: FamilleComposantApiService,
     private familleGamme: FamilleGammeApiService,
     private gamme: GammeApiService,
@@ -145,6 +145,8 @@ export class DeferredQueriesService {
   // Utilise le contenu d'une DQ pour en faire un call d'API en Observable
   getApiCall(query: DeferredQuery): Observable<any> {
     // Exemple : this.caracteristique.add(query.data)
+
+    
     return eval(`this.${query.type}.${query.method}(query.data)`);
   }
 
@@ -160,7 +162,6 @@ export class DeferredQueriesService {
 
         // On boucle sur toutes les DQ
         this.idb.deferredQueries.each((deferredQuery: DeferredQuery, cursor) => {
-
           // On ajoute le call d'api à la liste
           apiCalls.push(this.getApiCall(deferredQuery));
 

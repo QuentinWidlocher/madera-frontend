@@ -264,8 +264,18 @@ export class DossierTechniqueComponent implements OnInit {
 
   addModele() {
     this.dialog.open(AddModeleDialog).afterClosed().subscribe((modele: Modele) => {
+      console.log(modele);
       if (modele) {
-        this.editModele(modele.id);
+        let dossier = Object.assign( DossierTechnique.newEmpty(), this.dossierTechnique);
+        dossier.modeleId = modele.id;
+        dossier.modele = modele;
+        console.log(modele.id);
+        console.log(dossier);
+       this.dossierSw.edit(dossier).then(d=>{
+          this.editModele(modele.id);
+
+       });
+        
       }
     });
 
@@ -319,6 +329,7 @@ export class AddModeleDialog implements OnInit {
     this.newModele.userId = this.userService.getUserId();
 
     this.modeleSw.add(this.newModele).then(m => {
+      console.log(m);
       this.dialogRef.close(m);
     });
 

@@ -20,7 +20,6 @@ export class ProduitApiService {
   }
 
   add(produit: Produit): Observable<object> {
-    produit.id = undefined;
     produit = Object.assign(Produit.newEmpty(), produit);
     return this.http.post(ApiConfig.PRODUIT, produit);
   }

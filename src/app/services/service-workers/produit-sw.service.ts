@@ -84,7 +84,7 @@ export class ProduitSwService {
               // On ajoute à l'IDB les données obtenue
               produits.forEach((produit, index) => {
                 this.idb.add(produit);
-                produits[index].cctp = Object.assign(CCTP.newEmpty(), produit.cctp);
+                produits[index].cctp = undefined;
                 produits[index].coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), produit.coupeDePrincipe);
                 produits[index].creationDate = new Date(produit.creationDate);
                 produits[index].editionDate = new Date(produit.editionDate);
@@ -111,7 +111,7 @@ export class ProduitSwService {
             this.idb.toArray().then(produits => {
               produits.forEach((produit, index) => {
                 this.idb.add(produit);
-                produits[index].cctp = Object.assign(CCTP.newEmpty(), produit.cctp);
+                produits[index].cctp = undefined;
                 produits[index].coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), produit.coupeDePrincipe);
                 produits[index].creationDate = new Date(produit.creationDate);
                 produits[index].editionDate = new Date(produit.editionDate);
@@ -153,7 +153,7 @@ export class ProduitSwService {
           result = new Promise(rslv => {
             this.api.get(id).subscribe((produit: Produit) => {
 
-              produit.cctp = Object.assign(CCTP.newEmpty(), produit.cctp);
+              produit.cctp = undefined;
               produit.coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), produit.coupeDePrincipe);
               produit.creationDate = new Date(produit.creationDate);
               produit.editionDate = new Date(produit.editionDate);
@@ -178,7 +178,7 @@ export class ProduitSwService {
           result = new Promise(rslv => {
             // Si on ne peux pas toucher l'API on call simplement l'IDB
             this.idb.get(id).then(produit => {
-              produit.cctp = Object.assign(CCTP.newEmpty(), produit.cctp);
+              produit.cctp = undefined;
               produit.coupeDePrincipe = Object.assign(CoupeDePrincipe.newEmpty(), produit.coupeDePrincipe);
               produit.creationDate = new Date(produit.creationDate);
               produit.editionDate = new Date(produit.editionDate);
@@ -202,6 +202,7 @@ export class ProduitSwService {
   /// ADD
   ///
   add(produit: Produit): Promise<Produit> {
+
 
     // On prépare le résultat qui serra retourné dans la promesse
     let result: Promise<any>;
@@ -245,21 +246,20 @@ export class ProduitSwService {
           result = new Promise(rslv => {
 
             // On doit trouver le dernier id pour pouvoir ajouter la donnée
-            this.idb.orderBy('id').reverse().first().then(lastRecord => {
+           // this.idb.orderBy('id').reverse().first().then(lastRecord => {
 
               // S'il n'y a pas d'enregistrement on prend 1, sinon le dernier ID + 1
-              const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
+             // const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
 
               // On met à jour l'objet qu'on va ajouter
-              produit.id = nextId;
+              produit.id = this.getRandomIntInclusive(2000,2000000);
 
               // On ajoute une requête différée pour update la base plus tard
               this.deferredQueries.add(new DeferredQuery(produit, 'add', 'produit'));
+              result = this.idb.add(produit).then(()=>{ rslv(produit);});
+             
 
-              result = this.idb.add(produit);
-              rslv(produit);
-
-            });
+           // });
           });
 
         }
@@ -268,7 +268,11 @@ export class ProduitSwService {
       });
     });
   }
-
+   getRandomIntInclusive(min : number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min +1)) + min;
+  }
 
   ///
   /// EDIT
