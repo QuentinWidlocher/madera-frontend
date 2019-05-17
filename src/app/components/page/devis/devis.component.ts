@@ -105,9 +105,6 @@ export class DevisComponent implements OnInit {
       element.classList.add('print-mode');
     }
 
-    const navbarClasses = document.getElementById('nav-bar').className;
-    document.getElementById('nav-bar').className = 'print-mode';
-
     setTimeout(() => {
       window.print();
 
@@ -121,7 +118,6 @@ export class DevisComponent implements OnInit {
         element.classList.remove('print-mode');
       }
 
-      document.getElementById('nav-bar').className = navbarClasses;
     }, 500);
   }
 

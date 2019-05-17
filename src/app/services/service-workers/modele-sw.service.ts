@@ -203,7 +203,7 @@ export class ModeleSwService {
       this.connectivity.isConnected.then(isConnected => {
 
         if (isConnected) {
-
+          modele.id = undefined;
           // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
           result = new Promise(rslv => {
 
@@ -239,7 +239,7 @@ export class ModeleSwService {
 
               // S'il n'y a pas d'enregistrement on prend 1, sinon le dernier ID + 1
              // const nextId = lastRecord === undefined ? 1 : (lastRecord.id + 1);
-
+              modele.fakeModele=true;
               // On met à jour l'objet qu'on va ajouter
               modele.id = this.getRandomIntInclusive(2000,2000000);
               // On ajoute une requête différée pour update la base plus tard

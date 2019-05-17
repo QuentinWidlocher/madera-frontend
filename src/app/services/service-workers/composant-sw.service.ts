@@ -199,7 +199,7 @@ export class ComposantSwService {
       this.connectivity.isConnected.then(isConnected => {
 
         if (isConnected) {
-
+          composant.id = undefined;
           // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
           result = new Promise(rslv => {
 

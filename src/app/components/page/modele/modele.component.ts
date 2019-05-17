@@ -119,6 +119,8 @@ export class ModeleComponent implements OnInit {
 
 
       this.modele = modele;
+      this.modele.oldModele=modele.id;
+      this.modele.fakeModele=false;
 
 
       modele.modeleProduit.forEach(mp => {

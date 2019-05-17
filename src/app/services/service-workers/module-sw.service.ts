@@ -205,12 +205,12 @@ export class ModuleSwService {
 
     // On retourne une Promise qui va résoudre le résultat
     return new Promise(rtrn => {
-
+      
       // On utilise connectivity service pour savoir l'état de la connexion
       this.connectivity.isConnected.then(isConnected => {
 
         if (isConnected) {
-
+          module.id = undefined;
           // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
           result = new Promise(rslv => {
 

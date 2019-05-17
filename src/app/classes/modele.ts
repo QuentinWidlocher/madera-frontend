@@ -12,6 +12,8 @@ export class Modele {
   public user: User;
   public userId: number;
   public currentDossier :number;
+  public fakeModele : boolean;
+  public oldModele :number;
 
   constructor(id: number, description: string, creationDate: Date, editionDate: Date, dossiersTechniques: DossierTechnique[],
     modeleProduit: ModeleProduit[], user: User, userId :number) {

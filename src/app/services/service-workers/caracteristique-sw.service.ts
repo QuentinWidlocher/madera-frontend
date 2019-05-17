@@ -192,7 +192,7 @@ export class CaracteristiqueSwService {
       this.connectivity.isConnected.then(isConnected => {
 
         if (isConnected) {
-
+          caracteristique.id = undefined;
           // Si on touche l'API, on la call, on ajoute la données dans la base et dans l'IDB
           result = new Promise(rslv => {
 

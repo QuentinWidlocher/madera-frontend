@@ -146,7 +146,7 @@ export class DeferredQueriesService {
   getApiCall(query: DeferredQuery): Observable<any> {
     // Exemple : this.caracteristique.add(query.data)
 
-    
+
     return eval(`this.${query.type}.${query.method}(query.data)`);
   }
 
@@ -171,10 +171,24 @@ export class DeferredQueriesService {
 
           // On transforme le Observable<any>[] en Observable<any[]> avec forkJoin
           // puis on subscribe dessus pour savoir quand tous les calls d'API ont été faits, puis on retourne la Promise
-          forkJoin(apiCalls).subscribe(() => rslv());
+          
+          apiCalls.forEach(c => {
+            this.fork(c);
+          });
+          
+
+           
+         // forkJoin(apiCalls).subscribe(() => rslv());
         });
       });
     });
 
+  }
+
+
+  fork(call : Observable<any>): Promise<void>{
+    return new Promise(rslv => {
+      forkJoin(call).subscribe(() => rslv());
+    });
   }
 }
