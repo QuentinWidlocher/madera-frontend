@@ -102,7 +102,7 @@ export class ModeleComponent implements OnInit {
 
           this.sourcePage = 'dossier';
           this.sourceId = this.dossier.projet.id;
-  
+
 
         }
         this.location.replaceState('modele/' + +params['id']);
@@ -119,8 +119,8 @@ export class ModeleComponent implements OnInit {
 
 
       this.modele = modele;
-      this.modele.oldModele=modele.id;
-      this.modele.fakeModele=false;
+      this.modele.oldModele = modele.id;
+      this.modele.fakeModele = false;
 
 
       modele.modeleProduit.forEach(mp => {
@@ -220,83 +220,83 @@ export class ModeleComponent implements OnInit {
     let produitIds: number[] = [];
     modele.modeleProduit = [];
 
-    if(this.produits){
+    if (this.produits) {
       this.produits.forEach(p => {
-      promisesProduit.push(new Promise(rslv => {
+        promisesProduit.push(new Promise(rslv => {
 
-        let promisesModuleCarac: Promise<any>[] = [];
-        let moduleIds: number[] = [];
-        let produit = Object.assign(Produit.newEmpty(), p);
-        p.id = undefined;
-        p.cctp = undefined;
-        p.produitModule = [];
-        if(produit.produitModule){
-        
-        produit.produitModule.forEach(pm => {
+          let promisesModuleCarac: Promise<any>[] = [];
+          let moduleIds: number[] = [];
+          let produit = Object.assign(Produit.newEmpty(), p);
+          p.id = undefined;
+          p.cctp = undefined;
+          p.produitModule = [];
+          if (produit.produitModule) {
 
-          promisesModuleCarac.push(new Promise(rslv1 => {
+            produit.produitModule.forEach(pm => {
 
-            let module = Object.assign(Module.newEmpty(), pm.module);
-            module.id = undefined;
-            module.labourCosts = module.moduleBase.labourCosts;
+              promisesModuleCarac.push(new Promise(rslv1 => {
+
+                let module = Object.assign(Module.newEmpty(), pm.module);
+                module.id = undefined;
+                module.labourCosts = module.moduleBase.labourCosts;
 
 
-            this.moduleSw.add(module).then(m => {
+                this.moduleSw.add(module).then(m => {
 
-              pm.module.caracteristiques.forEach(c => {
+                  pm.module.caracteristiques.forEach(c => {
 
-                promisesModuleCarac.push(new Promise(rslv2 => {
+                    promisesModuleCarac.push(new Promise(rslv2 => {
 
-                  let caracteristique = Object.assign(Caracteristique.newEmpty(), c);
-                  caracteristique.id = undefined;
-                  caracteristique.composantId = undefined;
-                  caracteristique.moduleId = m.id;
+                      let caracteristique = Object.assign(Caracteristique.newEmpty(), c);
+                      caracteristique.id = undefined;
+                      caracteristique.composantId = undefined;
+                      caracteristique.moduleId = m.id;
 
-                  this.caracSw.add(caracteristique).then(carac => {
-                    rslv2();
-                  });
+                      this.caracSw.add(caracteristique).then(carac => {
+                        rslv2();
+                      });
 
-                }));
+                    }));
 
-              })
-              moduleIds.push(m.id);
-              rslv1();
+                  })
+                  moduleIds.push(m.id);
+                  rslv1();
+                });
+              }));
+
             });
-          }));
-
-        });
-      }
+          }
 
 
-        Promise.all(promisesModuleCarac).then(() => {
-          moduleIds.forEach(id => {
-            p.produitModule.push(new ProduitModule(id, undefined, undefined, undefined));
-          });
+          Promise.all(promisesModuleCarac).then(() => {
+            moduleIds.forEach(id => {
+              p.produitModule.push(new ProduitModule(id, undefined, undefined, undefined));
+            });
 
             this.produitSw.add(p).then(prod => {
-              produitIds.push(prod.id);             
+              produitIds.push(prod.id);
               rslv();
             });
 
-        });
+          });
 
-      }));
-    });
-  }
+        }));
+      });
+    }
 
     Promise.all(promisesProduit).then(() => {
 
       produitIds.forEach(id => {
         modele.modeleProduit.push(new ModeleProduit(undefined, id, undefined, undefined));
       });
-       modele.currentDossier = this.dossier.id;
-       modele.user = undefined;
+      modele.currentDossier = this.dossier.id;
+      modele.user = undefined;
       this.modeleSw.add(modele).then(mod => {
 
         this.dossier.modeleId = mod.id;
 
-          
-          this.router.navigate(['/' + this.sourcePage, this.sourceId])
+
+        this.router.navigate(['/' + this.sourcePage, this.sourceId])
 
 
 
@@ -307,6 +307,28 @@ export class ModeleComponent implements OnInit {
     });
 
 
+  }
+  deleteModule(ligne: LigneFormat) {
+    let produit : Produit;
+    this.produits.forEach(p => {
+
+      p.produitModule.forEach(pm => {
+
+        if (Object.is(pm.module, ligne.module)) {
+          var index = p.produitModule.indexOf(pm);
+          p.produitModule.splice(index, 1);
+         produit=p;
+        }
+      });
+      
+    });
+    this.selectProduit(produit, this.produitListIndex);
+  }
+
+  deleteProduit(produit :Produit) {
+    var index = this.produits.indexOf(this.currentProduit);
+    this.produits.splice(index, 1);
+    this.currentProduit = undefined;
   }
 
   expandLine(ligne: LigneFormat) {
